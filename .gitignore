@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Brainstorming companion sessions
+.superpowers/
+
+# OS
+.DS_Store
