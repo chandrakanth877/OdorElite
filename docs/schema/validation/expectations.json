@@ -1,0 +1,66 @@
+{
+  "$comment": "Documented claims about enriched-products.jsonl, asserted by validate-source-reference.mjs. Counts tagged [verified] in the docs; ranges allow measurement tolerance. Applies to the REAL file only (skipped with --sample).",
+  "totalLines": 5560,
+  "distinctSourceIds": 5428,
+  "duplicateRetryLines": 132,
+  "staleEmptyEnrichmentLines": 126,
+  "rates": {
+    "compareAtPriceCoverage": { "min": 0.985, "max": 1.0 },
+    "availableFalse": { "min": 0.78, "max": 0.88 },
+    "oilPercentageNA": { "min": 0.95, "max": 1.0 },
+    "awardsNA": { "min": 0.9, "max": 1.0 }
+  },
+  "counts": {
+    "zeroPriceRows": 10,
+    "imagelessRecords": 135,
+    "dupeTagged": 627,
+    "ygroupTagged": 61
+  },
+  "spellingCounts": {
+    "genderDistinctMax": 40,
+    "concentrationDistinct": 47
+  },
+  "genderMap": {
+    "women": ["women", "woman", "ladies", "female", "for her", "w", "womens", "women's"],
+    "men": ["men", "man", "male", "for him", "m", "mens", "men's", "gentlemen"],
+    "unisex": ["unisex", "men & women", "women & men", "shared", "all"],
+    "kids": ["kids", "children", "child", "baby", "boys", "girls"]
+  },
+  "concentrationMap": {
+    "parfum": ["parfum", "pure parfum", "perfume"],
+    "extrait": ["extrait", "extrait de parfum", "elixir"],
+    "edp": ["eau de parfum", "edp", "eau de parfum spray", "eau_de_parfum"],
+    "edt": ["eau de toilette", "edt", "eau de toilette spray", "eau_de_toilette"],
+    "edc": ["eau de cologne", "edc"],
+    "cologne": ["cologne", "cologne spray"],
+    "eau_fraiche": ["eau fraiche", "eau fraîche"],
+    "perfume_oil": ["perfume oil", "oil", "huile de parfum", "roll-on oil"],
+    "attar": ["attar", "ittar"],
+    "body_mist": ["body mist", "fragrance mist", "mist"],
+    "body_spray": ["body spray", "deodorant body spray"],
+    "hair_mist": ["hair mist", "hair perfume", "hair & body mist"],
+    "deodorant": ["deodorant", "deodorant stick", "deo spray"],
+    "aftershave": ["aftershave", "after shave", "after-shave lotion"],
+    "candle": ["candle", "scented candle"],
+    "room_spray": ["room spray", "home spray", "pillow mist"],
+    "other": ["n/a", "other"]
+  },
+  "knownSourceFields": [
+    "id", "title", "handle", "vendor", "product_type", "tags", "body_html",
+    "published_at", "created_at", "updated_at", "variants", "images", "options"
+  ],
+  "knownVariantFields": [
+    "id", "title", "price", "compare_at_price", "sku", "available",
+    "option1", "option2", "option3", "grams", "barcode", "position",
+    "product_id", "requires_shipping", "taxable", "featured_image",
+    "created_at", "updated_at"
+  ],
+  "knownEnrichedFields": [
+    "brand", "product_name", "gender", "concentration", "fragrance_family",
+    "subfamily", "top_notes", "middle_notes", "base_notes", "main_accords",
+    "perfumer", "launch_year", "longevity", "sillage", "season_rating",
+    "occasion", "oil_percentage", "awards", "similar_fragrances",
+    "inspired_by", "description", "summary", "confidence", "model",
+    "web_grounded", "enriched_at"
+  ]
+}
