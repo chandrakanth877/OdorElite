@@ -41,13 +41,14 @@ Same announcement bar + sticky navy header/nav as home (markup duplicated in `in
 | # | Section | Content & behavior |
 |---|---|---|
 | 1 | Breadcrumbs | Home → Fragrances → {Category}; gold separators; "Home" links to `../home/` |
-| 2 | Category header | H1 per category ("Women's Fragrances" / "All Fragrances" …), live result count, one-line static blurb per category |
+| 2 | Marketing hero band (user-requested addition, 2026-07-04) | Navy gradient band: category-aware H1 + one-line subcopy, real aggregate stats (catalog size, max discount, brand count — computed from data), real product bottle imagery, one CTA scrolling to the grid. A slim benefit strip (authenticity / shipping / returns) sits directly under the band. Replaces the plain category header; H1 lives here |
 | 3 | Toolbar | "Showing X of Y" · sort select (Featured / Newest / Price ↑ / Price ↓ / Biggest discount) · active-filter chips with × and Clear all · mobile Filters button with active-count badge |
 | 4 | Filter sidebar / mobile drawer | Category (single-select pills incl. All + Niche) · Brand (search box + checkbox list, top-30 by count, live counts) · Fragrance family (checkboxes + counts) · Concentration (EDP/EDT/Parfum/EDC/Extrait/Other) · Price (min/max inputs + quick bands: <$25, $25–50, $50–100, $100+) · Discount (Any / 50%+ / 70%+) · In-stock-only toggle (default off) |
 | 5 | Product grid | Reused `.pcard` (discount badge, wishlist heart, brand, name, concentration+size, mono price/was/save, Add to cart). Out-of-stock: greyed price, "Notify me" replaces ATC (toast). 4-col ≥1200px → 3-col → 2-col ≤760px. `loading="lazy"` images with the home fallback behavior |
 | 6 | Load More | 24 per page; button shows "Load 24 more (X left)"; hidden when exhausted |
 | 7 | Empty state | Icon + "No fragrances match" + "Clear all filters" button |
-| 8 | Footer | Same as home (markup duplicated, styles imported) |
+| 8 | Bottom marketing (user-requested addition, 2026-07-04) | Asymmetric promo banner pair (niche collection navy banner + gifts-by-price light banner, real product imagery, deep-linked CTAs) → trust bar → newsletter band (both reuse home styles) |
+| 9 | Footer | Same as home (markup duplicated, styles imported) |
 
 ## Filter engine (`app.js`)
 
