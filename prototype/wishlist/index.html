@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Wishlist | OdorElite</title>
+<meta name="description" content="Fragrances you saved for later. Add them to your cart whenever you are ready.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+  <!-- Breadcrumbs -->
+  <nav class="crumbs container" aria-label="Breadcrumb">
+    <a href="../home/">Home</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <span id="crumb-current" aria-current="page">Wishlist</span>
+  </nav>
+
+  <!-- Page head -->
+  <header class="page-head container">
+    <h1 class="page-title">Your wishlist</h1>
+    <p class="page-sub" id="wl-count" aria-live="polite"><!-- js: live count --></p>
+  </header>
+
+  <!-- Signed-out nudge (shown when signed out and at least one item saved) -->
+  <section class="wl-nudge container" id="wl-nudge" hidden aria-label="Sign in to save your wishlist">
+    <div class="wl-nudge-inner">
+      <div class="wl-nudge-copy">
+        <h2>Sign in to keep this wishlist on all your devices</h2>
+        <p>Right now these saves live only in this browser. Sign in and they follow you everywhere.</p>
+      </div>
+      <a class="btn btn-gold wl-nudge-cta" href="../sign-in/?next=../wishlist/">Sign in</a>
+    </div>
+  </section>
+
+  <!-- Saved items grid -->
+  <section class="wl-body container" id="wl-body" aria-label="Saved fragrances">
+    <div class="wl-grid" id="wl-grid"><!-- js: product cards --></div>
+  </section>
+
+  <!-- Empty state -->
+  <section class="wl-empty container" id="wl-empty" hidden>
+    <span class="wl-empty-mark" aria-hidden="true"></span>
+    <h2>Nothing saved yet</h2>
+    <p>Tap the heart on any fragrance and it will wait for you here.</p>
+    <a class="btn btn-gold" href="../list/">Browse all fragrances</a>
+  </section>
+
+  <!-- Empty-state rail: in-stock bestsellers -->
+  <section class="section container wl-rail-sec" id="wl-rail-sec" hidden aria-labelledby="wl-rail-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Bestsellers</p>
+        <h2 class="section-title" id="wl-rail-title">Popular right now</h2>
+      </div>
+      <a class="see-all" href="../list/?disc=50">See all deals</a>
+    </div>
+    <div class="rail-wrap">
+      <div class="rail" id="wl-rail"><!-- js: 8 bestseller cards --></div>
+    </div>
+  </section>
+</main>
+
+<script>window.OE_PAGE = { active: null };</script>
+<script src="../list/listing-data.js"></script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fragrance | OdorElite</title>
+<meta name="description" content="Authentic designer and niche fragrance detail page. Notes, scent journey, brand story and honest pricing.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+  <!-- Breadcrumbs -->
+  <nav class="crumbs container" aria-label="Breadcrumb">
+    <a href="../home/">Home</a>
+    <span id="crumb-rest" hidden>
+      <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+      <a id="crumb-cat" href="../list/"></a>
+      <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+      <a id="crumb-brand" href="../brands/"></a>
+      <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+      <span id="crumb-current" aria-current="page"></span>
+    </span>
+  </nav>
+
+  <article class="pdp container" id="pdp" hidden>
+    <!-- Gallery + buy box -->
+    <div class="pdp-top">
+      <section class="pdp-gallery" aria-label="Product images">
+        <div class="pdp-main" id="g-main"><!-- js: main image --></div>
+        <div class="pdp-thumbs" id="g-thumbs" hidden><!-- js: thumb rail --></div>
+      </section>
+
+      <section class="pdp-buy" id="buy-box" aria-label="Purchase options">
+        <a class="bb-brand" id="bb-brand" href="../brands/"></a>
+        <h1 class="bb-name" id="bb-name"></h1>
+        <p class="bb-meta" id="bb-meta"></p>
+        <p class="bb-priceline" id="bb-priceline"></p>
+        <p class="bb-avail" id="bb-avail"></p>
+
+        <div class="bb-actions">
+          <span class="bb-qty qty-step" id="bb-qty">
+            <button type="button" id="qty-minus" aria-label="Decrease quantity" disabled>&minus;</button>
+            <b id="qty-val" aria-live="polite">1</b>
+            <button type="button" id="qty-plus" aria-label="Increase quantity">+</button>
+          </span>
+          <button type="button" class="btn btn-gold bb-atc" id="bb-atc">Add to cart</button>
+          <button type="button" class="bb-notify" id="bb-notify" hidden>Notify me</button>
+          <button type="button" class="bb-wish" id="bb-wish" aria-pressed="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            <span id="bb-wish-label">Add to wishlist</span>
+          </button>
+        </div>
+
+        <ul class="bb-assure" role="list">
+          <li>100% authentic, sourced direct</li>
+          <li>Free US shipping over $50</li>
+          <li>30-day unopened returns</li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Note pyramid -->
+    <section class="section" id="notes-section" aria-labelledby="notes-title" hidden>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Scent profile</p>
+          <h2 class="section-title" id="notes-title">Notes</h2>
+        </div>
+      </div>
+      <div class="pyramid" id="pyramid"><!-- js: tiers --></div>
+      <div class="accords" id="accords" hidden><!-- js: accord chips --></div>
+    </section>
+
+    <!-- Accordion -->
+    <section class="section" id="info-section" aria-label="Product information" hidden>
+      <div class="acc card-panel" id="acc"><!-- js: accordion items --></div>
+    </section>
+
+    <!-- Demo reviews -->
+    <section class="section" id="reviews-section" aria-labelledby="reviews-title" hidden>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">What wearers say</p>
+          <h2 class="section-title" id="reviews-title">Reviews</h2>
+        </div>
+        <span class="demo-badge">Sample reviews &middot; demo content</span>
+      </div>
+      <div class="reviews-grid" id="reviews"><!-- js: 3 deterministic sample reviews --></div>
+    </section>
+
+    <!-- You may also like -->
+    <section class="section" id="similar-section" aria-labelledby="similar-title" hidden>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Keep exploring</p>
+          <h2 class="section-title" id="similar-title">You may also like</h2>
+        </div>
+      </div>
+      <div class="rail-wrap">
+        <button class="rail-arrow rail-prev" data-rail="similar-rail" data-dir="-1" aria-label="Scroll similar products left">&#8249;</button>
+        <div class="rail" id="similar-rail"><!-- js: product cards --></div>
+        <button class="rail-arrow rail-next" data-rail="similar-rail" data-dir="1" aria-label="Scroll similar products right">&#8250;</button>
+      </div>
+    </section>
+  </article>
+
+  <!-- Mobile sticky add-to-cart bar -->
+  <div class="pdp-sticky" id="sticky-bar">
+    <div class="pdp-sticky-info">
+      <p class="pdp-sticky-name" id="sticky-name"></p>
+      <p class="pdp-sticky-price" id="sticky-price"></p>
+    </div>
+    <button type="button" class="btn btn-gold pdp-sticky-btn" id="sticky-atc">Add to cart</button>
+  </div>
+</main>
+
+<script>window.OE_PAGE = { active: null };</script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+/* ============================================================
+   OdorElite wishlist page: imports all tokens + shared chrome
+   from the home page and shared component CSS. Only wishlist
+   specific rules live here.
+   ============================================================ */
+
+@import url("../home/styles.css");
+@import url("../shared/shared.css");
+
+/* ---------- breadcrumbs (pattern copied from the list page) ---------- */
+
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 18px;
+  font-size: 13px;
+  color: var(--oe-gray-500);
+}
+.crumbs a { transition: color var(--t-color); }
+.crumbs a:hover { color: var(--oe-primary); }
+.crumb-sep { color: var(--oe-gold); }
+#crumb-current { color: var(--oe-gray-800); font-weight: 500; }
+
+/* ---------- signed-out nudge band ---------- */
+
+.wl-nudge { margin-top: 24px; }
+.wl-nudge-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-radius: var(--r-card);
+  background: radial-gradient(130% 170% at 12% 0%, var(--oe-depth) 0%, var(--oe-primary) 62%);
+  padding: 22px 26px;
+}
+.wl-nudge-copy h2 {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #fff;
+  line-height: 1.25;
+}
+.wl-nudge-copy p {
+  font-size: 13.5px;
+  color: var(--oe-secondary);
+  margin-top: 5px;
+  max-width: 520px;
+}
+.wl-nudge-cta { flex: none; }
+
+/* ---------- saved items grid (grid rules copied from the list page) ---------- */
+
+.wl-body { margin-bottom: 64px; }
+.wl-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 22px;
+}
+.wl-grid .pcard { width: auto; }
+
+/* OOS card variant (copied from the list page; used by shared productCard) */
+.pcard-price.oos { color: var(--oe-gray-500); }
+.pcard-notify {
+  margin-top: 10px;
+  border-radius: var(--r-btn);
+  border: 1px dashed var(--oe-gray-300);
+  padding: 9px 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--oe-gray-500);
+  background: var(--oe-gray-50);
+  transition: border-color var(--t-color), color var(--t-color);
+}
+.pcard-notify:hover { border-color: var(--oe-accent); color: var(--oe-accent-text); }
+.pcard-oos-flag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--oe-gray-700);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+
+/* ---------- empty state ---------- */
+
+.wl-empty {
+  text-align: center;
+  padding: 64px 20px 8px;
+}
+.wl-empty-mark {
+  display: block;
+  width: 14px;
+  height: 14px;
+  background: var(--oe-gold);
+  transform: rotate(45deg);
+  margin: 0 auto 20px;
+}
+.wl-empty h2 {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--oe-primary);
+}
+.wl-empty p {
+  font-size: 14px;
+  color: var(--oe-gray-500);
+  margin: 10px auto 22px;
+  max-width: 420px;
+}
+
+/* ---------- bestsellers rail ---------- */
+
+.wl-rail-sec { margin-bottom: 64px; }
+
+/* ---------- responsive (breakpoints mirror the list grid) ---------- */
+
+@media (max-width: 1200px) {
+  .wl-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .wl-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .wl-nudge-inner { padding: 20px; }
+  .wl-nudge-cta { width: 100%; }
+}

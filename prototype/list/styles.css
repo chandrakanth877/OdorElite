@@ -355,7 +355,7 @@
 }
 .plp-grid .pcard { width: auto; }
 
-.pcard-price.oos { color: var(--oe-gray-400); }
+.pcard-price.oos { color: var(--oe-gray-500); }
 .pcard-notify {
   margin-top: 10px;
   border-radius: var(--r-btn);

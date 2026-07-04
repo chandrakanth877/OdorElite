@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Brands | OdorElite</title>
+<meta name="description" content="Browse every fragrance house at OdorElite from A to Z. Designer icons and niche rarities, all authentic and honestly priced.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+  <!-- Breadcrumbs -->
+  <nav class="crumbs container" aria-label="Breadcrumb">
+    <a href="../home/">Home</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <span id="crumb-current" aria-current="page">Brands</span>
+  </nav>
+
+  <!-- Page head -->
+  <header class="page-head container">
+    <h1 class="page-title">All Brands</h1>
+    <p class="page-sub" id="brand-count" aria-live="polite"></p>
+  </header>
+
+  <!-- Featured strip: 8 brands with the deepest in-stock shelves -->
+  <section class="feat container" aria-labelledby="feat-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Deep shelves</p>
+        <h2 class="section-title" id="feat-title">Featured houses</h2>
+      </div>
+    </div>
+    <div class="feat-grid" id="feat-grid"><!-- js --></div>
+  </section>
+
+  <!-- Sticky segment + A-Z jump bar -->
+  <div class="jumpbar" id="jumpbar">
+    <div class="container jumpbar-inner">
+      <div class="seg" id="seg" role="group" aria-label="Filter brands">
+        <button class="seg-pill active" type="button" data-seg="all" aria-pressed="true">All</button>
+        <button class="seg-pill" type="button" data-seg="designer" aria-pressed="false">Designer</button>
+        <button class="seg-pill" type="button" data-seg="niche" aria-pressed="false">Niche</button>
+      </div>
+      <nav class="letters" id="letters" aria-label="Jump to letter"><!-- js --></nav>
+    </div>
+  </div>
+
+  <!-- Alphabetical groups -->
+  <div class="groups container" id="groups"><!-- js --></div>
+  <p class="groups-empty container" id="groups-empty" hidden>No brands in this view. Switch the filter above to see more.</p>
+</main>
+
+<script>window.OE_PAGE = { active: "brands" };</script>
+<script src="brands-data.js"></script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

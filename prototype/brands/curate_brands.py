@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate brands/brands-data.js — one record per brand for the brand index
+"""Generate brands/brands-data.js: one record per brand for the brand index
 and brand pages: counts, niche flag, representative image, story excerpt."""
 
 import importlib.util

@@ -1,0 +1,238 @@
+/* ============================================================
+   OdorElite brand index: imports all tokens + shared chrome
+   (header, footer, toast) from the home page plus the shared
+   component kit. Only brand-index styles live here.
+   ============================================================ */
+
+@import url("../home/styles.css");
+@import url("../shared/shared.css");
+
+/* ---------- breadcrumbs (house pattern from the list page) ---------- */
+
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 18px;
+  font-size: 13px;
+  color: var(--oe-gray-500);
+}
+.crumbs a { transition: color var(--t-color); }
+.crumbs a:hover { color: var(--oe-primary); }
+.crumb-sep { color: var(--oe-gold); }
+#crumb-current { color: var(--oe-gray-800); font-weight: 500; }
+
+/* ---------- featured strip ---------- */
+
+.feat { margin-top: 30px; }
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.feat-card {
+  background: #fff;
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-card);
+  padding: 18px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: box-shadow var(--t-move), transform var(--t-move);
+}
+.feat-card:hover { box-shadow: var(--shadow-card-hover); transform: translateY(-3px); }
+.feat-media {
+  height: 122px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+}
+.feat-media img {
+  max-height: 122px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  transition: transform var(--t-img);
+}
+.feat-card:hover .feat-media img { transform: scale(1.06); }
+.feat-media .img-fallback {
+  width: 78px;
+  height: 100px;
+  border-radius: 8px;
+  background: radial-gradient(120% 120% at 70% 20%, var(--oe-depth), var(--oe-primary));
+  color: var(--oe-gold);
+  font-size: 30px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+.feat-name {
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--oe-primary);
+  line-height: 1.3;
+}
+.feat-count { font-size: 12px; color: var(--oe-gray-500); margin-top: 3px; }
+.feat-count b { font-family: var(--font-mono); font-weight: 600; color: var(--oe-gray-600); }
+
+/* ---------- sticky segment + A-Z jump bar ---------- */
+
+.jumpbar {
+  position: sticky;
+  top: var(--jump-top, 116px);
+  z-index: 40;
+  margin-top: 40px;
+  background: var(--oe-surface);
+  border-bottom: 1px solid var(--oe-gray-200);
+  padding: 10px 0;
+}
+.jumpbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.seg { display: flex; gap: 8px; flex: none; }
+/* pill buttons, same recipe as the list page category pills */
+.seg-pill {
+  border: 1px solid var(--oe-gray-300);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--oe-gray-700);
+  background: #fff;
+  transition: background var(--t-color), border-color var(--t-color), color var(--t-color);
+}
+.seg-pill:hover { border-color: var(--oe-accent); color: var(--oe-primary); }
+.seg-pill.active {
+  background: var(--oe-primary);
+  border-color: var(--oe-primary);
+  color: #fff;
+}
+
+.letters {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.letters::-webkit-scrollbar { display: none; }
+.jl {
+  flex: none;
+  min-width: 31px;
+  height: 34px;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--oe-gray-600);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  transition: background var(--t-color), color var(--t-color);
+}
+.jl:hover:not([disabled]) { background: var(--oe-gray-100); color: var(--oe-primary); }
+.jl.active { background: var(--oe-primary); color: #fff; }
+.jl[disabled] { color: var(--oe-gray-400); cursor: default; }
+
+/* ---------- alphabetical groups ---------- */
+
+.groups { padding-bottom: 40px; }
+.groups-empty {
+  text-align: center;
+  font-size: 14px;
+  color: var(--oe-gray-500);
+  padding: 56px 24px;
+}
+
+.lgroup {
+  padding-top: 36px;
+  scroll-margin-top: var(--group-off, 190px);
+}
+.lgroup-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--oe-gray-200);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--oe-primary);
+  outline: none;
+}
+.lgroup-head::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--oe-gold);
+  transform: rotate(45deg);
+  align-self: center;
+  flex: none;
+}
+.lgroup-tally { font-size: 12.5px; font-weight: 500; color: var(--oe-gray-500); }
+
+.lgroup-rows {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 28px;
+  margin-top: 4px;
+}
+.brow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px;
+  border-bottom: 1px solid var(--oe-gray-100);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--oe-gray-800);
+  transition: background var(--t-color), color var(--t-color);
+}
+.brow:hover { background: #fff; color: var(--oe-primary); box-shadow: var(--shadow-card); }
+.brow-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.brow-count {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--oe-gray-500);
+}
+.niche-badge {
+  display: inline-block;
+  vertical-align: 2px;
+  margin-left: 7px;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(201, 169, 110, 0.16);
+  color: var(--oe-gold-text);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1024px) {
+  .lgroup-rows { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .feat-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .jumpbar-inner { flex-direction: column; align-items: stretch; gap: 8px; }
+  .jl { height: 38px; }
+  .lgroup-rows { grid-template-columns: 1fr; }
+  .lgroup { padding-top: 28px; }
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate search/search-notes.js — note/accord tokens per product id,
+"""Generate search/search-notes.js: note/accord tokens per product id,
 loaded only by the search page alongside ../list/listing-data.js."""
 
 import json

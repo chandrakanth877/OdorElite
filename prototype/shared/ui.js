@@ -438,6 +438,26 @@
     );
   }
 
+  // Wire prev/next arrows for a horizontal .rail (home rail pattern):
+  // buttons carry data-rail="<rail element id>" and data-dir="-1|1".
+  function wireRailArrows(scope) {
+    (scope || document).querySelectorAll(".rail-arrow").forEach(function (btn) {
+      var rail = document.getElementById(btn.dataset.rail);
+      if (!rail) return;
+      var dir = Number(btn.dataset.dir);
+      function update() {
+        var max = rail.scrollWidth - rail.clientWidth - 4;
+        btn.disabled = dir < 0 ? rail.scrollLeft <= 4 : rail.scrollLeft >= max;
+      }
+      btn.addEventListener("click", function () {
+        rail.scrollBy({ left: dir * (rail.clientWidth - 80), behavior: reducedMotion ? "auto" : "smooth" });
+      });
+      rail.addEventListener("scroll", update, { passive: true });
+      window.addEventListener("resize", update);
+      update();
+    });
+  }
+
   // PDP detail shard bucket — MUST mirror bucket_of() in pdp/curate_pdp.py
   function pdpBucket(id) {
     var s = String(id), h = 0;
@@ -447,6 +467,7 @@
 
   window.OEUI = {
     pdpBucket: pdpBucket,
+    wireRailArrows: wireRailArrows,
     productCard: productCard,
     registerProduct: function (p) { cardRegistry[p.id] = p; },
     getProduct: function (id) { return cardRegistry[id] || null; },

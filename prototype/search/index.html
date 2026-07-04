@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search | OdorElite</title>
+<meta name="description" content="Search 4,800+ authentic designer and niche fragrances by name, brand, note or family.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+  <!-- Breadcrumbs -->
+  <nav class="crumbs container" aria-label="Breadcrumb">
+    <a href="../home/">Home</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <span class="crumb-current" aria-current="page">Search</span>
+  </nav>
+
+  <!-- Heading + query status -->
+  <section class="search-head container">
+    <h1 class="search-title" id="search-title">Search 4,800+ fragrances</h1>
+    <p class="search-sub" id="search-sub">Find a scent by name, brand, note or family.</p>
+    <p class="search-rewrite" id="search-rewrite" aria-live="polite" hidden></p>
+  </section>
+
+  <!-- Exact brand match banner -->
+  <div class="container" id="brand-banner" hidden><!-- js --></div>
+
+  <!-- Results -->
+  <section class="container results-wrap" id="results-wrap" aria-label="Search results" hidden>
+    <p class="result-count" id="result-count" aria-live="polite"></p>
+    <div class="plp-grid" id="grid"><!-- js --></div>
+    <div class="load-wrap">
+      <button class="load-more" id="load-more" hidden>Load 24 more</button>
+    </div>
+  </section>
+
+  <!-- Zero results -->
+  <section class="container search-zero" id="zero" hidden>
+    <span class="zero-mark" aria-hidden="true"></span>
+    <p class="zero-copy">Nothing in the catalog matches that. Try a different spelling, a brand, or a note.</p>
+    <div class="zero-suggest" id="zero-suggest"><!-- js: did-you-mean chip --></div>
+    <p class="chips-label">Popular searches</p>
+    <div class="pop-chips" id="zero-chips"><!-- js --></div>
+  </section>
+
+  <!-- Empty query -->
+  <section class="container search-empty" id="empty-state" hidden>
+    <p class="chips-label">Popular searches</p>
+    <div class="pop-chips" id="empty-chips"><!-- js --></div>
+  </section>
+
+  <!-- Popular rail (empty query + zero results) -->
+  <section class="container pop-rail" id="pop-rail" aria-labelledby="pop-rail-title" hidden>
+    <h2 class="pop-rail-title" id="pop-rail-title">Popular right now</h2>
+    <p class="pop-rail-sub">In stock and heavily marked down.</p>
+    <div class="plp-grid" id="pop-grid"><!-- js --></div>
+  </section>
+</main>
+
+<script>
+window.OE_PAGE = {
+  active: null,
+  onSearch: function (q) {
+    if (typeof window.__oeSearchSubmit === "function") { window.__oeSearchSubmit(q); return; }
+    window.location.href = "?q=" + encodeURIComponent(q);
+  }
+};
+</script>
+<script src="../list/listing-data.js"></script>
+<script src="search-notes.js"></script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

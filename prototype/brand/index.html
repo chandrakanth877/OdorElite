@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand | OdorElite</title>
+<meta name="description" content="Shop every fragrance from your favorite house at OdorElite. Authentic bottles, honest prices, designer and niche brands.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+  <!-- Breadcrumbs -->
+  <nav class="crumbs container" aria-label="Breadcrumb">
+    <a href="../home/">Home</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <a href="../brands/">Brands</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <span id="crumb-current" aria-current="page">Brand</span>
+  </nav>
+
+  <!-- Navy hero band (adapted from the list page pattern) -->
+  <section class="brand-hero container" aria-labelledby="brand-title">
+    <div class="brand-hero-inner">
+      <div class="brand-hero-copy">
+        <h1 class="brand-title" id="brand-title">Brand</h1>
+        <p class="brand-story" id="brand-story" hidden></p>
+        <div class="brand-stats">
+          <div class="brand-stat"><strong id="stat-products">0</strong><span>products</span></div>
+          <div class="brand-stat"><strong id="stat-stock">0</strong><span>in stock</span></div>
+          <div class="brand-stat"><strong id="stat-off">-0%</strong><span>top markdown</span></div>
+        </div>
+        <a class="btn btn-gold brand-hero-cta" href="#products">Shop the range</a>
+      </div>
+      <div class="brand-hero-media" id="brand-hero-media"><!-- js: representative bottle --></div>
+    </div>
+  </section>
+
+  <!-- Best of {Brand} rail -->
+  <section class="section container" id="best-section" aria-labelledby="best-title" hidden>
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">In stock now</p>
+        <h2 class="section-title" id="best-title">Best of</h2>
+      </div>
+    </div>
+    <div class="rail-wrap">
+      <button class="rail-arrow rail-prev" data-rail="best-rail" data-dir="-1" aria-label="Scroll picks left">&#8249;</button>
+      <div class="rail" id="best-rail"><!-- js --></div>
+      <button class="rail-arrow rail-next" data-rail="best-rail" data-dir="1" aria-label="Scroll picks right">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- Full brand grid -->
+  <section class="section container" id="products" aria-labelledby="grid-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Full range</p>
+        <h2 class="section-title" id="grid-title">All fragrances</h2>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <p class="result-count" id="result-count">Showing 0 of 0</p>
+      <label class="sort-wrap">
+        <span class="sort-label">Sort</span>
+        <select class="sort-select" id="sort-select" aria-label="Sort products">
+          <option value="featured">Featured</option>
+          <option value="newest">Newest</option>
+          <option value="price-asc">Price: low to high</option>
+          <option value="price-desc">Price: high to low</option>
+          <option value="discount">Biggest discount</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="brand-grid" id="grid"><!-- js --></div>
+
+    <div class="load-wrap">
+      <button class="load-more" id="load-more" hidden>Load 24 more</button>
+    </div>
+  </section>
+</main>
+
+<script>window.OE_PAGE = { active: "brands" };</script>
+<script src="../list/listing-data.js"></script>
+<script src="../brands/brands-data.js"></script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

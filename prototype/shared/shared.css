@@ -7,6 +7,48 @@
    [hidden] rule. Kill it globally for every prototype page. */
 [hidden] { display: none !important; }
 
+/* ---------- breadcrumbs (every page) ---------- */
+
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 18px;
+  font-size: 13px;
+  color: var(--oe-gray-500);
+}
+.crumbs a { transition: color var(--t-color); }
+.crumbs a:hover { color: var(--oe-primary); }
+.crumb-sep { color: var(--oe-gold); }
+.crumbs [aria-current="page"], .crumbs .crumb-here { color: var(--oe-gray-800); font-weight: 500; }
+
+/* ---------- out-of-stock card states (emitted by OEUI.productCard) ---------- */
+
+.pcard-price.oos { color: var(--oe-gray-500); }
+.pcard-notify {
+  margin-top: 10px;
+  border-radius: var(--r-btn);
+  border: 1px dashed var(--oe-gray-300);
+  padding: 9px 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--oe-gray-500);
+  background: var(--oe-gray-50);
+  transition: border-color var(--t-color), color var(--t-color);
+}
+.pcard-notify:hover { border-color: var(--oe-accent); color: var(--oe-accent-text); }
+.pcard-oos-flag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--oe-gray-700);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+
 /* ---------- header extras ---------- */
 
 .nav-link.nav-active::after { transform: scaleX(1); }
