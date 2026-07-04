@@ -30,7 +30,7 @@ prototype/list/
 - Eligibility identical to home curation: fragrance product types (Women's/Men's/Unisex/Kids/Gift sets), local image verified on disk, price > 0, deduped by brand+name+size.
 - Compact record: `id, brand, name, price, compareAt, discount, conc, size, cat, fam, avail, ts, img` (no descriptions/notes — keeps the file ~1MB).
 - `cat`: normalized category (Women/Men/Unisex/Kids/Gift Sets) from `source.product_type`, `enriched.gender` fallback (same rule as home). Niche is **not** a `cat` value — it's a vendor-derived boolean-ish tag (`niche: 1` for the niche-house allowlist shared with home curation) so "Niche" can act as a category filter without stealing products from their gender category.
-- `fam`: fragrance family normalized to 9 buckets by first-keyword match on `enriched.fragrance_family`: Floral, Woody, Amber & Oriental, Fresh, Citrus, Aromatic, Gourmand, Leather, Other (N/A → Other).
+- `fam`: fragrance family normalized to 8 buckets by keyword scan of `enriched.fragrance_family`: Floral, Amber & Oriental, Woody, Aromatic, Citrus, Chypre, Leather, Other (N/A → Other). Fresh and Gourmand were planned but dropped: the dataset vocabulary yields under 10 products each; Chypre (79) added instead — data-driven correction.
 - `ts`: epoch seconds from `source.published_at` (fallback `created_at`) for the Newest sort.
 - Deterministic; prints record count, per-category and per-family counts, and output size. Verifies every emitted `img` path exists on disk (exit 1 otherwise).
 
