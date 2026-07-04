@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop All Fragrances | OdorElite</title>
+<meta name="description" content="Browse 4,800+ authentic designer and niche fragrances. Filter by brand, family, concentration and price. Up to 89% off retail.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+  <!-- Breadcrumbs -->
+  <nav class="crumbs container" aria-label="Breadcrumb">
+    <a href="../home/">Home</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <a href="./">Fragrances</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <span id="crumb-current" aria-current="page">All</span>
+  </nav>
+
+  <!-- Marketing hero band -->
+  <section class="plp-hero container" aria-labelledby="plp-title">
+    <div class="plp-hero-inner">
+      <div class="plp-hero-copy">
+        <h1 class="plp-title" id="plp-title">All Fragrances</h1>
+        <p class="plp-sub" id="plp-sub">Every bottle authentic, every price honest. Designer icons to niche rarities.</p>
+        <div class="plp-stats" id="plp-stats">
+          <div class="plp-stat"><strong id="stat-count">0</strong><span>fragrances</span></div>
+          <div class="plp-stat"><strong id="stat-brands">0</strong><span>brands</span></div>
+          <div class="plp-stat"><strong id="stat-off">0%</strong><span>top markdown</span></div>
+        </div>
+        <a class="btn btn-gold plp-hero-cta" href="#results">Shop the deals</a>
+      </div>
+      <div class="plp-hero-media" id="plp-hero-media"><!-- js: featured bottle --></div>
+    </div>
+  </section>
+
+  <!-- Benefit strip -->
+  <div class="benefit-strip container" role="list">
+    <span role="listitem">100% authentic, sourced direct</span>
+    <span role="listitem">Free US shipping over $50</span>
+    <span role="listitem">30-day unopened returns</span>
+  </div>
+
+  <!-- Catalog: sidebar + results -->
+  <div class="plp-layout container" id="results">
+    <aside class="filters" id="filters" aria-label="Filters">
+      <div class="filters-head">
+        <h2>Filters</h2>
+        <button class="filters-close" id="filters-close" aria-label="Close filters">&times;</button>
+      </div>
+
+      <div class="fgroup">
+        <h3 class="fgroup-title">Category</h3>
+        <div class="cat-pills" id="f-category"><!-- js --></div>
+      </div>
+
+      <div class="fgroup">
+        <h3 class="fgroup-title">Brand</h3>
+        <input class="brand-search" id="f-brand-search" type="search" placeholder="Search brands" aria-label="Search brands">
+        <div class="check-list" id="f-brand"><!-- js --></div>
+      </div>
+
+      <div class="fgroup">
+        <h3 class="fgroup-title">Fragrance family</h3>
+        <div class="check-list" id="f-family"><!-- js --></div>
+      </div>
+
+      <div class="fgroup">
+        <h3 class="fgroup-title">Concentration</h3>
+        <div class="check-list" id="f-conc"><!-- js --></div>
+      </div>
+
+      <div class="fgroup">
+        <h3 class="fgroup-title">Price</h3>
+        <div class="price-inputs">
+          <input class="price-input" id="f-min" type="number" min="0" placeholder="Min" aria-label="Minimum price">
+          <span class="price-dash" aria-hidden="true">to</span>
+          <input class="price-input" id="f-max" type="number" min="0" placeholder="Max" aria-label="Maximum price">
+        </div>
+        <div class="price-bands" id="f-bands">
+          <button data-min="" data-max="25">Under $25</button>
+          <button data-min="25" data-max="50">$25 to $50</button>
+          <button data-min="50" data-max="100">$50 to $100</button>
+          <button data-min="100" data-max="">$100+</button>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <h3 class="fgroup-title">Discount</h3>
+        <div class="check-list" id="f-disc">
+          <label class="check-row"><input type="radio" name="disc" value="0" checked><span class="check-label">Any</span></label>
+          <label class="check-row"><input type="radio" name="disc" value="50"><span class="check-label">50% off or more</span></label>
+          <label class="check-row"><input type="radio" name="disc" value="70"><span class="check-label">70% off or more</span></label>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <label class="check-row stock-row"><input type="checkbox" id="f-stock"><span class="check-label">In stock only</span><span class="check-count" id="stock-count"></span></label>
+      </div>
+    </aside>
+
+    <div class="filters-overlay" id="filters-overlay" hidden></div>
+
+    <section class="results" aria-label="Products">
+      <div class="toolbar">
+        <p class="result-count" id="result-count">Showing 0 of 0</p>
+        <div class="toolbar-right">
+          <button class="filters-open" id="filters-open" aria-expanded="false" aria-controls="filters">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+            Filters<span class="filters-open-count" id="filters-open-count" hidden>0</span>
+          </button>
+          <label class="sort-wrap">
+            <span class="sort-label">Sort</span>
+            <select class="sort-select" id="sort-select" aria-label="Sort products">
+              <option value="featured">Featured</option>
+              <option value="newest">Newest</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="discount">Biggest discount</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="chips" id="chips" hidden><!-- js --></div>
+
+      <div class="plp-grid" id="grid"><!-- js --></div>
+
+      <div class="load-wrap">
+        <button class="load-more" id="load-more" hidden>Load 24 more</button>
+      </div>
+
+      <div class="plp-empty" id="empty" hidden>
+        <span class="plp-empty-mark" aria-hidden="true"></span>
+        <h2>No fragrances match</h2>
+        <p>Try removing a filter or widening the price range.</p>
+        <button class="btn btn-gold" id="empty-clear">Clear all filters</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Bottom marketing: promo banner pair -->
+  <section class="promo-duo container" aria-label="Collections">
+    <a class="promo-banner promo-banner-navy" href="./?category=niche" id="promo-niche">
+      <div class="promo-banner-copy">
+        <h2>The niche collection</h2>
+        <p>Creed, Parfums de Marly, Initio and 460+ rare bottles.</p>
+        <span class="promo-banner-cta">Explore niche</span>
+      </div>
+      <div class="promo-banner-media" id="promo-niche-media"><!-- js --></div>
+    </a>
+    <a class="promo-banner promo-banner-light" href="./?max=50&stock=1" id="promo-gifts">
+      <div class="promo-banner-copy">
+        <h2>Great gifts under $50</h2>
+        <p>Real designer names at small prices, ready to ship.</p>
+        <span class="promo-banner-cta">Shop gifts under $50</span>
+      </div>
+      <div class="promo-banner-media" id="promo-gifts-media"><!-- js --></div>
+    </a>
+  </section>
+
+  <!-- Newsletter (shared styles) -->
+  <section class="newsletter">
+    <div class="container newsletter-inner">
+      <p class="eyebrow eyebrow-onnavy">The scent dispatch</p>
+      <h2 class="newsletter-title">First dibs on drops &amp; deals</h2>
+      <p class="newsletter-sub">New arrivals, restocks and subscriber-only prices. One email a week, no noise.</p>
+      <form class="newsletter-form" id="newsletter-form">
+        <input class="newsletter-input" id="newsletter-email" type="email" placeholder="your@email.com" aria-label="Email address" required>
+        <button class="btn btn-gold" type="submit">Sign me up</button>
+      </form>
+      <p class="newsletter-fine">By subscribing you agree to our privacy policy. Unsubscribe anytime.</p>
+    </div>
+  </section>
+</main>
+
+<script>window.OE_PAGE = { active: "all" };</script>
+<script src="listing-data.js"></script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

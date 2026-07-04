@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OdorElite — Designer &amp; Niche Fragrances</title>
+<meta name="description" content="Shop 5,000+ authentic designer and niche fragrances at up to 80% off retail. Tom Ford, Creed, Bond No. 9, Lattafa and more.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../shared/shared.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+  <!-- 3 · Hero zone -->
+  <section class="hero-zone container" aria-label="Featured campaigns">
+    <div class="hero" id="hero">
+      <div class="hero-slides" id="hero-slides"><!-- js --></div>
+      <div class="hero-dots" id="hero-dots" role="group" aria-label="Hero slides"><!-- js --></div>
+    </div>
+    <div class="hero-side" id="hero-side"><!-- js --></div>
+  </section>
+
+  <!-- 4 · Deal grid -->
+  <section class="section container" aria-labelledby="dealgrid-title">
+    <div class="deal-grid" id="deal-grid"><!-- js --></div>
+  </section>
+
+  <!-- 5 · Deals rail -->
+  <section class="section container" id="deals" aria-labelledby="deals-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Today only</p>
+        <h2 class="section-title" id="deals-title">Today's biggest deals</h2>
+      </div>
+      <a class="see-all" href="../list/?disc=50">See all deals</a>
+    </div>
+    <div class="rail-wrap">
+      <button class="rail-arrow rail-prev" data-rail="deals-rail" data-dir="-1" aria-label="Scroll deals left">&#8249;</button>
+      <div class="rail" id="deals-rail"><!-- js --></div>
+      <button class="rail-arrow rail-next" data-rail="deals-rail" data-dir="1" aria-label="Scroll deals right">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- 6 · Category tiles -->
+  <section class="section container" id="categories" aria-labelledby="cat-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Departments</p>
+        <h2 class="section-title" id="cat-title">Shop by category</h2>
+      </div>
+    </div>
+    <div class="cat-grid" id="cat-grid"><!-- js --></div>
+  </section>
+
+  <!-- 7 · Trending rail -->
+  <section class="section container" id="trending" aria-labelledby="trending-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Most coveted</p>
+        <h2 class="section-title" id="trending-title">Trending now</h2>
+      </div>
+      <a class="see-all" href="../list/?stock=1">Shop all trending</a>
+    </div>
+    <div class="rail-wrap">
+      <button class="rail-arrow rail-prev" data-rail="trending-rail" data-dir="-1" aria-label="Scroll trending left">&#8249;</button>
+      <div class="rail" id="trending-rail"><!-- js --></div>
+      <button class="rail-arrow rail-next" data-rail="trending-rail" data-dir="1" aria-label="Scroll trending right">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- 8 · Featured brands -->
+  <section class="section container" id="brands" aria-labelledby="brands-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">The houses</p>
+        <h2 class="section-title" id="brands-title">Featured brands</h2>
+      </div>
+    </div>
+    <div class="brand-grid" id="brand-grid"><!-- js --></div>
+  </section>
+
+  <!-- Niche rail (feeds from niche data) -->
+  <section class="section container section-niche" id="niche" aria-labelledby="niche-title">
+    <div class="niche-band">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow eyebrow-onnavy">Rare &amp; remarkable</p>
+          <h2 class="section-title section-title-onnavy" id="niche-title">The niche collection</h2>
+        </div>
+        <a class="see-all see-all-onnavy" href="../list/?category=niche">Explore niche</a>
+      </div>
+      <div class="rail-wrap">
+        <button class="rail-arrow rail-prev" data-rail="niche-rail" data-dir="-1" aria-label="Scroll niche left">&#8249;</button>
+        <div class="rail" id="niche-rail"><!-- js --></div>
+        <button class="rail-arrow rail-next" data-rail="niche-rail" data-dir="1" aria-label="Scroll niche right">&#8250;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · Fragrance families -->
+  <section class="section container" aria-labelledby="family-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Find your family</p>
+        <h2 class="section-title" id="family-title">Shop by fragrance family</h2>
+      </div>
+    </div>
+    <div class="family-chips">
+      <a class="family-chip fam-floral" href="../list/?fam=Floral"><span class="fam-dot"></span>Floral<span class="fam-count">1,389</span></a>
+      <a class="family-chip fam-amber" href="../list/?fam=Amber%20%26%20Oriental"><span class="fam-dot"></span>Amber &amp; Oriental<span class="fam-count">1,281</span></a>
+      <a class="family-chip fam-woody" href="../list/?fam=Woody"><span class="fam-dot"></span>Woody<span class="fam-count">714</span></a>
+      <a class="family-chip fam-aromatic" href="../list/?fam=Aromatic"><span class="fam-dot"></span>Aromatic<span class="fam-count">504</span></a>
+      <a class="family-chip fam-fresh" href="../list/?fam=Citrus"><span class="fam-dot"></span>Citrus<span class="fam-count">180</span></a>
+      <a class="family-chip fam-oriental" href="../list/?fam=Chypre"><span class="fam-dot"></span>Chypre<span class="fam-count">153</span></a>
+    </div>
+  </section>
+
+  <!-- 10 · Price buckets -->
+  <section class="section container" aria-labelledby="gifts-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Every budget</p>
+        <h2 class="section-title" id="gifts-title">Gifts by price</h2>
+      </div>
+    </div>
+    <div class="bucket-grid" id="bucket-grid"><!-- js --></div>
+  </section>
+
+  <!-- 11 · Guides -->
+  <section class="section container" aria-labelledby="guides-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">The journal</p>
+        <h2 class="section-title" id="guides-title">Fragrance intelligence</h2>
+      </div>
+    </div>
+    <div class="guide-grid" id="guide-grid"><!-- js --></div>
+  </section>
+
+  <!-- 12 · Trust bar -->
+  <section class="trust" aria-label="Why shop with OdorElite">
+    <div class="container trust-inner">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+        <div><strong>100% authentic</strong><span>Sourced direct, always genuine</span></div>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18h-5"/><path d="M15 8h4l3 4v5a1 1 0 0 1-1 1h-2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>
+        <div><strong>Free shipping $50+</strong><span>Fast, tracked, insured</span></div>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        <div><strong>30-day returns</strong><span>Unopened, hassle-free</span></div>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <div><strong>Secure checkout</strong><span>256-bit encrypted payments</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 · Newsletter -->
+  <section class="newsletter">
+    <div class="container newsletter-inner">
+      <p class="eyebrow eyebrow-onnavy">The scent dispatch</p>
+      <h2 class="newsletter-title">First dibs on drops &amp; deals</h2>
+      <p class="newsletter-sub">New arrivals, restocks and subscriber-only prices. One email a week, no noise.</p>
+      <form class="newsletter-form" id="newsletter-form">
+        <input class="newsletter-input" id="newsletter-email" type="email" placeholder="your@email.com" aria-label="Email address" required>
+        <button class="btn btn-gold" type="submit">Sign me up</button>
+      </form>
+      <p class="newsletter-fine">By subscribing you agree to our privacy policy. Unsubscribe anytime.</p>
+    </div>
+  </section>
+</main>
+
+<script>window.OE_PAGE = { active: null };</script>
+<script src="data.js"></script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
