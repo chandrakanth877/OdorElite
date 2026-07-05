@@ -1,0 +1,111 @@
+@import url("../home/styles.css");
+@import url("../shared/shared.css");
+
+/* ---------- sign-in page ---------- */
+
+.signin-wrap {
+  display: flex;
+  justify-content: center;
+  padding-top: 18px;
+  padding-bottom: 64px;
+}
+
+.signin-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 28px 26px 26px;
+}
+
+.signin-head { margin-top: 0; margin-bottom: 18px; }
+.signin-head .page-title { font-size: 26px; }
+
+/* demo note: gold-tinted box */
+.demo-note {
+  background: rgba(201, 169, 110, 0.14);
+  border: 1px solid var(--oe-gold-light);
+  border-radius: var(--r-btn);
+  padding: 12px 14px;
+  margin-bottom: 18px;
+}
+.demo-note p {
+  font-size: 13.5px;
+  color: var(--oe-gray-700);
+  margin: 0 0 10px;
+}
+.demo-note strong { color: var(--oe-gold-text); font-weight: 600; }
+.demo-fill {
+  min-height: 36px;
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+/* password field with show/hide toggle */
+.pw-wrap { position: relative; }
+.pw-wrap input {
+  width: 100%;
+  padding-right: 64px;
+}
+.pw-toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  min-height: 34px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--oe-accent-text);
+  cursor: pointer;
+  transition: color var(--t-color), background var(--t-color);
+}
+.pw-toggle:hover { background: var(--oe-gray-100, #F2F4F7); }
+.pw-toggle:focus-visible { outline: 2px solid var(--oe-accent); outline-offset: 2px; }
+
+/* submit + spinner */
+.signin-submit {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.signin-submit[disabled] { opacity: 0.75; cursor: default; }
+.btn-spinner {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  border: 2px solid rgba(10, 25, 49, 0.25);
+  border-top-color: var(--oe-primary);
+  border-radius: 50%;
+  animation: oe-signin-spin 700ms linear infinite;
+}
+@keyframes oe-signin-spin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-spinner { animation: none; }
+}
+
+/* links below the form */
+.signin-links {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--oe-gray-200, #E4E7EC);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--oe-gray-600);
+}
+.signin-links a {
+  color: var(--oe-accent-text);
+  font-weight: 600;
+  transition: color var(--t-color);
+}
+.signin-links a:hover { color: var(--oe-primary); }

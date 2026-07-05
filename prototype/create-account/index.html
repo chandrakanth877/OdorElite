@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create account | OdorElite</title>
+<meta name="description" content="Create your OdorElite account to track orders, save your wishlist and check out faster.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+  <nav class="crumbs container" aria-label="Breadcrumb">
+    <a href="../home/">Home</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <span aria-current="page">Create account</span>
+  </nav>
+
+  <div class="container auth-wrap">
+    <section class="card-panel auth-card" aria-labelledby="ca-title">
+      <h1 class="auth-title" id="ca-title">Create account</h1>
+      <p class="auth-sub">Track orders, save your wishlist and check out faster.</p>
+
+      <form id="ca-form" novalidate>
+        <div class="field-row">
+          <div class="field">
+            <label for="ca-first">First name</label>
+            <input type="text" id="ca-first" name="firstName" autocomplete="given-name" required>
+            <span class="field-error" id="err-first" aria-live="polite" hidden></span>
+          </div>
+          <div class="field">
+            <label for="ca-last">Last name</label>
+            <input type="text" id="ca-last" name="lastName" autocomplete="family-name" required>
+            <span class="field-error" id="err-last" aria-live="polite" hidden></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="ca-email">Email</label>
+          <input type="email" id="ca-email" name="email" autocomplete="email" inputmode="email" required>
+          <span class="field-error" id="err-email" aria-live="polite" hidden></span>
+        </div>
+
+        <div class="field">
+          <label for="ca-password">Password</label>
+          <input type="password" id="ca-password" name="password" autocomplete="new-password" required aria-describedby="pw-hints">
+          <div class="strength" id="pw-strength" data-score="0" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <ul class="field-hint pw-hints" id="pw-hints" aria-live="polite"></ul>
+          <span class="field-error" id="err-password" aria-live="polite" hidden></span>
+        </div>
+
+        <label class="ca-optin">
+          <input type="checkbox" id="ca-marketing">
+          <span>Email me about new arrivals and deals</span>
+        </label>
+
+        <p class="ca-terms">By creating an account you agree to our
+          <a href="../content/?page=terms">Terms</a> and
+          <a href="../content/?page=privacy">Privacy policy</a>.</p>
+
+        <button type="submit" class="btn btn-gold ca-submit" id="ca-submit">
+          <span id="ca-submit-label">Create account</span>
+          <span class="btn-spinner" id="ca-spinner" aria-hidden="true" hidden></span>
+        </button>
+      </form>
+
+      <p class="auth-alt">Already have an account? <a id="ca-signin-link" href="../sign-in/">Sign in</a></p>
+    </section>
+  </div>
+</main>
+<script>window.OE_PAGE = { active: null };</script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/validators.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

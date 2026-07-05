@@ -1,0 +1,117 @@
+/* ============================================================
+   OdorElite saved cards page: imports all tokens + shared chrome
+   from the home page and shared component CSS. Only cards page
+   specific rules live here.
+   ============================================================ */
+
+@import url("../home/styles.css");
+@import url("../shared/shared.css");
+
+/* ---------- column layout ---------- */
+
+.cards-col { min-width: 0; }
+.cards-head { margin-top: 0; }
+
+/* ---------- card rows ---------- */
+
+.cards-list { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+
+.card-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.card-row-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 240px;
+}
+
+.net-badge {
+  display: inline-block;
+  background: var(--oe-primary);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border-radius: 6px;
+  padding: 5px 10px;
+  flex: none;
+}
+
+.card-num {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--oe-primary);
+  white-space: nowrap;
+}
+.card-exp { font-size: 13.5px; color: var(--oe-gray-600); white-space: nowrap; }
+
+.card-chip-default {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 3px 11px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(201, 169, 110, 0.16);
+  color: var(--oe-gold-text);
+}
+.chip-expired { background: rgba(192, 57, 43, 0.1); color: #A93226; }
+
+.card-actions { display: flex; align-items: center; gap: 8px; flex: none; margin-left: auto; }
+.card-actions .btn { padding: 9px 16px; font-size: 13px; min-height: 44px; }
+.card-action-remove { color: var(--oe-error); border-color: var(--oe-gray-300); }
+.card-action-remove:hover { border-color: var(--oe-error); color: #A93226; }
+
+@media (max-width: 560px) {
+  .card-actions { margin-left: 0; width: 100%; }
+  .card-actions .btn { flex: 1; }
+}
+
+/* ---------- empty state ---------- */
+
+.cards-empty { text-align: center; padding: 44px 22px; margin-top: 20px; }
+.cards-empty-mark {
+  display: block;
+  width: 12px; height: 12px;
+  background: var(--oe-gold);
+  transform: rotate(45deg);
+  margin: 0 auto 18px;
+}
+.cards-empty h2 { font-size: 20px; font-weight: 600; color: var(--oe-primary); }
+.cards-empty p { font-size: 14px; color: var(--oe-gray-500); margin-top: 8px; }
+
+/* ---------- add-card panel ---------- */
+
+.cards-add { margin-top: 20px; }
+#add-toggle { min-height: 44px; }
+.cards-add-title { font-size: 17px; font-weight: 600; color: var(--oe-primary); margin: 18px 0 14px; }
+
+.cc-number-wrap { position: relative; }
+.cc-number-wrap input { padding-right: 96px; }
+.net-badge-live {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.cards-demo-note {
+  font-size: 12.5px;
+  color: var(--oe-gray-500);
+  background: var(--oe-gray-50);
+  border-radius: 8px;
+  padding: 9px 12px;
+  margin: 4px 0 16px;
+}
+
+.cards-add-actions { display: flex; gap: 10px; }
+.cards-add-actions .btn { min-height: 44px; }

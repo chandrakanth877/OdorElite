@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Addresses | OdorElite</title>
+<meta name="description" content="Manage the shipping and billing addresses saved to your OdorElite account.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+  <!-- Breadcrumbs -->
+  <nav class="crumbs container" aria-label="Breadcrumb">
+    <a href="../home/">Home</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <a href="../account/">Account</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <span aria-current="page">Addresses</span>
+  </nav>
+
+  <div class="container acct-layout">
+    <div id="acct-shell"><!-- js: OEUI.accountShell --></div>
+
+    <section aria-labelledby="addr-title">
+      <header class="addr-head">
+        <div>
+          <h1 class="page-title" id="addr-title">Addresses</h1>
+          <p class="page-sub" id="addr-count" aria-live="polite"><!-- js: count line --></p>
+        </div>
+        <div class="addr-head-actions">
+          <button class="btn btn-gold" id="addr-add" type="button">Add address</button>
+          <p class="addr-full-note" id="addr-full-note" hidden>Address book is full (10 max)</p>
+        </div>
+      </header>
+
+      <div class="addr-grid" id="addr-grid" aria-live="polite"><!-- js: address cards --></div>
+
+      <div class="card-panel addr-empty" id="addr-empty" hidden>
+        <span class="addr-empty-mark" aria-hidden="true"></span>
+        <h2>No saved addresses</h2>
+        <p>Add one here, or tick "Save to account" at checkout and it lands in this list automatically.</p>
+        <button class="btn btn-gold" id="addr-empty-add" type="button">Add address</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Add / edit address modal -->
+  <div class="confirm-dialog-overlay" id="am-overlay" hidden>
+    <div class="confirm-dialog addr-modal" role="dialog" aria-modal="true" aria-labelledby="am-title">
+      <h2 id="am-title">Add address</h2>
+      <form id="am-form" novalidate>
+        <div class="field-row">
+          <div class="field">
+            <label for="am-firstName">First name</label>
+            <input id="am-firstName" name="firstName" type="text" autocomplete="given-name">
+            <p class="field-error" id="am-err-firstName" hidden></p>
+          </div>
+          <div class="field">
+            <label for="am-lastName">Last name</label>
+            <input id="am-lastName" name="lastName" type="text" autocomplete="family-name">
+            <p class="field-error" id="am-err-lastName" hidden></p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="am-line1">Street address</label>
+          <input id="am-line1" name="line1" type="text" autocomplete="address-line1">
+          <p class="field-error" id="am-err-line1" hidden></p>
+        </div>
+        <div class="field">
+          <label for="am-line2">Apartment, suite, etc. (optional)</label>
+          <input id="am-line2" name="line2" type="text" autocomplete="address-line2">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="am-city">City</label>
+            <input id="am-city" name="city" type="text" autocomplete="address-level2">
+            <p class="field-error" id="am-err-city" hidden></p>
+          </div>
+          <div class="field">
+            <label for="am-state">State / province</label>
+            <input id="am-state" name="state" type="text" autocomplete="address-level1">
+            <p class="field-error" id="am-err-state" hidden></p>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="am-country">Country</label>
+            <select id="am-country" name="country" autocomplete="country"><!-- js: OEValidate.COUNTRIES --></select>
+            <p class="field-error" id="am-err-country" hidden></p>
+          </div>
+          <div class="field">
+            <label for="am-postal">Postal code</label>
+            <input id="am-postal" name="postal" type="text" autocomplete="postal-code">
+            <p class="field-error" id="am-err-postal" hidden></p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="am-phone">Phone (optional)</label>
+          <input id="am-phone" name="phone" type="tel" autocomplete="tel">
+          <p class="field-error" id="am-err-phone" hidden></p>
+        </div>
+        <div class="confirm-dialog-actions">
+          <button class="btn btn-quiet" id="am-cancel" type="button">Cancel</button>
+          <button class="btn btn-gold" id="am-save" type="submit">Save address</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Remove confirmation dialog -->
+  <div class="confirm-dialog-overlay" id="rm-overlay" hidden>
+    <div class="confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="rm-title" aria-describedby="rm-body">
+      <h2 id="rm-title">Remove this address?</h2>
+      <p id="rm-body"><!-- js: dynamic copy --></p>
+      <div class="confirm-dialog-actions">
+        <button class="btn btn-quiet" id="rm-cancel" type="button">Cancel</button>
+        <button class="btn btn-danger" id="rm-confirm" type="button">Remove address</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>window.OE_PAGE = { active: null };</script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/validators.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

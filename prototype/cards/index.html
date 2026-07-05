@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saved cards | OdorElite</title>
+<meta name="description" content="Manage the payment cards saved to your OdorElite account.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+  <!-- Breadcrumbs -->
+  <nav class="crumbs container" aria-label="Breadcrumb">
+    <a href="../home/">Home</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <a href="../account/">Account</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <span class="crumb-here" aria-current="page">Saved cards</span>
+  </nav>
+
+  <div class="acct-layout container">
+    <!-- js: replaced by OEUI.accountShell("cards") -->
+    <div id="acct-shell"></div>
+
+    <section class="cards-col" aria-labelledby="cards-title">
+      <header class="page-head cards-head">
+        <h1 class="page-title" id="cards-title">Saved cards</h1>
+        <p class="page-sub" id="cards-sub" aria-live="polite"><!-- js: count line --></p>
+      </header>
+
+      <!-- Card list -->
+      <div class="cards-list" id="cards-list" aria-live="polite"><!-- js: card rows --></div>
+
+      <!-- Empty state -->
+      <div class="card-panel cards-empty" id="cards-empty" hidden>
+        <span class="cards-empty-mark" aria-hidden="true"></span>
+        <h2>No saved cards</h2>
+        <p>Save one at checkout or add one here.</p>
+      </div>
+
+      <!-- Add a card -->
+      <div class="card-panel cards-add" id="cards-add">
+        <button class="btn btn-gold" type="button" id="add-toggle" aria-expanded="false" aria-controls="add-form">Add a card</button>
+
+        <form id="add-form" novalidate hidden>
+          <h2 class="cards-add-title">New card</h2>
+
+          <div class="field">
+            <label for="cc-number">Card number</label>
+            <div class="cc-number-wrap">
+              <input id="cc-number" name="ccNumber" type="text" inputmode="numeric" autocomplete="cc-number" maxlength="23" placeholder="4242 4242 4242 4242" aria-describedby="cc-number-err">
+              <span class="net-badge net-badge-live" id="cc-net" hidden></span>
+            </div>
+            <p class="field-error" id="cc-number-err" hidden></p>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="cc-exp">Expiry (MM/YY)</label>
+              <input id="cc-exp" name="ccExp" type="text" inputmode="numeric" autocomplete="cc-exp" maxlength="5" placeholder="08/29" aria-describedby="cc-exp-err">
+              <p class="field-error" id="cc-exp-err" hidden></p>
+            </div>
+            <div class="field">
+              <label for="cc-name">Name on card</label>
+              <input id="cc-name" name="ccName" type="text" autocomplete="cc-name" placeholder="Ava Laurent" aria-describedby="cc-name-err">
+              <p class="field-error" id="cc-name-err" hidden></p>
+            </div>
+          </div>
+
+          <p class="cards-demo-note">Demo: only the network and last four digits are stored.</p>
+
+          <div class="cards-add-actions">
+            <button class="btn btn-gold" type="submit">Save card</button>
+            <button class="btn btn-quiet" type="button" id="add-cancel">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <!-- Remove confirmation dialog -->
+  <div class="confirm-dialog-overlay" id="confirm-overlay" hidden>
+    <div class="confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-body">
+      <h2 id="confirm-title">Remove this card?</h2>
+      <p id="confirm-body"><!-- js: card summary + promotion note --></p>
+      <div class="confirm-dialog-actions">
+        <button class="btn btn-quiet" type="button" id="confirm-cancel">Keep card</button>
+        <button class="btn btn-danger" type="button" id="confirm-remove">Remove card</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>window.OE_PAGE = { active: null };</script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/validators.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

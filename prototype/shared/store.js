@@ -135,10 +135,15 @@
       seedOrder("OE-2026-00201", 35, "delivered", [line(P.aventureGold, 1)], { shipping: 0 })
     ]);
     write(KEYS.addresses, [ADDR_NY, ADDR_TX]);
-    var y = new Date().getFullYear();
+    var now = new Date();
+    var y = now.getFullYear();
+    // mc expires at the end of NEXT month so the "expires soon" (<=60 days)
+    // state is actually exercised by the saved-cards page
+    var soonMonth = ((now.getMonth() + 1) % 12) + 1;
+    var soonYear = y + (now.getMonth() === 11 ? 1 : 0);
     write(KEYS.cards, [
       { id: "card_visa", network: "visa", last4: "4242", expMonth: 12, expYear: y + 1, isDefault: true },
-      { id: "card_mc", network: "mastercard", last4: "4444", expMonth: (new Date().getMonth() + 2) % 12 + 1, expYear: y + (new Date().getMonth() + 2 > 11 ? 1 : 0), isDefault: false }
+      { id: "card_mc", network: "mastercard", last4: "4444", expMonth: soonMonth, expYear: soonYear, isDefault: false }
     ]);
     if (read(KEYS.cart, null) === null) write(KEYS.cart, []);
     if (read(KEYS.wishlist, null) === null) write(KEYS.wishlist, []);

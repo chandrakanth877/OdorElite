@@ -1,0 +1,143 @@
+/* ============================================================
+   OdorElite forgot / reset password page. Tokens + chrome come
+   from home, shared components from shared.css; only page rules
+   live here.
+   ============================================================ */
+
+@import url("../home/styles.css");
+@import url("../shared/shared.css");
+
+.fp-main {
+  max-width: 480px;
+  margin: 0 auto;
+  padding-bottom: 90px;
+}
+
+.fp-main .card-panel { margin-top: 20px; }
+
+.fp-main .btn {
+  width: 100%;
+  min-height: 44px;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+/* ---------- neutral sent state ---------- */
+
+.fp-sent-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--oe-primary);
+}
+.fp-sent-msg {
+  font-size: 14px;
+  color: var(--oe-gray-600);
+  margin-top: 8px;
+  line-height: 1.55;
+}
+.fp-sent-note {
+  font-size: 13px;
+  color: var(--oe-gray-500);
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+/* ---------- demo affordance (always labeled) ---------- */
+
+.fp-demo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--oe-gray-200);
+  font-size: 13.5px;
+}
+.fp-demo-badge {
+  flex: none;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--oe-gray-600);
+  background: var(--oe-gray-100);
+  border: 1px solid var(--oe-gray-300);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.fp-demo a {
+  font-weight: 600;
+  color: var(--oe-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---------- expired panel ---------- */
+
+.fp-expired {
+  text-align: center;
+  padding: 12px 0 4px;
+}
+.fp-expired-mark {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: var(--oe-gold);
+  transform: rotate(45deg);
+  margin-bottom: 14px;
+}
+.fp-expired h1 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--oe-primary);
+}
+.fp-expired p {
+  font-size: 14px;
+  color: var(--oe-gray-600);
+  margin: 10px auto 18px;
+  max-width: 380px;
+  line-height: 1.55;
+}
+
+/* ---------- strength hints ---------- */
+
+.fp-hints {
+  font-size: 12.5px;
+  color: var(--oe-gray-500);
+  line-height: 1.5;
+}
+.fp-hints.is-ok { color: var(--oe-success); }
+
+/* ---------- button spinner ---------- */
+
+.btn-spin {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  vertical-align: -2px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: fp-spin 0.7s linear infinite;
+}
+@keyframes fp-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .btn-spin { animation: none; opacity: 0.6; }
+}
+
+/* ---------- footer links under panel ---------- */
+
+.fp-links {
+  margin-top: 18px;
+  font-size: 13.5px;
+  color: var(--oe-gray-600);
+  text-align: center;
+}
+.fp-links a {
+  font-weight: 600;
+  color: var(--oe-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

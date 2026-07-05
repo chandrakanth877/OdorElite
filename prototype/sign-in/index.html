@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in | OdorElite</title>
+<meta name="description" content="Sign in to your OdorElite account to view orders, addresses, saved cards, and your wishlist.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+  <nav class="crumbs container" aria-label="Breadcrumb" id="crumbs">
+    <a href="../home/">Home</a>
+    <span class="crumb-sep" aria-hidden="true">/</span>
+    <span class="crumb-here" aria-current="page">Sign in</span>
+  </nav>
+
+  <div class="container signin-wrap">
+    <section class="signin-card card-panel" aria-labelledby="signin-title">
+      <div class="page-head signin-head">
+        <h1 class="page-title" id="signin-title">Sign in</h1>
+        <p class="page-sub">Welcome back. Sign in to see your orders and wishlist.</p>
+      </div>
+
+      <div class="demo-note">
+        <p><strong>Demo:</strong> any email and password signs you in.</p>
+        <button class="btn btn-quiet demo-fill" type="button" id="demo-fill">Use demo account</button>
+      </div>
+
+      <form id="signin-form" novalidate>
+        <div class="field">
+          <label for="si-email">Email address</label>
+          <input id="si-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+          <p class="field-error" id="si-email-error" aria-live="polite" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="si-password">Password</label>
+          <div class="pw-wrap">
+            <input id="si-password" name="password" type="password" autocomplete="current-password" required>
+            <button class="pw-toggle" type="button" id="pw-toggle" aria-pressed="false" aria-label="Show password">Show</button>
+          </div>
+          <p class="field-error" id="si-password-error" aria-live="polite" hidden></p>
+        </div>
+
+        <button class="btn btn-gold signin-submit" type="submit" id="signin-submit">Sign in</button>
+      </form>
+
+      <div class="signin-links">
+        <a id="link-forgot" href="../forgot-password/">Forgot password?</a>
+        <p>New here? <a id="link-create" href="../create-account/">Create account</a></p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>window.OE_PAGE = { active: null };</script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/validators.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

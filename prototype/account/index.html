@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account | OdorElite</title>
+<meta name="description" content="Your OdorElite account: recent orders, addresses, saved cards and wishlist.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+  <!-- Breadcrumbs -->
+  <nav class="crumbs container" aria-label="Breadcrumb">
+    <a href="../home/">Home</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <span aria-current="page">Account</span>
+  </nav>
+
+  <div class="acct-layout container" id="acct-layout">
+    <!-- account nav (OEUI.accountShell) is injected here by app.js -->
+    <div class="acct-content" id="acct-content">
+
+      <h1 class="acct-hi" id="acct-hi"><!-- js: Hi {firstName} --></h1>
+
+      <!-- Welcome banner (first visit after signup only) -->
+      <div class="welcome-banner" id="welcome-banner" hidden role="status">
+        <p>Welcome to OdorElite. <a href="../addresses/">Add your first address</a> to speed up checkout.</p>
+        <button class="welcome-dismiss" id="welcome-dismiss" aria-label="Dismiss welcome message">&times;</button>
+      </div>
+
+      <!-- Recent orders -->
+      <section class="acct-section" aria-labelledby="recent-title">
+        <div class="acct-section-head">
+          <h2 id="recent-title">Recent orders</h2>
+          <a class="acct-see-all" href="../orders/">View all orders</a>
+        </div>
+        <div class="omini-list" id="recent-orders" aria-live="polite"><!-- js: order cards --></div>
+      </section>
+
+      <!-- Quick links -->
+      <section class="acct-section" aria-labelledby="quick-title">
+        <h2 class="visually-hidden-title" id="quick-title" hidden>Quick links</h2>
+        <div class="quick-grid" id="quick-grid"><!-- js: quick link tiles --></div>
+      </section>
+
+      <!-- Profile -->
+      <section class="acct-section" aria-labelledby="profile-title">
+        <div class="acct-section-head">
+          <h2 id="profile-title">Profile</h2>
+        </div>
+        <div class="card-panel profile-card">
+          <div class="profile-row">
+            <div>
+              <p class="profile-name" id="prof-name"><!-- js: name --></p>
+              <p class="profile-email" id="prof-email"><!-- js: email --></p>
+            </div>
+            <button class="btn btn-quiet" id="pw-open" type="button">Change password</button>
+          </div>
+          <label class="profile-marketing" for="marketing-toggle">
+            <input type="checkbox" id="marketing-toggle">
+            <span>Email me about new arrivals and offers</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Wishlist preview -->
+      <section class="acct-section" id="wlp-section" hidden aria-labelledby="wlp-title">
+        <div class="acct-section-head">
+          <h2 id="wlp-title">From your wishlist</h2>
+          <a class="acct-see-all" href="../wishlist/">View wishlist</a>
+        </div>
+        <div class="wlp-grid" id="wlp-grid"><!-- js: product cards --></div>
+      </section>
+
+      <p class="danger-line">To delete your account, <a href="mailto:demo@odorelite.example">contact support</a>.</p>
+    </div>
+  </div>
+
+  <!-- Change password modal -->
+  <div class="confirm-dialog-overlay" id="pw-overlay" hidden>
+    <div class="confirm-dialog" id="pw-dialog" role="dialog" aria-modal="true" aria-labelledby="pw-title">
+      <h2 id="pw-title">Change password</h2>
+      <p>Pick something at least 10 characters long. Other sessions will be signed out.</p>
+      <form id="pw-form" novalidate>
+        <div class="field">
+          <label for="pw-current">Current password</label>
+          <input type="password" id="pw-current" autocomplete="current-password" required>
+        </div>
+        <div class="field">
+          <label for="pw-new">New password</label>
+          <input type="password" id="pw-new" autocomplete="new-password" required>
+          <div class="strength" id="pw-strength" data-score="0" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <p class="field-hint" id="pw-hints" aria-live="polite"></p>
+          <p class="field-error" id="pw-error" hidden aria-live="polite"></p>
+        </div>
+        <div class="confirm-dialog-actions">
+          <button class="btn btn-quiet" type="button" id="pw-cancel">Cancel</button>
+          <button class="btn btn-gold" type="submit">Update password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script>window.OE_PAGE = { active: null };</script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/validators.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

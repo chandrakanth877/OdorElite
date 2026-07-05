@@ -1,0 +1,195 @@
+/* ============================================================
+   OdorElite account overview: imports all tokens + chrome CSS
+   from home and the shared component CSS. Only overview-page
+   rules live here.
+   ============================================================ */
+
+@import url("../home/styles.css");
+@import url("../shared/shared.css");
+
+/* ---------- content column ---------- */
+
+.acct-content { min-width: 0; padding-bottom: 64px; }
+
+.acct-hi {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--oe-primary);
+}
+
+.acct-section { margin-top: 30px; }
+.acct-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.acct-section-head h2 {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--oe-primary);
+}
+.acct-see-all { font-size: 13.5px; font-weight: 600; color: var(--oe-accent-text); }
+.acct-see-all:hover { color: var(--oe-primary); }
+
+/* ---------- welcome banner ---------- */
+
+.welcome-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 18px;
+  border-radius: var(--r-card);
+  border: 1px solid rgba(201, 169, 110, 0.45);
+  background: rgba(201, 169, 110, 0.14);
+  padding: 14px 18px;
+}
+.welcome-banner p { font-size: 14px; color: var(--oe-gray-800); line-height: 1.5; }
+.welcome-banner a { font-weight: 600; color: var(--oe-gold-text); text-decoration: underline; }
+.welcome-banner a:hover { color: var(--oe-primary); }
+.welcome-dismiss {
+  flex: none;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--oe-gray-500);
+  padding: 6px 10px;
+}
+.welcome-dismiss:hover { color: var(--oe-primary); }
+
+/* ---------- recent order cards ---------- */
+
+.omini-list { display: flex; flex-direction: column; gap: 12px; }
+.omini { padding: 18px 20px; }
+.omini-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.omini-id { font-family: var(--font-mono); font-size: 14px; font-weight: 600; color: var(--oe-primary); }
+.omini-date { font-size: 12.5px; color: var(--oe-gray-500); margin-top: 2px; }
+.omini-thumbs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+.omini-thumb {
+  width: 52px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  background: var(--oe-gray-50);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.omini-thumb img, .omini-thumb .img-fallback {
+  width: 44px;
+  height: 52px;
+  object-fit: contain;
+  font-size: 18px;
+}
+.omini-more { font-size: 12.5px; font-weight: 600; color: var(--oe-gray-500); }
+.omini-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--oe-gray-100);
+}
+.omini-total { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--oe-primary); }
+.omini-actions { display: inline-flex; gap: 8px; }
+.omini-btn { padding: 9px 18px; font-size: 13.5px; }
+
+.omini-empty { text-align: center; padding: 32px 20px; }
+.omini-empty p { font-size: 14px; color: var(--oe-gray-500); margin-bottom: 14px; }
+
+/* ---------- quick links ---------- */
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.quick-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px;
+  transition: box-shadow var(--t-color), transform var(--t-color);
+}
+.quick-tile:hover { box-shadow: var(--shadow-card-hover, var(--shadow-card)); transform: translateY(-2px); }
+.quick-count { font-family: var(--font-mono); font-size: 24px; font-weight: 600; color: var(--oe-primary); }
+.quick-label { font-size: 13px; font-weight: 600; color: var(--oe-gray-600); }
+
+@media (prefers-reduced-motion: reduce) {
+  .quick-tile, .quick-tile:hover { transform: none; transition: none; }
+}
+
+/* ---------- profile card ---------- */
+
+.profile-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.profile-name { font-size: 16px; font-weight: 600; color: var(--oe-primary); }
+.profile-email { font-size: 13.5px; color: var(--oe-gray-600); margin-top: 2px; }
+.profile-marketing {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--oe-gray-100);
+  font-size: 13.5px;
+  color: var(--oe-gray-700);
+  cursor: pointer;
+}
+.profile-marketing input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--oe-gold-dark, var(--oe-gold));
+  cursor: pointer;
+}
+
+/* ---------- wishlist preview ---------- */
+
+.wlp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.wlp-grid .pcard { width: auto; }
+
+/* ---------- danger line ---------- */
+
+.danger-line {
+  margin-top: 40px;
+  font-size: 13px;
+  color: var(--oe-gray-500);
+}
+.danger-line a { font-weight: 600; color: var(--oe-error); text-decoration: underline; }
+.danger-line a:hover { color: #A93226; }
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1100px) {
+  .wlp-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .quick-grid { grid-template-columns: repeat(2, 1fr); }
+  .wlp-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .omini-foot { flex-wrap: wrap; }
+  .omini-actions { width: 100%; }
+  .omini-actions .btn { flex: 1; text-align: center; }
+}

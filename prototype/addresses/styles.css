@@ -1,0 +1,146 @@
+/* ============================================================
+   OdorElite address book page (spec §8.17, TRD 18).
+   Tokens + chrome come from ../home/styles.css, shared kit from
+   ../shared/shared.css. Only address-book rules live here.
+   ============================================================ */
+
+@import url("../home/styles.css");
+@import url("../shared/shared.css");
+
+/* ---------- page head ---------- */
+
+.addr-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.addr-head-actions { text-align: right; }
+.addr-head-actions .btn[disabled] {
+  background: var(--oe-gray-200);
+  color: var(--oe-gray-500);
+  cursor: default;
+  box-shadow: none;
+}
+.addr-full-note {
+  margin-top: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--oe-gray-600);
+}
+
+/* ---------- address cards grid ---------- */
+
+.addr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 22px;
+}
+@media (max-width: 720px) {
+  .addr-grid { grid-template-columns: 1fr; }
+}
+
+.addr-card {
+  background: #fff;
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-card);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+}
+.addr-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--oe-primary);
+}
+.addr-card-lines {
+  margin-top: 8px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--oe-gray-700);
+}
+.addr-card-phone {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--oe-gray-600);
+}
+
+.addr-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+  min-height: 22px;
+}
+.addr-badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 3px 11px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(201, 169, 110, 0.16);
+  color: var(--oe-gold-text);
+}
+
+.addr-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--oe-gray-100);
+}
+.addr-action {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--oe-accent-text);
+  padding: 6px 0;
+  transition: color var(--t-color);
+}
+.addr-action:hover { color: var(--oe-primary); }
+.addr-action.addr-action-danger { color: var(--oe-error); }
+.addr-action.addr-action-danger:hover { color: #A93226; }
+
+/* ---------- empty state ---------- */
+
+.addr-empty {
+  margin-top: 22px;
+  text-align: center;
+  padding: 56px 24px;
+}
+.addr-empty-mark {
+  display: block;
+  width: 14px;
+  height: 14px;
+  background: var(--oe-gold);
+  transform: rotate(45deg);
+  margin: 0 auto 20px;
+}
+.addr-empty h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--oe-primary);
+  letter-spacing: -0.01em;
+}
+.addr-empty p {
+  font-size: 14px;
+  color: var(--oe-gray-500);
+  margin: 10px auto 20px;
+  max-width: 420px;
+}
+
+/* ---------- add/edit modal (wider than the base confirm dialog) ---------- */
+
+.addr-modal {
+  max-width: 560px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+.addr-modal h2 { margin-bottom: 16px; }
+.addr-modal .confirm-dialog-actions { margin-top: 6px; }
