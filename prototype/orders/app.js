@@ -22,6 +22,7 @@
     { key: "all", label: "All", statuses: null },
     { key: "progress", label: "In progress", statuses: ["processing", "shipped", "out_for_delivery"] },
     { key: "delivered", label: "Delivered", statuses: ["delivered"] },
+    { key: "returns", label: "Returns", statuses: null, hasReturns: true },
     { key: "canceled", label: "Canceled", statuses: ["canceled", "refunded"] }
   ];
 
@@ -32,6 +33,7 @@
   }
 
   function matches(order, f) {
+    if (f.hasReturns) return !!(order.returns && order.returns.length);
     return !f.statuses || f.statuses.indexOf(order.status) !== -1;
   }
 
@@ -165,6 +167,28 @@
         "</section>";
     }
 
+    var returnsHtml = "";
+    if (order.returns && order.returns.length) {
+      returnsHtml =
+        '<section class="card-panel od-panel"><h2>Returns</h2>' +
+          order.returns.map(function (ret) {
+            return (
+              '<div class="od-return' + (ret.status === "canceled" ? " od-return-canceled" : "") + '">' +
+                '<div class="od-return-head">' +
+                  '<a href="../returns/?order=' + encodeURIComponent(order.id) + "&rma=" + encodeURIComponent(ret.id) + '">' + esc(ret.id) + "</a>" +
+                  '<span class="od-return-date">Started ' + esc(fmtFull(ret.createdAt)) + "</span>" +
+                  OEUI.returnChip(ret) +
+                "</div>" +
+                (ret.refundNote ? '<p class="tl-refund">' + esc(ret.refundNote) + "</p>" : "") +
+                (ret.status === "started"
+                  ? '<button type="button" class="btn btn-quiet btn-cancel-return" data-cancel-return="' + esc(ret.id) + '">Cancel return</button>'
+                  : "") +
+              "</div>"
+            );
+          }).join("") +
+        "</section>";
+    }
+
     var totalsHtml =
       '<section class="card-panel od-totals"><h2>Order total</h2>' +
         "<div><span>Subtotal</span><span>" + money(order.subtotal) + "</span></div>" +
@@ -197,16 +221,17 @@
       actions.push('<button type="button" class="btn btn-danger" id="od-cancel">Cancel order</button>');
     }
     if (delivered) {
-      if (returnOpen) {
-        actions.push(
-          '<a class="btn btn-quiet" href="mailto:demo@odorelite.example?subject=' +
-            encodeURIComponent("Return request " + order.id) + '">Start return</a>'
-        );
-      } else {
+      var anyReturnable = order.lines.some(function (l) {
+        return OEStore.orders.returnableQty(order, l.id) > 0;
+      });
+      if (returnOpen && anyReturnable) {
+        actions.push('<a class="btn btn-quiet" href="../returns/?order=' + encodeURIComponent(order.id) + '">Start return</a>');
+      } else if (!returnOpen) {
         actions.push(
           '<button type="button" class="btn btn-quiet" disabled title="Return window closed (30 days)" aria-label="Return window closed (30 days)">Start return</button>'
         );
       }
+      // window open but nothing left to return: no button at all
     }
 
     main.innerHTML =
@@ -218,6 +243,7 @@
       "</div>" +
       '<section class="card-panel od-panel" aria-label="Order progress">' + OEUI.orderTimeline(order) + "</section>" +
       trackingHtml +
+      returnsHtml +
       '<section class="card-panel od-panel"><h2>Items</h2>' +
         order.lines.map(function (l, i) { return lineRow(l, i, delivered); }).join("") +
       "</section>" +
@@ -310,6 +336,20 @@
       toast("Added " + count + (count === 1 ? " item" : " items") + " to your cart. Prices may have changed.");
       return;
     }
+    var cr = e.target.closest("[data-cancel-return]");
+    if (cr) {
+      var rmaId = cr.dataset.cancelReturn;
+      openConfirm({
+        title: "Cancel this return?",
+        body: "Return " + rmaId + " has not been dropped off yet. Canceling keeps the items and voids the label.",
+        keepLabel: "Keep return",
+        confirmLabel: "Cancel return",
+        onConfirm: function () {
+          if (OEStore.returns.cancel(orderId, rmaId)) toast("Return canceled");
+        }
+      });
+      return;
+    }
     if (e.target.closest("#od-cancel")) {
       var ord = OEStore.orders.byId(orderId);
       if (!ord || ord.status !== "processing") return;
@@ -337,5 +377,6 @@
     if (e.detail && e.detail.key === OEStore.KEYS.orders) render();
   });
 
+  OEShip.reconcileAll(); // fires any due shipment events; emits oe:state on change
   render();
 })();

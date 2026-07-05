@@ -140,3 +140,12 @@
 .od-actions .btn[disabled] { background: var(--oe-gray-100); color: var(--oe-gray-500); cursor: not-allowed; }
 .od-actions .btn[disabled]:hover { box-shadow: none; }
 .od-actions .btn[disabled]:active { transform: none; }
+
+/* returns section (detail view) */
+.od-return { padding: 12px 0; border-bottom: 1px solid var(--oe-gray-200); }
+.od-return:last-child { border-bottom: 0; }
+.od-return-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+.od-return-head a { font-weight: 700; }
+.od-return-date { font-size: 13px; color: var(--oe-gray-500); }
+.od-return-canceled { opacity: 0.65; }
+.btn-cancel-return { margin-top: 8px; }
