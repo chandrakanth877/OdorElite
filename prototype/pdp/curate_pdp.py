@@ -120,6 +120,27 @@ def main():
                 break
         return picks
 
+    # brandMore: up to 8 other bottles from the same house (in-stock first,
+    # biggest markdown first). Small houses fall back to top-discount picks
+    # so the rail never renders thin; the JS retitles it in that case.
+    by_brand = {}
+    for r in listing:
+        by_brand.setdefault(r["brand"], []).append(r)
+
+    top_deals = sorted(
+        (r for r in listing if r["avail"]),
+        key=lambda r: (-r["discount"], r["id"]))[:40]
+
+    def brand_more_for(r):
+        pool = [c for c in by_brand.get(r["brand"], []) if c["id"] != r["id"]]
+        pool.sort(key=lambda c: (not c["avail"], -c["discount"], c["id"]))
+        picks = [card(c) for c in pool[:8]]
+        if len(picks) >= 3:
+            return {"title": "brand", "items": picks}
+        fill = [card(c) for c in top_deals
+                if c["id"] != r["id"] and c["brand"] != r["brand"]][:8]
+        return {"title": "deals", "items": fill}
+
     buckets = [{} for _ in range(BUCKETS)]
     no_gallery = 0
     for r in listing:
@@ -143,6 +164,7 @@ def main():
             "launchYear": e.get("launch_year") if isinstance(e.get("launch_year"), int) else None,
             "occasions": clean_list(e.get("best_occasion"))[:3],
             "similar": similar_for(r),
+            "brandMore": brand_more_for(r),
         })
         buckets[bucket_of(r["id"])][str(r["id"])] = rec
 

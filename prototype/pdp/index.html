@@ -38,9 +38,25 @@
       <section class="pdp-buy" id="buy-box" aria-label="Purchase options">
         <a class="bb-brand" id="bb-brand" href="../brands/"></a>
         <h1 class="bb-name" id="bb-name"></h1>
+        <div class="bb-rating" id="bb-rating"><!-- js: stars + review link --></div>
         <p class="bb-meta" id="bb-meta"></p>
         <p class="bb-priceline" id="bb-priceline"></p>
+        <p class="bb-unit" id="bb-unit" hidden></p>
         <p class="bb-avail" id="bb-avail"></p>
+
+        <div class="bb-fulfill" id="bb-fulfill" role="radiogroup" aria-label="How to get it" hidden>
+          <div class="bb-opt bb-opt-active" role="radio" aria-checked="true" tabindex="0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8Z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span class="bb-opt-title">Shipping</span>
+            <span class="bb-opt-sub" id="bb-ship-eta"></span>
+            <span class="bb-opt-note">Free over $50</span>
+          </div>
+          <div class="bb-opt bb-opt-off" role="radio" aria-checked="false" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <span class="bb-opt-title">Pickup</span>
+            <span class="bb-opt-sub">Not available in prototype</span>
+          </div>
+        </div>
 
         <div class="bb-actions">
           <span class="bb-qty qty-step" id="bb-qty">
@@ -61,6 +77,12 @@
           <li>Free US shipping over $50</li>
           <li>30-day unopened returns</li>
         </ul>
+
+        <div class="bb-seller">
+          <p><span>Sold and shipped by</span><strong>OdorElite</strong></p>
+          <p><span>Returns</span><a href="../content/?page=returns">Free 30-day returns on unopened bottles</a></p>
+          <p><span>Support</span><a href="../content/?page=shipping">Shipping &amp; delivery details</a></p>
+        </div>
       </section>
     </div>
 
@@ -74,6 +96,17 @@
       </div>
       <div class="pyramid" id="pyramid"><!-- js: tiers --></div>
       <div class="accords" id="accords" hidden><!-- js: accord chips --></div>
+    </section>
+
+    <!-- At a glance -->
+    <section class="section" id="glance-section" aria-labelledby="glance-title" hidden>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">The details</p>
+          <h2 class="section-title" id="glance-title">At a glance</h2>
+        </div>
+      </div>
+      <dl class="glance card-panel" id="glance"><!-- js: spec rows --></dl>
     </section>
 
     <!-- Accordion -->
@@ -90,7 +123,8 @@
         </div>
         <span class="demo-badge">Sample reviews &middot; demo content</span>
       </div>
-      <div class="reviews-grid" id="reviews"><!-- js: 3 deterministic sample reviews --></div>
+      <div class="rev-summary card-panel" id="rev-summary"><!-- js: rating number + histogram --></div>
+      <div class="reviews-grid" id="reviews"><!-- js: deterministic sample reviews --></div>
     </section>
 
     <!-- You may also like -->
@@ -105,6 +139,21 @@
         <button class="rail-arrow rail-prev" data-rail="similar-rail" data-dir="-1" aria-label="Scroll similar products left">&#8249;</button>
         <div class="rail" id="similar-rail"><!-- js: product cards --></div>
         <button class="rail-arrow rail-next" data-rail="similar-rail" data-dir="1" aria-label="Scroll similar products right">&#8250;</button>
+      </div>
+    </section>
+
+    <!-- More from the brand -->
+    <section class="section" id="brand-section" aria-labelledby="brand-title" hidden>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">From the house</p>
+          <h2 class="section-title" id="brand-title">More from this brand</h2>
+        </div>
+      </div>
+      <div class="rail-wrap">
+        <button class="rail-arrow rail-prev" data-rail="brand-rail" data-dir="-1" aria-label="Scroll brand products left">&#8249;</button>
+        <div class="rail" id="brand-rail"><!-- js: product cards --></div>
+        <button class="rail-arrow rail-next" data-rail="brand-rail" data-dir="1" aria-label="Scroll brand products right">&#8250;</button>
       </div>
     </section>
   </article>

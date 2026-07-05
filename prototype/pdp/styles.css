@@ -525,3 +525,139 @@
   .section-head { flex-wrap: wrap; }
   .bb-wish { flex: 1; }
 }
+
+/* ---------- buy box: rating, unit price, fulfillment, seller ---------- */
+
+.bb-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 2px;
+}
+.bb-rating .oe-stars-track > svg,
+.bb-rating .oe-stars-fill > svg { width: 15px; height: 15px; flex-basis: 15px; }
+.bb-rating-link {
+  font-size: 13px;
+  color: var(--oe-accent-text);
+  text-decoration: underline;
+}
+.bb-unit {
+  font-family: var(--font-mono, "Geist Mono", monospace);
+  font-size: 12.5px;
+  color: var(--oe-gray-500);
+  margin: -6px 0 4px;
+}
+.bb-fulfill {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 14px 0 4px;
+}
+.bb-opt {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  grid-template-rows: auto auto auto;
+  column-gap: 10px;
+  align-items: start;
+  border: 1.5px solid var(--oe-gray-200);
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: #fff;
+}
+.bb-opt svg { width: 20px; height: 20px; grid-row: 1 / -1; color: var(--oe-gray-600); margin-top: 2px; }
+.bb-opt-title { font-size: 13.5px; font-weight: 600; color: var(--oe-primary); }
+.bb-opt-sub { grid-column: 2; font-size: 12.5px; color: var(--oe-gray-600); }
+.bb-opt-note { grid-column: 2; font-size: 12px; color: var(--oe-success); font-weight: 600; }
+.bb-opt-active { border-color: var(--oe-gold-dark); box-shadow: 0 0 0 1px var(--oe-gold-dark) inset; }
+.bb-opt-active .bb-opt-sub { color: var(--oe-gray-700); font-weight: 500; }
+.bb-opt-off { opacity: 0.6; background: var(--oe-gray-50); }
+.bb-opt-off svg { color: var(--oe-gray-400); }
+.bb-seller {
+  border-top: 1px solid var(--oe-gray-100);
+  margin-top: 14px;
+  padding-top: 12px;
+  display: grid;
+  gap: 6px;
+}
+.bb-seller p {
+  display: flex;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--oe-gray-600);
+}
+.bb-seller p span { color: var(--oe-gray-500); min-width: 118px; }
+.bb-seller strong { color: var(--oe-primary); font-weight: 600; }
+.bb-seller a { color: var(--oe-accent-text); text-decoration: underline; }
+
+/* ---------- at a glance ---------- */
+
+.glance {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  padding: 6px 22px;
+}
+.glance > div {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--oe-gray-100);
+}
+.glance > div:nth-last-child(-n+2) { border-bottom: none; }
+.glance > div:nth-child(odd) { margin-right: 26px; }
+.glance dt {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--oe-gray-500);
+}
+.glance dd { font-size: 13.5px; color: var(--oe-gray-800); }
+@media (max-width: 760px) {
+  .glance { grid-template-columns: 1fr; }
+  .glance > div:nth-child(odd) { margin-right: 0; }
+  .glance > div:nth-last-child(-n+2) { border-bottom: 1px solid var(--oe-gray-100); }
+  .glance > div:last-child { border-bottom: none; }
+}
+
+/* ---------- review summary / histogram ---------- */
+
+.rev-summary {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 30px;
+  align-items: center;
+  padding: 22px 26px;
+  margin-bottom: 18px;
+}
+.rev-score { display: grid; justify-items: start; gap: 6px; }
+.rev-score-num {
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--oe-primary);
+  font-family: var(--font-mono, "Geist Mono", monospace);
+}
+.rev-score .oe-stars-track > svg,
+.rev-score .oe-stars-fill > svg { width: 16px; height: 16px; flex-basis: 16px; }
+.rev-score-count { font-size: 13px; color: var(--oe-gray-500); }
+.rev-bars { display: grid; gap: 7px; }
+.rev-bar-row {
+  display: grid;
+  grid-template-columns: 52px 1fr 52px;
+  gap: 12px;
+  align-items: center;
+}
+.rev-bar-label { font-size: 12.5px; color: var(--oe-gray-600); white-space: nowrap; }
+.rev-bar-track {
+  height: 9px;
+  background: var(--oe-gray-100);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.rev-bar-fill { display: block; height: 100%; background: var(--oe-gold-dark); border-radius: 99px; }
+.rev-bar-count { font-size: 12px; color: var(--oe-gray-500); text-align: right; }
+@media (max-width: 640px) {
+  .rev-summary { grid-template-columns: 1fr; gap: 18px; }
+}
+.review-stars { margin-bottom: 8px; }

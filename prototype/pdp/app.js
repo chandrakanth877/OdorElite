@@ -60,9 +60,11 @@
     renderGallery(rec, alt);
     renderBuyBox(rec);
     renderNotes(rec);
+    renderGlance(rec);
     renderAccordion(rec);
     renderReviews(rec);
     renderSimilar(rec);
+    renderBrandRail(rec);
     setupStickyBar(rec, alt);
 
     el("pdp").hidden = false;
@@ -127,7 +129,14 @@
     brandLink.href = "../brand/?name=" + encodeURIComponent(rec.brand);
     el("bb-name").textContent = rec.name;
 
+    /* demo rating row (disclosed in the footer) + jump link to reviews */
+    var dm = OEUI.demoMeta(rec);
+    el("bb-rating").innerHTML =
+      OEUI.starRow(dm) +
+      '<a class="bb-rating-link" href="#reviews-section">See reviews</a>';
+
     var meta = "";
+    if (dm.bestseller) meta += '<span class="pcard-flag flag-best">Best seller</span>';
     if (rec.conc && rec.conc !== "Other") meta += '<span class="bb-conc">' + esc(rec.conc) + "</span>";
     if (rec.size) meta += '<span class="bb-size">' + esc(rec.size) + "</span>";
     el("bb-meta").innerHTML = meta;
@@ -139,9 +148,21 @@
       (rec.compareAt ? '<s class="bb-was">' + money(rec.compareAt) + "</s>" : "") +
       (rec.avail && save > 0 ? '<span class="bb-save">Save ' + money(save) + "</span>" : "");
 
+    var unit = OEUI.unitPrice(rec);
+    if (unit) {
+      el("bb-unit").textContent = unit;
+      el("bb-unit").hidden = false;
+    }
+
     el("bb-avail").innerHTML = rec.avail
       ? '<span class="bb-dot bb-dot-in" aria-hidden="true"></span>In stock'
       : '<span class="bb-dot bb-dot-out" aria-hidden="true"></span>Out of stock';
+
+    /* fulfillment options: shipping (live, with demo ETA) vs pickup (off) */
+    if (rec.avail) {
+      el("bb-ship-eta").textContent = "Arrives by " + OEUI.arrivalDate(rec.id);
+      el("bb-fulfill").hidden = false;
+    }
 
     /* quantity stepper, 1 to MAX_QTY */
     var qty = 1;
@@ -225,6 +246,26 @@
     el("notes-section").hidden = false;
   }
 
+  /* ---------- at a glance ---------- */
+
+  function renderGlance(rec) {
+    var rows = [];
+    function row(label, value) {
+      if (value) rows.push("<div><dt>" + esc(label) + "</dt><dd>" + esc(String(value)) + "</dd></div>");
+    }
+    row("Fragrance family", rec.fam && rec.fam !== "Other" ? rec.fam : "");
+    row("Concentration", rec.conc && rec.conc !== "Other" ? rec.conc : "");
+    row("Size", rec.size);
+    row("Gender", rec.cat);
+    row("Launched", rec.launchYear);
+    row("Perfumer", rec.perfumer);
+    row("Best for", rec.occasions && rec.occasions.length ? rec.occasions.join(", ") : "");
+    row("Top notes", rec.topNotes && rec.topNotes.length ? rec.topNotes.slice(0, 4).join(", ") : "");
+    if (rows.length < 3) return;
+    el("glance").innerHTML = rows.join("");
+    el("glance-section").hidden = false;
+  }
+
   /* ---------- accordion ---------- */
 
   function renderAccordion(rec) {
@@ -232,15 +273,8 @@
     if (rec.desc) items.push(["desc", "Description", "<p>" + esc(rec.desc) + "</p>"]);
     if (rec.scentJourney) items.push(["journey", "Scent journey", "<p>" + esc(rec.scentJourney) + "</p>"]);
     if (rec.brandStory) items.push(["story", "Brand story", "<p>" + esc(rec.brandStory) + "</p>"]);
-
-    var wear = "";
-    if (rec.usage) wear += "<p>" + esc(rec.usage) + "</p>";
-    var metaRows = "";
-    if (rec.perfumer) metaRows += "<dt>Perfumer</dt><dd>" + esc(rec.perfumer) + "</dd>";
-    if (rec.launchYear) metaRows += "<dt>Launched</dt><dd>" + esc(rec.launchYear) + "</dd>";
-    if (rec.occasions && rec.occasions.length) metaRows += "<dt>Occasions</dt><dd>" + esc(rec.occasions.join(", ")) + "</dd>";
-    if (metaRows) wear += '<dl class="acc-meta">' + metaRows + "</dl>";
-    if (wear) items.push(["wear", "How to wear", wear]);
+    /* perfumer/launched/occasions now live in the At a glance table */
+    if (rec.usage) items.push(["wear", "How to wear", "<p>" + esc(rec.usage) + "</p>"]);
 
     if (!items.length) return;
 
@@ -271,16 +305,43 @@
 
   /* ---------- demo reviews ---------- */
 
+  function renderRevSummary(rec) {
+    var dm = OEUI.demoMeta(rec);
+    var h = Number(rawId) % 7;
+    /* skewed 5..1 star distribution with a little per-product jitter */
+    var weights = [58 + h, 24, 9, 5, 4 - Math.min(3, h)];
+    var sum = weights.reduce(function (a, b) { return a + b; }, 0);
+    var bars = weights.map(function (w, i) {
+      var pct = Math.round((w / sum) * 100);
+      var n = Math.round(dm.count * w / sum);
+      return (
+        '<div class="rev-bar-row">' +
+          '<span class="rev-bar-label">' + (5 - i) + " star" + (i === 4 ? "" : "s") + "</span>" +
+          '<span class="rev-bar-track" aria-hidden="true"><span class="rev-bar-fill" style="width:' + pct + '%"></span></span>' +
+          '<span class="rev-bar-count">' + n.toLocaleString("en-US") + "</span>" +
+        "</div>"
+      );
+    }).join("");
+    el("rev-summary").innerHTML =
+      '<div class="rev-score">' +
+        '<strong class="rev-score-num">' + dm.rating.toFixed(1) + "</strong>" +
+        OEUI.starRow(dm, { noCount: true }) +
+        '<span class="rev-score-count">' + dm.count.toLocaleString("en-US") + " reviews</span>" +
+      "</div>" +
+      '<div class="rev-bars" aria-label="Rating distribution">' + bars + "</div>";
+  }
+
   function renderReviews(rec) {
+    renderRevSummary(rec);
     var start = Number(rawId) % REVIEWS.length;
-    var picks = [
-      REVIEWS[start],
-      REVIEWS[(start + 1) % REVIEWS.length],
-      REVIEWS[(start + 2) % REVIEWS.length]
-    ];
-    el("reviews").innerHTML = picks.map(function (r) {
+    var picks = [];
+    for (var i = 0; i < 6; i++) picks.push(REVIEWS[(start + i) % REVIEWS.length]);
+    el("reviews").innerHTML = picks.map(function (r, i) {
+      /* deterministic per-review stars, 4s and 5s */
+      var stars = 4 + ((Number(rawId) + i) % 3 === 0 ? 0 : 1);
       return (
         '<article class="review">' +
+          '<div class="review-stars">' + OEUI.starRow({ rating: stars, count: 0 }, { noCount: true }) + "</div>" +
           "<h3>" + esc(r.title) + "</h3>" +
           "<p>" + esc(r.body) + "</p>" +
           '<span class="review-name">' + esc(r.name) + "</span>" +
@@ -317,6 +378,21 @@
       window.addEventListener("resize", update);
       update();
     });
+  }
+
+  /* ---------- more from this brand ---------- */
+
+  function renderBrandRail(rec) {
+    var bm = rec.brandMore;
+    if (!bm || !bm.items || bm.items.length < 3) return;
+    el("brand-title").textContent = bm.title === "brand"
+      ? "More from " + rec.brand
+      : "More deals to explore";
+    el("brand-rail").innerHTML = bm.items.map(function (p) {
+      return OEUI.productCard(p);
+    }).join("");
+    el("brand-section").hidden = false;
+    OEUI.wireRailArrows(el("brand-section").querySelector(".rail-wrap"));
   }
 
   /* ---------- mobile sticky ATC bar ---------- */
