@@ -1,0 +1,74 @@
+/* ============================================================
+   OdorElite demo shipping label. Tokens + minimal chrome come
+   from home, shared components from shared.css; only page rules
+   live here. Printable: @media print keeps only the label card.
+   ============================================================ */
+
+@import url("../home/styles.css");
+@import url("../shared/shared.css");
+
+.label-page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+.label-actions { display: flex; justify-content: space-between; margin-bottom: 16px; }
+
+.label-card {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  border: 2px solid var(--oe-gray-900);
+  aspect-ratio: 2 / 3; /* 4x6 proportion */
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.label-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 2px solid var(--oe-gray-900); padding-bottom: 10px;
+}
+.label-carrier { font-size: 26px; font-weight: 800; letter-spacing: 0.02em; }
+.label-service { font-size: 13px; font-weight: 700; text-transform: uppercase; }
+
+.label-addrs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.label-addr h3 { font-size: 11px; letter-spacing: 0.08em; margin: 0 0 4px; color: var(--oe-gray-500); }
+.label-addr p { font-size: 13px; line-height: 1.45; margin: 0; }
+
+.label-barcode { display: flex; align-items: stretch; height: 74px; margin-top: auto; padding: 0 10px; }
+.label-barcode span { display: block; background: #000; }
+
+.label-qr {
+  display: grid; grid-template-columns: repeat(21, 1fr);
+  width: 168px; margin: auto auto 0;
+  border: 6px solid #fff; outline: 1px solid var(--oe-gray-300);
+}
+.label-qr i { aspect-ratio: 1; background: #fff; }
+.label-qr i.on { background: #000; }
+
+.label-tn {
+  text-align: center;
+  font-family: "Geist Mono", ui-monospace, Menlo, monospace;
+  font-size: 15px; letter-spacing: 0.12em; margin: 4px 0 0;
+}
+.label-rma { text-align: center; font-size: 13px; font-weight: 700; margin: 0; }
+
+.label-watermark {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; font-weight: 800;
+  color: rgba(192, 57, 43, 0.18);
+  transform: rotate(-24deg);
+  pointer-events: none;
+  text-align: center;
+}
+
+.label-note { text-align: center; font-size: 12.5px; color: var(--oe-gray-500); margin-top: 14px; }
+
+@media print {
+  #oe-top, #oe-bottom, .label-actions, .label-note { display: none !important; }
+  .label-page { padding: 0; max-width: none; }
+  .label-card { border-color: #000; width: 4in; margin: 0 auto; }
+}
