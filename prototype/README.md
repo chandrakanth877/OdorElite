@@ -24,11 +24,11 @@ Every page is reachable from the header, footer, and product cards.
 | Page | URL | Notes |
 |---|---|---|
 | Home | `home/` | Marketing home: hero carousel, deal rails, category tiles |
-| List (PLP) | `list/` | Working filters/sort over all ~4,900 fragrances |
+| List (PLP) | `list/` | Working filters/sort over all ~4,900 fragrances, URL pagination |
 | Product | `pdp/?id=` | Disk-verified gallery, note pyramid, similar rail |
-| Search | `search/?q=` | Weighted matching, synonyms, did-you-mean |
+| Search | `search/?q=` | Weighted matching, synonyms, did-you-mean, URL pagination |
 | Brands index | `brands/` | A-Z with letter jump bar |
-| Brand | `brand/?name=` | Brand hero + scoped grid |
+| Brand | `brand/?name=` | Brand hero + scoped grid, URL pagination |
 | Content | `content/?page=` | 4 policies + 3 guides |
 | Wishlist | `wishlist/` | Move to cart, remove, empty state |
 | Cart | `cart/` | Qty/undo/move-to-wishlist, free-ship meter, `WELCOME10` |
