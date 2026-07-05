@@ -257,20 +257,31 @@
     );
   }
 
+  function pageHref(n) {
+    var p = new URLSearchParams();
+    if (state.q) p.set("q", state.q);
+    if (n > 1) p.set("page", n);
+    var qs = p.toString();
+    return qs ? "?" + qs : "./";
+  }
+
   function renderGrid() {
     var total = state.results.length;
-    var shown = Math.min(state.page * PAGE_SIZE, total);
-    el("grid").innerHTML = state.results.slice(0, shown).map(function (p) {
+    var pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if (state.page > pages) state.page = pages;
+    if (state.page < 1) state.page = 1;
+    var start = (state.page - 1) * PAGE_SIZE;
+    var end = Math.min(state.page * PAGE_SIZE, total);
+    el("grid").innerHTML = state.results.slice(start, end).map(function (p) {
       return OEUI.productCard(p);
     }).join("");
     el("result-count").innerHTML =
-      "Showing <strong>" + shown + "</strong> of <strong>" + total.toLocaleString() + "</strong> " +
+      "Showing <strong>" + (total ? (start + 1) + "-" + end : 0) + "</strong> of <strong>" + total.toLocaleString() + "</strong> " +
       (total === 1 ? "fragrance" : "fragrances");
-    var remaining = total - shown;
-    var lm = el("load-more");
-    lm.hidden = remaining <= 0;
-    if (remaining > 0) {
-      lm.textContent = "Load " + Math.min(PAGE_SIZE, remaining) + " more (" + remaining.toLocaleString() + " left)";
+    el("pager").innerHTML = OEUI.pager({ page: state.page, pages: pages, href: pageHref });
+    if (state.q) {
+      var q = pageHref(state.page);
+      OEUI.pagerHead(state.q + " - Search", state.page, q === "./" ? "" : q);
     }
   }
 
@@ -327,17 +338,18 @@
 
   /* ---------- search runner ---------- */
 
-  function runSearch(raw) {
+  function runSearch(raw, page) {
     var q = String(raw == null ? "" : raw).replace(/\s+/g, " ").replace(/^\s+|\s+$/g, "");
     state.q = q;
-    state.page = 1;
+    state.page = page > 1 ? page : 1;
     state.rewritten = "";
     state.banner = null;
 
     var input = el("search-input");
     if (input && input.value !== q && document.activeElement !== input) input.value = q;
 
-    history.replaceState(null, "", q ? "?q=" + encodeURIComponent(q) : location.pathname);
+    history.replaceState(null, "", q ? pageHref(state.page) : location.pathname);
+    // baseline title; renderGrid overrides with the page-aware one when results render
     document.title = q ? q + " - Search | OdorElite" : "Search | OdorElite";
 
     if (!q) {
@@ -390,9 +402,21 @@
     }
   });
 
-  el("load-more").addEventListener("click", function () {
-    state.page += 1;
+  el("pager").addEventListener("click", function (e) {
+    var a = e.target.closest("[data-page]");
+    if (!a) return;
+    e.preventDefault();
+    state.page = parseInt(a.dataset.page, 10);
     renderGrid();
+    history.pushState(null, "", pageHref(state.page));
+    var top = el("grid").getBoundingClientRect().top + window.pageYOffset - 90;
+    window.scrollTo({ top: Math.max(0, top), behavior: OEUI.reducedMotion ? "auto" : "smooth" });
+  });
+
+  window.addEventListener("popstate", function () {
+    var p = new URLSearchParams(location.search);
+    var pg = parseInt(p.get("page"), 10);
+    runSearch(p.get("q") || "", !isNaN(pg) && pg > 1 ? pg : 1);
   });
 
   var debounceTimer = null;
@@ -414,10 +438,12 @@
 
   /* ---------- boot ---------- */
 
-  var initialQ = new URLSearchParams(location.search).get("q") || "";
+  var bootParams = new URLSearchParams(location.search);
+  var initialQ = bootParams.get("q") || "";
+  var bootPage = parseInt(bootParams.get("page"), 10);
   if (headerInput) {
     headerInput.value = initialQ.replace(/\s+/g, " ").replace(/^\s+|\s+$/g, "");
     if (!headerInput.value) headerInput.focus();
   }
-  runSearch(initialQ);
+  runSearch(initialQ, !isNaN(bootPage) && bootPage > 1 ? bootPage : 1);
 })();
