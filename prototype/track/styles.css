@@ -154,3 +154,9 @@
 }
 .track-expired h1 { font-size: 22px; font-weight: 600; color: var(--oe-primary); letter-spacing: -0.01em; }
 .track-expired p { font-size: 14px; color: var(--oe-gray-500); margin-top: 8px; }
+
+/* returns cards */
+.ret-card { margin-bottom: 14px; }
+.ret-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+.ret-card-id { font-weight: 700; color: var(--oe-gray-800); }
+.ret-card-canceled { opacity: 0.65; }
