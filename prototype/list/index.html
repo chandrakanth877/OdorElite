@@ -56,52 +56,75 @@
       </div>
 
       <div class="fgroup">
-        <h3 class="fgroup-title">Category</h3>
-        <div class="cat-pills" id="f-category"><!-- js --></div>
-      </div>
-
-      <div class="fgroup">
-        <h3 class="fgroup-title">Brand</h3>
-        <input class="brand-search" id="f-brand-search" type="search" placeholder="Search brands" aria-label="Search brands">
-        <div class="check-list" id="f-brand"><!-- js --></div>
-      </div>
-
-      <div class="fgroup">
-        <h3 class="fgroup-title">Fragrance family</h3>
-        <div class="check-list" id="f-family"><!-- js --></div>
-      </div>
-
-      <div class="fgroup">
-        <h3 class="fgroup-title">Concentration</h3>
-        <div class="check-list" id="f-conc"><!-- js --></div>
-      </div>
-
-      <div class="fgroup">
-        <h3 class="fgroup-title">Price</h3>
-        <div class="price-inputs">
-          <input class="price-input" id="f-min" type="number" min="0" placeholder="Min" aria-label="Minimum price">
-          <span class="price-dash" aria-hidden="true">to</span>
-          <input class="price-input" id="f-max" type="number" min="0" placeholder="Max" aria-label="Maximum price">
-        </div>
-        <div class="price-bands" id="f-bands">
-          <button data-min="" data-max="25">Under $25</button>
-          <button data-min="25" data-max="50">$25 to $50</button>
-          <button data-min="50" data-max="100">$50 to $100</button>
-          <button data-min="100" data-max="">$100+</button>
+        <button type="button" class="fgroup-toggle" aria-expanded="true">Category<span class="fgroup-chev" aria-hidden="true"></span></button>
+        <div class="fgroup-body">
+          <div class="cat-pills" id="f-category"><!-- js --></div>
         </div>
       </div>
 
       <div class="fgroup">
-        <h3 class="fgroup-title">Discount</h3>
-        <div class="check-list" id="f-disc">
-          <label class="check-row"><input type="radio" name="disc" value="0" checked><span class="check-label">Any</span></label>
-          <label class="check-row"><input type="radio" name="disc" value="50"><span class="check-label">50% off or more</span></label>
-          <label class="check-row"><input type="radio" name="disc" value="70"><span class="check-label">70% off or more</span></label>
+        <button type="button" class="fgroup-toggle" aria-expanded="true">Brand<span class="fgroup-chev" aria-hidden="true"></span></button>
+        <div class="fgroup-body">
+          <input class="brand-search" id="f-brand-search" type="search" placeholder="Search brands" aria-label="Search brands">
+          <div class="check-list" id="f-brand"><!-- js --></div>
         </div>
       </div>
 
       <div class="fgroup">
-        <label class="check-row stock-row"><input type="checkbox" id="f-stock"><span class="check-label">In stock only</span><span class="check-count" id="stock-count"></span></label>
+        <button type="button" class="fgroup-toggle" aria-expanded="true">Price<span class="fgroup-chev" aria-hidden="true"></span></button>
+        <div class="fgroup-body">
+          <div class="price-inputs">
+            <input class="price-input" id="f-min" type="number" min="0" placeholder="Min" aria-label="Minimum price">
+            <span class="price-dash" aria-hidden="true">to</span>
+            <input class="price-input" id="f-max" type="number" min="0" placeholder="Max" aria-label="Maximum price">
+          </div>
+          <div class="price-bands" id="f-bands">
+            <button data-min="" data-max="25">Under $25</button>
+            <button data-min="25" data-max="50">$25 to $50</button>
+            <button data-min="50" data-max="100">$50 to $100</button>
+            <button data-min="100" data-max="">$100+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <button type="button" class="fgroup-toggle" aria-expanded="true">Customer rating<span class="fgroup-chev" aria-hidden="true"></span></button>
+        <div class="fgroup-body">
+          <div class="check-list" id="f-rating"><!-- js --></div>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <button type="button" class="fgroup-toggle" aria-expanded="true">Availability &amp; deals<span class="fgroup-chev" aria-hidden="true"></span></button>
+        <div class="fgroup-body">
+          <div class="check-list" id="f-disc">
+            <label class="check-row"><input type="radio" name="disc" value="0" checked><span class="check-label">Any price</span></label>
+            <label class="check-row"><input type="radio" name="disc" value="50"><span class="check-label">50% off or more</span></label>
+            <label class="check-row"><input type="radio" name="disc" value="70"><span class="check-label">70% off or more</span></label>
+          </div>
+          <label class="check-row stock-row"><input type="checkbox" id="f-stock"><span class="check-label">In stock only</span><span class="check-count" id="stock-count"></span></label>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <button type="button" class="fgroup-toggle" aria-expanded="true">Fragrance family<span class="fgroup-chev" aria-hidden="true"></span></button>
+        <div class="fgroup-body">
+          <div class="check-list" id="f-family"><!-- js --></div>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <button type="button" class="fgroup-toggle" aria-expanded="true">Concentration<span class="fgroup-chev" aria-hidden="true"></span></button>
+        <div class="fgroup-body">
+          <div class="check-list" id="f-conc"><!-- js --></div>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <button type="button" class="fgroup-toggle" aria-expanded="true">Bottle size<span class="fgroup-chev" aria-hidden="true"></span></button>
+        <div class="fgroup-body">
+          <div class="check-list" id="f-size"><!-- js --></div>
+        </div>
       </div>
     </aside>
 
@@ -123,14 +146,28 @@
               <option value="price-asc">Price: low to high</option>
               <option value="price-desc">Price: high to low</option>
               <option value="discount">Biggest discount</option>
+              <option value="rating">Customer rating</option>
             </select>
           </label>
         </div>
       </div>
 
+      <div class="related-chips" id="related" aria-label="Related searches"><!-- js --></div>
+
       <div class="chips" id="chips" hidden><!-- js --></div>
 
       <div class="plp-grid" id="grid"><!-- js --></div>
+
+      <template id="grid-promo">
+        <a class="grid-promo" href="./?disc=50">
+          <div class="grid-promo-copy">
+            <p class="grid-promo-eyebrow">Today only</p>
+            <h2>Members ship free over $50</h2>
+            <p class="grid-promo-sub">Shop today's 50%+ markdowns before they sell through.</p>
+          </div>
+          <span class="grid-promo-cta">Shop today's deals</span>
+        </a>
+      </template>
 
       <div class="load-wrap">
         <button class="load-more" id="load-more" hidden>Load 24 more</button>
@@ -144,6 +181,16 @@
       </div>
     </section>
   </div>
+
+  <!-- SEO / marketing copy -->
+  <section class="plp-seo container" aria-labelledby="seo-title">
+    <h2 id="seo-title">Why buy fragrances at OdorElite</h2>
+    <div class="plp-seo-cols">
+      <p>Every bottle in our catalog is sourced directly from authorized distributors and verified before it ships, so the Armaf, Lattafa, or Creed you order is exactly what arrives. With 4,800+ fragrances across 346 brands, we carry everything from $4 travel sprays to collector-grade extraits, most at 50 to 89 percent below the department-store tag.</p>
+      <p>Not sure where to start? Filter by fragrance family to match scents you already love: floral and amber for warmth, woody and aromatic for depth, citrus for bright everyday wear. Eau de parfum (EDP) concentrations last 6 to 8 hours on skin, while eau de toilette (EDT) wears lighter and closer. Our fragrance guides cover layering, seasonality, and how to make any bottle last longer.</p>
+      <p>Orders over $50 ship free across the US, everything is insured in transit, and unopened bottles return free within 30 days. If a scent misses, you are covered. That is why thousands of collectors restock with us every month.</p>
+    </div>
+  </section>
 
   <!-- Bottom marketing: promo banner pair -->
   <section class="promo-duo container" aria-label="Collections">

@@ -445,3 +445,64 @@
 .btn-danger:hover { background: #A93226; }
 .btn-quiet { border: 1px solid var(--oe-gray-300); color: var(--oe-gray-700); }
 .btn-quiet:hover { border-color: var(--oe-gray-500); }
+
+/* ============ demo merchandising: stars, flags, unit price, shipping ============
+   Ratings/counts/dates are demo data (disclosed in the global footer). */
+.oe-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1;
+}
+.oe-stars-track {
+  position: relative;
+  display: inline-flex;
+  white-space: nowrap;
+}
+.oe-stars-track > svg,
+.oe-stars-fill > svg {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 13px;
+}
+.oe-stars-track > svg { fill: var(--oe-gray-300); }
+.oe-stars-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  display: inline-flex;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.oe-stars-fill > svg { fill: var(--oe-gold-dark); }
+.oe-stars-count {
+  font-size: 12px;
+  color: var(--oe-gray-500);
+}
+.pcard-stars { margin: 2px 0 4px; }
+.pcard-flag {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin: 0 0 4px;
+}
+.pcard-flag.flag-best { background: var(--oe-primary); color: var(--oe-gold-light); }
+.pcard-flag.flag-pop { background: var(--oe-gray-100); color: var(--oe-gray-700); border: 1px solid var(--oe-gray-200); }
+.pcard-unit {
+  font-size: 12px;
+  color: var(--oe-gray-500);
+  font-weight: 400;
+}
+.pcard-ship {
+  font-size: 12px;
+  color: var(--oe-gray-700);
+  margin: 2px 0 8px;
+}
+.pcard-ship .ship-free {
+  color: var(--oe-success);
+  font-weight: 600;
+}

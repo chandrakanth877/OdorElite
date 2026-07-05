@@ -19,16 +19,36 @@
   var CAT_SLUGS = { women: "Women", men: "Men", unisex: "Unisex", kids: "Kids", "gift-sets": "Gift Sets", niche: "Niche" };
   var FAMILIES = ["Floral", "Amber & Oriental", "Woody", "Aromatic", "Citrus", "Chypre", "Leather", "Other"];
   var CONCS = ["EDP", "EDT", "Parfum", "Extrait", "EDC", "Other"];
-  var SORTS = ["featured", "newest", "price-asc", "price-desc", "discount"];
+  var SORTS = ["featured", "newest", "price-asc", "price-desc", "discount", "rating"];
+  var SIZE_BUCKETS = [
+    ["under-1", "Under 1 oz"],
+    ["1-2", "1 to 2 oz"],
+    ["2-3.4", "2 to 3.4 oz"],
+    ["3.4-plus", "3.4 oz and up"]
+  ];
+  var SIZE_LABELS = {};
+  SIZE_BUCKETS.forEach(function (b) { SIZE_LABELS[b[0]] = b[1]; });
+  var RATINGS = [[0, "Any rating"], [4, "4 stars and up"], [4.5, "4.5 stars and up"]];
+
+  function sizeBucket(size) {
+    var oz = parseFloat(size);
+    if (!oz || String(size).toLowerCase().indexOf("oz") === -1) return null;
+    if (oz < 1) return "under-1";
+    if (oz < 2) return "1-2";
+    if (oz < 3.4) return "2-3.4";
+    return "3.4-plus";
+  }
 
   var state = {
     cat: "All",          // "All", a category, or "Niche"
     brands: new Set(),
     fams: new Set(),
     concs: new Set(),
+    sizes: new Set(),
     min: null,
     max: null,
     disc: 0,
+    rating: 0,
     stock: false,
     sort: "featured",
     page: 1,
@@ -52,6 +72,11 @@
     var d = parseInt(p.get("disc"), 10);
     if (d === 50 || d === 70) state.disc = d;
     if (p.get("stock") === "1") state.stock = true;
+    var rate = parseFloat(p.get("rate"));
+    if (rate === 4 || rate === 4.5) state.rating = rate;
+    (p.get("size") || "").split(",").filter(Boolean).forEach(function (s) {
+      if (SIZE_LABELS[s]) state.sizes.add(s);
+    });
     var s = p.get("sort");
     if (SORTS.indexOf(s) !== -1) state.sort = s;
   }
@@ -66,6 +91,8 @@
     if (state.min != null) p.set("min", state.min);
     if (state.max != null) p.set("max", state.max);
     if (state.disc) p.set("disc", state.disc);
+    if (state.rating) p.set("rate", state.rating);
+    if (state.sizes.size) p.set("size", Array.from(state.sizes).join(","));
     if (state.stock) p.set("stock", "1");
     if (state.sort !== "featured") p.set("sort", state.sort);
     var qs = p.toString();
@@ -87,6 +114,8 @@
       if (state.max != null && r.price > state.max) return false;
     }
     if (skip !== "disc" && state.disc && r.discount < state.disc) return false;
+    if (skip !== "rating" && state.rating && OEUI.demoMeta(r).rating < state.rating) return false;
+    if (skip !== "size" && state.sizes.size && !state.sizes.has(sizeBucket(r.size))) return false;
     if (skip !== "stock" && state.stock && !r.avail) return false;
     return true;
   }
@@ -104,7 +133,11 @@
     newest: function (a, b) { return (b.ts - a.ts) || (a.id - b.id); },
     "price-asc": function (a, b) { return (a.price - b.price) || (a.id - b.id); },
     "price-desc": function (a, b) { return (b.price - a.price) || (a.id - b.id); },
-    discount: function (a, b) { return (b.discount - a.discount) || (a.id - b.id); }
+    discount: function (a, b) { return (b.discount - a.discount) || (a.id - b.id); },
+    rating: function (a, b) {
+      var ma = OEUI.demoMeta(a), mb = OEUI.demoMeta(b);
+      return (mb.rating - ma.rating) || (mb.count - ma.count) || (a.id - b.id);
+    }
   };
 
   /* ---------- product card (shared) ---------- */
@@ -218,6 +251,30 @@
     }).join("");
   }
 
+  function renderRatingFacet() {
+    var pool = filtered("rating");
+    el("f-rating").innerHTML = RATINGS.map(function (opt) {
+      var n = opt[0] === 0 ? pool.length
+        : pool.filter(function (r) { return OEUI.demoMeta(r).rating >= opt[0]; }).length;
+      return (
+        '<label class="check-row">' +
+          '<input type="radio" name="rate" value="' + opt[0] + '"' + (state.rating === opt[0] ? " checked" : "") + ">" +
+          '<span class="check-label">' +
+            (opt[0] ? OEUI.starRow({ rating: opt[0], count: 0 }, { noCount: true }) + " " : "") + esc(opt[1]) +
+          "</span>" +
+          '<span class="check-count">' + n + "</span>" +
+        "</label>"
+      );
+    }).join("");
+  }
+
+  function renderSizeList() {
+    var counts = countBy(filtered("size"), function (r) { return sizeBucket(r.size); });
+    el("f-size").innerHTML = SIZE_BUCKETS.map(function (b) {
+      return checkRow("size", b[0], b[1], counts.get(b[0]) || 0, state.sizes.has(b[0]));
+    }).join("");
+  }
+
   function renderStockCount() {
     var n = 0;
     filtered("stock").forEach(function (r) { if (r.avail) n++; });
@@ -249,6 +306,8 @@
     state.brands.forEach(function (b) { chip(b, "brand", b); });
     state.fams.forEach(function (f) { chip(f, "fam", f); });
     state.concs.forEach(function (c) { chip(c, "conc", c); });
+    state.sizes.forEach(function (s) { chip(SIZE_LABELS[s], "size", s); });
+    if (state.rating) chip(state.rating + " stars and up", "rating", "");
     if (state.min != null || state.max != null) {
       chip((state.min != null ? "$" + state.min : "$0") + (state.max != null ? " to $" + state.max : " and up"), "price", "");
     }
@@ -273,7 +332,13 @@
     currentResults = filtered(null).sort(SORT_FNS[state.sort]);
     var shown = Math.min(state.page * PAGE_SIZE, currentResults.length);
 
-    el("grid").innerHTML = currentResults.slice(0, shown).map(productCard).join("");
+    var cards = currentResults.slice(0, shown).map(productCard);
+    // Walmart-style interleaved promo row after the 8th card
+    if (currentResults.length > 12 && shown >= 8 && state.disc < 50) {
+      var tpl = el("grid-promo");
+      if (tpl) cards.splice(8, 0, tpl.innerHTML);
+    }
+    el("grid").innerHTML = cards.join("");
     el("result-count").innerHTML = currentResults.length
       ? "Showing <strong>" + shown + "</strong> of <strong>" + currentResults.length.toLocaleString() + "</strong> fragrances"
       : "No results";
@@ -287,6 +352,27 @@
     el("grid").hidden = currentResults.length === 0;
   }
 
+  /* ---------- related searches ---------- */
+
+  var RELATED = {
+    "All":       [["vanilla perfume", "../search/?q=vanilla"], ["oud", "../search/?q=oud"], ["gifts under $50", "./?max=50&stock=1"], ["best sellers", "./?sort=rating"], ["70% off", "./?disc=70"]],
+    "Women":     [["floral perfume", "./?category=women&fam=Floral"], ["vanilla", "../search/?q=vanilla"], ["date night scents", "../search/?q=amber"], ["under $25", "./?category=women&max=25"]],
+    "Men":       [["woody cologne", "./?category=men&fam=Woody"], ["office scents", "./?category=men&fam=Aromatic"], ["oud for men", "../search/?q=oud"], ["under $25", "./?category=men&max=25"]],
+    "Unisex":    [["citrus", "./?category=unisex&fam=Citrus"], ["musk", "../search/?q=musk"], ["niche picks", "./?category=niche"]],
+    "Niche":     [["Parfums de Marly", "../brand/?name=Parfums%20de%20Marly"], ["extrait de parfum", "./?category=niche&conc=Extrait"], ["rose oud", "../search/?q=rose%20oud"]],
+    "Kids":      [["gift sets", "./?category=gift-sets"], ["under $25", "./?category=kids&max=25"]],
+    "Gift Sets": [["gifts under $50", "./?category=gift-sets&max=50"], ["for her", "./?category=women"], ["for him", "./?category=men"]]
+  };
+
+  function renderRelated() {
+    var items = RELATED[state.cat] || RELATED["All"];
+    el("related").innerHTML =
+      '<span class="related-label">Related:</span>' +
+      items.map(function (it) {
+        return '<a class="related-chip" href="' + it[1] + '">' + esc(it[0]) + "</a>";
+      }).join("");
+  }
+
   /* ---------- master update ---------- */
 
   function update(resetPage) {
@@ -295,18 +381,21 @@
     renderBrandList();
     renderFamilyList();
     renderConcList();
+    renderRatingFacet();
+    renderSizeList();
     renderStockCount();
     renderPriceControls();
     el("sort-select").value = state.sort;
     renderChips();
+    renderRelated();
     renderGrid();
     renderHero();
     writeURL();
   }
 
   function clearAll() {
-    state.brands.clear(); state.fams.clear(); state.concs.clear();
-    state.min = null; state.max = null; state.disc = 0; state.stock = false;
+    state.brands.clear(); state.fams.clear(); state.concs.clear(); state.sizes.clear();
+    state.min = null; state.max = null; state.disc = 0; state.rating = 0; state.stock = false;
     update();
   }
 
@@ -331,10 +420,21 @@
       if (f === "brand") state.brands.delete(v);
       else if (f === "fam") state.fams.delete(v);
       else if (f === "conc") state.concs.delete(v);
+      else if (f === "size") state.sizes.delete(v);
       else if (f === "price") { state.min = null; state.max = null; }
       else if (f === "disc") state.disc = 0;
+      else if (f === "rating") state.rating = 0;
       else if (f === "stock") state.stock = false;
       update(); return;
+    }
+
+    var ftoggle = e.target.closest(".fgroup-toggle");
+    if (ftoggle) {
+      var expanded = ftoggle.getAttribute("aria-expanded") === "true";
+      ftoggle.setAttribute("aria-expanded", expanded ? "false" : "true");
+      var body = ftoggle.parentElement.querySelector(".fgroup-body");
+      if (body) body.hidden = expanded;
+      return;
     }
 
     if (e.target.closest("#chips-clear") || e.target.closest("#empty-clear")) { clearAll(); return; }
@@ -344,11 +444,12 @@
   document.addEventListener("change", function (e) {
     var input = e.target;
     if (input.matches('[data-facet]')) {
-      var set = { brand: state.brands, fam: state.fams, conc: state.concs }[input.dataset.facet];
+      var set = { brand: state.brands, fam: state.fams, conc: state.concs, size: state.sizes }[input.dataset.facet];
       if (input.checked) set.add(input.value); else set.delete(input.value);
       update(); return;
     }
-    if (input.matches('#f-disc input')) { state.disc = Number(input.value); update(); return; }
+    if (input.matches('#f-disc input[name="disc"]')) { state.disc = Number(input.value); update(); return; }
+    if (input.matches('#f-rating input')) { state.rating = Number(input.value); update(); return; }
     if (input.matches("#f-stock")) { state.stock = input.checked; update(); return; }
     if (input.matches("#sort-select")) { state.sort = input.value; update(); return; }
   });

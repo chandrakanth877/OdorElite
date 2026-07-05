@@ -56,6 +56,72 @@
   var HEART_SVG =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>';
 
+  /* ---------------- demo merchandising ----------------
+     Ratings, review counts, badges and delivery dates are DEMO DATA,
+     derived deterministically from the product id (disclosed once in the
+     global footer). Same hash family as pdpBucket so values are stable
+     across pages and sessions. */
+
+  function hash31(str) {
+    var s = String(str), h = 0;
+    for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 1000003;
+    return h;
+  }
+
+  var metaCache = {};
+
+  function demoMeta(p) {
+    if (!p || p.id === undefined) return null;
+    var hit = metaCache[p.id];
+    if (hit) return hit;
+    var h = hash31(p.id);
+    var rating = (380 + (h % 111)) / 100; // 3.80 - 4.90
+    var count = 15 + Math.floor(Math.pow(((h >> 3) % 997) / 997, 2.6) * 2385);
+    var bestseller = (p.discount || 0) >= 40 && count >= 700;
+    var meta = {
+      rating: rating,
+      count: count,
+      bestseller: bestseller,
+      popular: !bestseller && rating >= 4.6 && count >= 250
+    };
+    metaCache[p.id] = meta;
+    return meta;
+  }
+
+  var STAR_PATH = '<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>';
+  function starStrip(cls) {
+    var one = '<svg viewBox="0 0 24 24" aria-hidden="true"' + (cls ? ' class="' + cls + '"' : "") + ">" + STAR_PATH + "</svg>";
+    return one + one + one + one + one;
+  }
+
+  function starRow(meta, opts) {
+    if (!meta) return "";
+    opts = opts || {};
+    var pct = Math.round((meta.rating / 5) * 100);
+    var label = "Rated " + meta.rating.toFixed(1) + " out of 5, " + meta.count + " reviews";
+    return (
+      '<span class="oe-stars" role="img" aria-label="' + esc(label) + '">' +
+        '<span class="oe-stars-track" aria-hidden="true">' + starStrip() +
+          '<span class="oe-stars-fill" style="width:' + pct + '%">' + starStrip() + "</span>" +
+        "</span>" +
+        (opts.noCount ? "" : '<span class="oe-stars-count" aria-hidden="true">(' + meta.count.toLocaleString("en-US") + ")</span>") +
+      "</span>"
+    );
+  }
+
+  function unitPrice(p) {
+    if (!p || !p.size) return "";
+    var oz = parseFloat(p.size);
+    if (!oz || oz <= 0 || String(p.size).toLowerCase().indexOf("oz") === -1) return "";
+    return money(p.price / oz) + "/oz";
+  }
+
+  function arrivalDate(id) {
+    var d = new Date();
+    d.setDate(d.getDate() + 3 + (hash31(id) % 3));
+    return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  }
+
   /* ---------------- product card ---------------- */
 
   // Accepts listing-record shape (conc/avail) or curated-home shape (concentration).
@@ -71,6 +137,13 @@
     var oos = p.avail !== undefined && !p.avail;
     var href = (opts.pdpBase || "../pdp/") + "?id=" + p.id;
     var saved = window.OEStore && OEStore.wishlist.has(p.id);
+    var meta = demoMeta(p);
+    var unit = unitPrice(p);
+    var flag = "";
+    if (!oos && meta) {
+      if (meta.bestseller) flag = '<span class="pcard-flag flag-best">Best seller</span>';
+      else if (meta.popular) flag = '<span class="pcard-flag flag-pop">Popular pick</span>';
+    }
     return (
       '<article class="pcard">' +
         '<div class="pcard-media">' +
@@ -82,7 +155,9 @@
         "</div>" +
         '<div class="pcard-body">' +
           '<p class="pcard-brand">' + esc(p.brand) + "</p>" +
+          flag +
           '<p class="pcard-name"><a class="pcard-link" href="' + href + '">' + esc(p.name) + "</a></p>" +
+          (meta ? '<div class="pcard-stars">' + starRow(meta) + "</div>" : "") +
           '<p class="pcard-meta">' +
             (conc && conc !== "Other" ? '<span class="pcard-conc">' + esc(conc) + "</span>" : "") +
             (p.size ? '<span class="pcard-size">' + esc(p.size) + "</span>" : "") +
@@ -90,8 +165,12 @@
           '<p class="pcard-priceline">' +
             '<span class="pcard-price' + (oos ? " oos" : "") + '">' + money(p.price) + "</span>" +
             (p.compareAt ? '<span class="pcard-was">' + money(p.compareAt) + "</span>" : "") +
+            (unit ? '<span class="pcard-unit">' + unit + "</span>" : "") +
           "</p>" +
           (!oos && save > 0 ? '<p class="pcard-save">Save ' + money(save) + "</p>" : "") +
+          (!oos ? '<p class="pcard-ship">' + (p.price >= 50
+                    ? '<span class="ship-free">Free shipping</span>'
+                    : "Arrives by " + arrivalDate(p.id)) + "</p>" : "") +
           (oos ? '<button class="pcard-notify" data-notify="' + esc(alt) + '">Notify me</button>'
                : '<button class="pcard-atc" data-atc="' + p.id + '">Add to cart</button>') +
         "</div>" +
@@ -467,6 +546,10 @@
 
   window.OEUI = {
     pdpBucket: pdpBucket,
+    demoMeta: demoMeta,
+    starRow: starRow,
+    unitPrice: unitPrice,
+    arrivalDate: arrivalDate,
     wireRailArrows: wireRailArrows,
     productCard: productCard,
     registerProduct: function (p) { cardRegistry[p.id] = p; },

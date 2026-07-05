@@ -98,7 +98,7 @@
       return (
         '<footer class="footer footer-minimal">' +
           '<div class="container footer-legal">' +
-            "<p>&copy; 2026 OdorElite. All rights reserved. Prototype, not a live store.</p>" +
+            "<p>&copy; 2026 OdorElite. All rights reserved. Prototype, not a live store. Ratings, review counts and delivery dates are demo data.</p>" +
             '<div class="footer-pay" aria-label="Accepted payment methods"><span>Visa</span><span>Mastercard</span><span>Amex</span><span>PayPal</span></div>' +
           "</div>" +
         "</footer>"
@@ -135,7 +135,7 @@
         "</div>" +
         '<div class="footer-divider" aria-hidden="true"></div>' +
         '<div class="container footer-legal">' +
-          "<p>&copy; 2026 OdorElite. All rights reserved. Prototype, not a live store.</p>" +
+          "<p>&copy; 2026 OdorElite. All rights reserved. Prototype, not a live store. Ratings, review counts and delivery dates are demo data.</p>" +
           '<div class="footer-pay" aria-label="Accepted payment methods"><span>Visa</span><span>Mastercard</span><span>Amex</span><span>PayPal</span></div>' +
         "</div>" +
       "</footer>"
