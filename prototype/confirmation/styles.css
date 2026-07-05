@@ -190,3 +190,12 @@
   .conf-title { font-size: 26px; }
   .conf-hero { margin-top: 34px; }
 }
+
+/* shipping label card */
+.conf-ship { margin-top: 16px; }
+.conf-ship-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.conf-ship-head h2 { margin: 0; font-size: 17px; }
+.conf-ship-carrier { font-weight: 600; color: var(--oe-gray-800); margin: 0 0 2px; }
+.conf-ship-no { margin: 0 0 6px; font-size: 14px; }
+.conf-ship-eta { margin: 0 0 10px; font-size: 13.5px; color: var(--oe-gray-600); }
+.conf-ship-label { font-size: 13.5px; color: var(--oe-accent-text); text-decoration: underline; }

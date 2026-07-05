@@ -42,6 +42,7 @@
   function showConfirmed() {
     renderHero();
     renderSummary();
+    renderShipping();
     renderCta();
     renderClaim();
     renderRail();
@@ -60,6 +61,27 @@
 
   function renderSummary() {
     el("conf-summary").innerHTML = OEUI.orderSummaryCard(order);
+  }
+
+  function renderShipping() {
+    var sh = order.shipment;
+    if (!sh) return; // legacy orders: card stays hidden
+    var wrap = el("conf-shipping");
+    var trackHref = order.guest && order.guestToken
+      ? "../track/?token=" + encodeURIComponent(order.guestToken)
+      : "../track/?id=" + encodeURIComponent(order.id);
+    wrap.innerHTML =
+      '<div class="card-panel conf-ship">' +
+        '<div class="conf-ship-head">' +
+          "<h2>Shipping</h2>" +
+          '<span class="chip-status chip-info">Label created</span>' +
+        "</div>" +
+        '<p class="conf-ship-carrier">' + esc(sh.carrier) + " " + esc(sh.service) + "</p>" +
+        '<p class="conf-ship-no"><a href="' + esc(trackHref) + '">' + esc(sh.trackingNumber) + "</a></p>" +
+        (sh.eta ? '<p class="conf-ship-eta">Estimated delivery ' + esc(OEUI.fmtDate(sh.eta)) + "</p>" : "") +
+        '<a class="conf-ship-label" href="' + esc(sh.labelUrl) + '">View shipping label</a>' +
+      "</div>";
+    wrap.hidden = false;
   }
 
   function renderCta() {

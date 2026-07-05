@@ -434,6 +434,11 @@
       timeline: [{ status: "processing", at: placedAt }]
     };
     if (!auth) order.guestToken = OEStore.orders.newToken();
+    order.shipment = OEShip.buyLabel({
+      orderId: order.id,
+      speed: state.shipping,
+      dest: state.address ? state.address.city + ", " + state.address.state : "New York, NY"
+    });
     return order;
   }
 
