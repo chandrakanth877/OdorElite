@@ -322,7 +322,11 @@
     out_for_delivery: { label: "Out for delivery", cls: "chip-accent" },
     delivered: { label: "Delivered", cls: "chip-success" },
     canceled: { label: "Canceled", cls: "chip-gray" },
-    refunded: { label: "Refunded", cls: "chip-warning" }
+    refunded: { label: "Refunded", cls: "chip-warning" },
+    return_started: { label: "Return started", cls: "chip-info" },
+    return_in_transit: { label: "Return in transit", cls: "chip-accent" },
+    return_received: { label: "Return received", cls: "chip-info" },
+    refund_issued: { label: "Refunded", cls: "chip-success" }
   };
 
   function statusChip(status) {
@@ -375,6 +379,43 @@
         '<p class="track-no">' + esc(f.tracking) + "</p></div>" +
         '<a class="track-link" href="' + esc(f.url || "#") + '">Track with carrier</a>' +
       "</div>"
+    );
+  }
+
+  var RETURN_CHIP_KEY = {
+    started: "return_started",
+    in_transit: "return_in_transit",
+    received: "return_received",
+    refunded: "refund_issued",
+    canceled: "canceled"
+  };
+
+  function returnChip(ret) {
+    return statusChip(RETURN_CHIP_KEY[ret.status] || ret.status);
+  }
+
+  function returnTimeline(ret) {
+    var labels = {
+      started: "Return started",
+      in_transit: ret.method === "dropoff" ? "Dropped off" : "In transit",
+      received: "Return received",
+      refunded: "Refund issued",
+      canceled: "Return canceled"
+    };
+    var entries = (ret.timeline || []).slice().sort(function (a, b) { return a.at - b.at; });
+    return (
+      '<div class="ret-tl">' +
+        entries.map(function (t) {
+          return (
+            '<div class="ret-tl-step">' +
+              '<span class="tl-dot"></span>' +
+              '<span class="tl-label">' + esc(labels[t.status] || t.status) + "</span>" +
+              '<span class="tl-date">' + fmtDate(t.at) + "</span>" +
+            "</div>"
+          );
+        }).join("") +
+      "</div>" +
+      (ret.refundNote ? '<p class="tl-refund">' + esc(ret.refundNote) + "</p>" : "")
     );
   }
 
@@ -558,6 +599,8 @@
     statusChip: statusChip,
     orderTimeline: orderTimeline,
     trackingCard: trackingCard,
+    returnChip: returnChip,
+    returnTimeline: returnTimeline,
     orderSummaryCard: orderSummaryCard,
     claimAccountCard: claimAccountCard,
     accountShell: accountShell,
