@@ -15,6 +15,7 @@
   };
   var MAX_QTY = 10;
   var DAY = 86400000;
+  var MINUTE = 60000;
 
   function read(key, fallback) {
     try {
@@ -108,9 +109,22 @@
       fulfillments: [],
       timeline: timeline
     };
+    if (status !== "canceled" && window.OEShip) {
+      // schedule base positions the seed so its status holds (spec 4):
+      // processing = starts moving live; shipped = next event ~2 min out;
+      // delivered/out_for_delivery = full history already due
+      var base = status === "processing" ? Date.now()
+        : status === "shipped" ? Date.now() - 2 * MINUTE
+        : placed;
+      order.shipment = window.OEShip.buyLabel({
+        orderId: id, speed: opts.speed || "standard", dest: "New York, NY", now: base
+      });
+    }
     if (status !== "processing" && status !== "canceled") {
       timeline.push({ status: "shipped", at: placed + 1 * DAY });
-      order.fulfillments = [{ carrier: "UPS", tracking: opts.tracking || "1Z999AA10123456784", url: "#" }];
+      order.fulfillments = order.shipment
+        ? [{ carrier: order.shipment.carrier, tracking: order.shipment.trackingNumber, url: "../track/?id=" + id }]
+        : [{ carrier: "UPS", tracking: "1Z999AA10123456784", url: "#" }];
     }
     if (status === "out_for_delivery" || status === "delivered") {
       timeline.push({ status: "out_for_delivery", at: placed + 3 * DAY });
@@ -122,15 +136,37 @@
       timeline.push({ status: "canceled", at: placed + 0.2 * DAY });
       order.refundNote = "Refund of $" + t.total.toFixed(2) + " issued to Visa ••••4242. Allow 5-10 business days.";
     }
+    if (order.shipment && window.OEShip) window.OEShip.reconcile(order);
     return order;
   }
 
   function seed() {
-    if (read(KEYS.seeded, null) === "1") return;
+    if (read(KEYS.seeded, null) === "2") return;
+    var d297 = seedOrder("OE-2026-00297", 12, "delivered",
+      [line(P.oudEmerald, 1), line(P.femmeIndividuelle, 1), line(P.lamour, 1)], { shipping: 0 });
+    if (window.OEShip) {
+      var retAt = d297.placedAt + 5 * DAY;
+      var ret297 = {
+        id: "RMA-84213",
+        createdAt: retAt,
+        returnBy: d297.placedAt + 4 * DAY + 30 * DAY,
+        lines: [{ id: P.lamour.id, qty: 1 }],
+        reason: { key: "no_longer_needed", label: "No longer needed" },
+        comments: "",
+        method: "dropoff",
+        resolution: "refund",
+        refund: { amount: Math.round(P.lamour.price * 1.0825 * 100) / 100, network: "visa", last4: "4242", issuedAt: null },
+        shipment: window.OEShip.buyLabel({ orderId: "OE-2026-00297", isReturn: true, qrRequested: true, rmaId: "RMA-84213", now: retAt }),
+        status: "started",
+        timeline: [{ status: "started", at: retAt }]
+      };
+      d297.returns = [ret297];
+      window.OEShip.reconcile(d297); // fires scan + received -> refunded
+    }
     write(KEYS.orders, [
       seedOrder("OE-2026-00341", 2, "processing", [line(P.supremacyGold, 1), line(P.sunJava, 2)]),
-      seedOrder("OE-2026-00314", 6, "shipped", [line(P.gameOfSpades, 1)], { method: "Express (2 business days)", shipping: 14.95, tracking: "1Z999AA10198217643" }),
-      seedOrder("OE-2026-00297", 12, "delivered", [line(P.oudEmerald, 1), line(P.femmeIndividuelle, 1), line(P.lamour, 1)], { shipping: 0 }),
+      seedOrder("OE-2026-00314", 6, "shipped", [line(P.gameOfSpades, 1)], { method: "Express (2 business days)", shipping: 14.95, speed: "express" }),
+      d297,
       seedOrder("OE-2026-00268", 21, "canceled", [line(P.qatarKing, 1)]),
       seedOrder("OE-2026-00201", 35, "delivered", [line(P.aventureGold, 1)], { shipping: 0 })
     ]);
@@ -148,7 +184,7 @@
     if (read(KEYS.cart, null) === null) write(KEYS.cart, []);
     if (read(KEYS.wishlist, null) === null) write(KEYS.wishlist, []);
     if (read(KEYS.auth, undefined) === undefined) write(KEYS.auth, null);
-    write(KEYS.seeded, "1");
+    write(KEYS.seeded, "2");
   }
 
   /* ---------------- API ---------------- */
@@ -286,7 +322,41 @@
         return "OE-2026-" + String(max + 1).padStart(5, "0");
       },
       newToken: function () { return uid("t_"); },
-      newKey: function () { return uid("k_"); }
+      newKey: function () { return uid("k_"); },
+      returnableQty: function (order, lineId) {
+        var l = (order.lines || []).filter(function (x) { return x.id === lineId; })[0];
+        if (!l) return 0;
+        var used = 0;
+        (order.returns || []).forEach(function (r) {
+          if (r.status === "canceled") return;
+          (r.lines || []).forEach(function (rl) { if (rl.id === lineId) used += rl.qty; });
+        });
+        return Math.max(0, l.qty - used);
+      }
+    },
+
+    returns: {
+      create: function (orderId, ret) {
+        var order = OEStore.orders.byId(orderId);
+        if (!order) return null;
+        OEStore.orders.update(orderId, { returns: (order.returns || []).concat([ret]) });
+        return ret;
+      },
+      cancel: function (orderId, rmaId) {
+        var order = OEStore.orders.byId(orderId);
+        if (!order) return false;
+        var ok = false;
+        var list = (order.returns || []).map(function (r) {
+          if (r.id === rmaId && r.status === "started") {
+            r.status = "canceled";
+            r.timeline = (r.timeline || []).concat([{ status: "canceled", at: Date.now() }]);
+            ok = true;
+          }
+          return r;
+        });
+        if (ok) OEStore.orders.update(orderId, { returns: list });
+        return ok;
+      }
     },
 
     addresses: {
