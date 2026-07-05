@@ -105,6 +105,12 @@ All getters must survive corrupted JSON (try/catch → return defaults, rewrite 
 `OEUI.miniCart` — right-side drawer: last-added highlight, compact lines with qty/remove, subtotal, "View cart" → `../cart/`, "Checkout" → `../checkout/`; opens on ATC and cart-icon click; Esc/overlay close; focus-visible; body scroll lock; closed state uses `visibility:hidden` pattern.
 `OEUI.statusChip(status)` → span with per-status class/colors (processing=info, shipped/out_for_delivery=accent, delivered=success, canceled=gray, refunded=warning).
 `OEUI.orderTimeline(order)` → placed→confirmed→shipped→out for delivery→delivered stepper (canceled/refunded render the branch state per TRD 11), current stage highlighted, timestamps from `timeline`.
+### 5.1 Demo merchandising (Walmart-density pass, 2026-07-05)
+
+Deterministic per-id demo data, disclosed once in the global footer ("Ratings, review counts and delivery dates are demo data") — never per element. All derive from `hash31(id)` (`h=(h*31+charCode)%1000003`, same family as `pdpBucket`), memoized:
+`OEUI.demoMeta(p)` → `{rating 3.80-4.90, count 15-2400 (skewed low), bestseller (discount>=40 && count>=700), popular (rating>=4.6 && count>=250)}` · `OEUI.starRow(meta, {noCount})` → partial-fill 5-star markup with `aria-label="Rated X.X out of 5, N reviews"` · `OEUI.unitPrice(p)` → `$X.XX/oz` or `""` · `OEUI.arrivalDate(id)` → today + 3-5 days, "Wed, Jul 8".
+`productCard` v2 additions (insert-only; original classes/`data-*` unchanged): `.pcard-flag` badge (Best seller / Popular pick), `.pcard-stars`, `.pcard-unit` in the priceline, `.pcard-ship` fulfillment line (Free shipping at price>=50, else Arrives by date; omitted when OOS). Helpers must return empty output on records missing `size`/`discount` (wishlist/cart snapshots).
+
 `OEUI.trackingCard(fulfillment)` · `OEUI.orderSummaryCard(order, {maskEmail})` (mask: `a***@example.com`; pre-delivery guest view shows city/state only) · `OEUI.claimAccountCard(order)` (guest: email pre-filled locked + one password field → writes auth, marks order `guest:false`, swaps to success link) · `OEUI.accountShell(activeTab)` (sidebar desktop / horizontal tabs mobile: Overview `../account/`, Orders `../orders/`, Addresses `../addresses/`, Saved cards `../cards/`, Wishlist `../wishlist/`, Sign out) · `OEUI.qtyStepper(line)` (min 1, max 10) · `OEUI.notFound(title, body)`.
 
 ## 6. Validators — `prototype/shared/validators.js` (`window.OEValidate`)

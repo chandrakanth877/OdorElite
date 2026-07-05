@@ -80,7 +80,8 @@ python3 prototype/pdp/curate_pdp.py     # 48 PDP shards -> pdp/details/bucket-*.
 
 ## Prototype rules
 
-No backend; payments and emails are simulated and labeled. No fake ratings or
-reviews presented as real (demo reviews carry a visible badge). Card numbers
-are never stored - network + last4 only. Fonts load from Google Fonts CDN and
-fall back to system fonts offline.
+No backend; payments and emails are simulated and labeled. Star ratings,
+review counts, badges, and delivery dates are deterministic demo data derived
+from the product id (disclosed in the global footer); sample reviews carry a
+visible badge. Card numbers are never stored - network + last4 only. Fonts
+load from Google Fonts CDN and fall back to system fonts offline.

@@ -311,6 +311,9 @@
   align-items: start;
   margin-top: 28px;
 }
+/* grid items default to min-width:auto, which lets the pill nav's intrinsic
+   width blow out the page on small screens instead of scrolling */
+.acct-layout > * { min-width: 0; }
 .acct-nav {
   display: flex;
   flex-direction: column;
