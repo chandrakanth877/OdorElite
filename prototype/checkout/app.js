@@ -80,8 +80,15 @@
         "</div>"
       );
     }).join("");
+    var n = OEStore.cart.count();
+    el("co-sum-count").textContent = "(" + n + (n === 1 ? " item)" : " items)");
+    var saved = 0;
+    cart.forEach(function (l) {
+      if (l.compareAt && l.compareAt > l.price) saved += (l.compareAt - l.price) * l.qty;
+    });
     el("co-sum-totals").innerHTML =
       "<div><span>Subtotal</span><span>" + money(t.subtotal) + "</span></div>" +
+      (saved > 0 ? '<div class="co-sum-saved"><span>You\'re saving</span><span>-' + money(saved) + "</span></div>" : "") +
       (t.discount > 0
         ? "<div><span>Discount (" + esc(discountInfo.code) + ")</span><span>-" + money(t.discount) + "</span></div>"
         : "<div><span>Discount</span><span>" + money(0) + "</span></div>") +
@@ -93,6 +100,13 @@
     el("aside-toggle-total").textContent = money(t.total);
     el("pay-total").textContent = money(t.total);
   }
+
+  /* express pay is a labeled demo affordance only */
+  document.querySelectorAll("[data-express]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      toast(this.dataset.express + " express pay is not wired in this prototype");
+    });
+  });
 
   el("aside-toggle").addEventListener("click", function () {
     var open = el("co-summary").classList.toggle("collapsed") === false;
@@ -282,10 +296,22 @@
     el("ship-standard-price").classList.add("co-sum-free");
   }
 
+  /* demo delivery promises (calendar days; disclosed in the footer) */
+  var ETA_DAYS = { standard: 5, express: 2, overnight: 1 };
+  function etaDate(method) {
+    var d = new Date();
+    d.setDate(d.getDate() + ETA_DAYS[method]);
+    return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  }
+  ["standard", "express", "overnight"].forEach(function (m) {
+    var span = el("eta-" + m);
+    if (span) span.textContent = "Arrives by " + etaDate(m);
+  });
+
   function shipSummary() {
     var s = SHIP[state.shipping];
     var cost = shippingCost();
-    return s.label + " (" + s.eta + ") · " + (cost === 0 ? "Free" : money(cost));
+    return s.label + " · arrives by " + etaDate(state.shipping) + " · " + (cost === 0 ? "Free" : money(cost));
   }
 
   document.querySelectorAll('input[name="ship"]').forEach(function (r) {

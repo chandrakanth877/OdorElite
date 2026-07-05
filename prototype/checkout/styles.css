@@ -310,3 +310,79 @@
   .co-step-body { padding: 16px 16px 18px; }
   .co-step-summary { display: none; }
 }
+
+/* ---------- density pass: express pay, ETAs, savings, trust ---------- */
+
+.co-express { margin-bottom: 18px; }
+.co-express-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--oe-gray-600);
+  margin-bottom: 8px;
+}
+.co-express-label span { font-weight: 400; color: var(--oe-gray-500); }
+.co-express-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.co-express-btn {
+  height: 46px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  background: #FFC439;
+  color: #003087;
+  cursor: pointer;
+}
+.co-express-btn:hover { filter: brightness(0.96); }
+.co-express-dark { background: var(--oe-gray-900); color: #fff; }
+.co-express-or {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--oe-gray-500);
+}
+.co-express-or::before,
+.co-express-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--oe-gray-200);
+}
+
+.co-radio-eta {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--oe-success);
+  margin-top: 2px;
+}
+
+.co-sum-count { font-size: 13px; font-weight: 400; color: var(--oe-gray-500); }
+.co-sum-saved span { color: var(--oe-success) !important; font-weight: 600; }
+
+.co-trust-row {
+  font-size: 12px;
+  color: var(--oe-gray-600);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.co-below {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--oe-gray-200);
+}
+.co-below > div { display: grid; gap: 3px; align-content: start; }
+.co-below strong { font-size: 13px; font-weight: 600; color: var(--oe-primary); }
+.co-below span { font-size: 12px; line-height: 1.5; color: var(--oe-gray-600); }
+@media (max-width: 640px) {
+  .co-below { grid-template-columns: 1fr; }
+  .co-express-btns { grid-template-columns: 1fr; }
+}

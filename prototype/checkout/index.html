@@ -16,6 +16,16 @@
   <div class="co-layout">
     <div class="co-steps">
 
+      <!-- Express checkout (demo) -->
+      <div class="co-express" aria-label="Express checkout">
+        <p class="co-express-label" id="express-label">Express checkout <span>(demo only)</span></p>
+        <div class="co-express-btns">
+          <button type="button" class="co-express-btn" data-express="PayPal" aria-describedby="express-label">PayPal</button>
+          <button type="button" class="co-express-btn co-express-dark" data-express="Apple Pay" aria-describedby="express-label">&#63743; Pay</button>
+        </div>
+        <p class="co-express-or"><span>or continue below</span></p>
+      </div>
+
       <!-- Step 1: Contact -->
       <section class="co-step" id="step-1">
         <h2 class="co-step-h">
@@ -130,6 +140,7 @@
               <span class="co-radio-main">
                 <span class="co-radio-title">Standard</span>
                 <span class="co-radio-sub">3-5 business days</span>
+                <span class="co-radio-eta" id="eta-standard"></span>
               </span>
               <span class="co-radio-price" id="ship-standard-price">$6.95</span>
             </label>
@@ -138,6 +149,7 @@
               <span class="co-radio-main">
                 <span class="co-radio-title">Express</span>
                 <span class="co-radio-sub">2 business days</span>
+                <span class="co-radio-eta" id="eta-express"></span>
               </span>
               <span class="co-radio-price">$14.95</span>
             </label>
@@ -146,6 +158,7 @@
               <span class="co-radio-main">
                 <span class="co-radio-title">Overnight</span>
                 <span class="co-radio-sub">Next business day</span>
+                <span class="co-radio-eta" id="eta-overnight"></span>
               </span>
               <span class="co-radio-price">$24.95</span>
             </label>
@@ -204,6 +217,13 @@
         </div>
       </section>
 
+      <!-- Reassurance strip under the steps -->
+      <div class="co-below" aria-label="Why shop with us">
+        <div><strong>Authenticity promise</strong><span>Sourced direct, batch codes verified before shipping.</span></div>
+        <div><strong>Insured delivery</strong><span>Every order is tracked and covered in transit.</span></div>
+        <div><strong>Easy returns</strong><span>30 days on unopened bottles, no restocking fee.</span></div>
+      </div>
+
     </div>
 
     <aside class="co-aside">
@@ -212,12 +232,13 @@
         <span class="co-aside-toggle-total" id="aside-toggle-total"></span>
       </button>
       <div class="co-summary card-panel collapsed" id="co-summary">
-        <h2 class="co-summary-title">Order summary</h2>
+        <h2 class="co-summary-title">Order summary <span class="co-sum-count" id="co-sum-count"></span></h2>
         <div class="co-sum-lines" id="co-sum-lines"></div>
         <div class="co-sum-totals" id="co-sum-totals" aria-live="polite"></div>
         <p class="co-sum-note">Discount codes can be applied in the cart before checkout.</p>
       </div>
       <div class="co-trust">
+        <p class="co-trust-row">Secure 256-bit checkout &middot; 30-day returns &middot; 100% authentic</p>
         <div class="co-trust-pills" aria-label="Accepted payment methods">
           <span>Visa</span><span>Mastercard</span><span>Amex</span><span>PayPal</span>
         </div>

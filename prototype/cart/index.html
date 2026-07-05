@@ -29,13 +29,17 @@
 
   <!-- Two-column layout: line list + summary aside -->
   <section class="cart-layout container" id="cart-layout" hidden>
-    <div class="cart-lines" id="cart-lines" aria-label="Cart items"><!-- js: line items --></div>
+    <div class="cart-main">
+      <div class="cart-group-head" id="cart-group-head"><!-- js: fulfillment header --></div>
+      <div class="cart-lines" id="cart-lines" aria-label="Cart items"><!-- js: line items --></div>
+    </div>
 
     <aside class="cart-aside" aria-label="Order summary">
       <div class="card-panel cart-summary">
         <h2 class="sum-title">Order summary</h2>
 
         <div class="sum-row"><span>Subtotal</span><span class="sum-val" id="sum-subtotal"></span></div>
+        <div class="sum-row sum-save-row" id="sum-save-row" hidden><span>You're saving today</span><span class="sum-val sum-save-val" id="sum-save"></span></div>
 
         <div class="ship-meter">
           <p class="ship-copy" id="ship-copy" aria-live="polite"></p>
@@ -62,6 +66,7 @@
         <div class="sum-row sum-total"><span>Total</span><span class="sum-val" id="sum-total"></span></div>
 
         <a class="btn btn-gold sum-checkout" id="checkout-btn" href="../checkout/">Checkout</a>
+        <p class="cart-signin" id="cart-signin" hidden><a href="../sign-in/?next=../cart/">Sign in</a> for faster checkout and saved addresses</p>
         <p class="sum-note">Free US shipping on orders over $50. Tax is an estimate until checkout.</p>
       </div>
     </aside>

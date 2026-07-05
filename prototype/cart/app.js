@@ -43,10 +43,14 @@
   var appliedCode = null;          // page-only state, per spec
   var lastSig = null;              // skip list rebuilds when cart is unchanged
   var lastCsSig = null;            // skip cross-sell rebuilds when line-up is unchanged
+  var lastBsSig = null;            // same, for the popular rail
   var railsWired = { cs: false, bs: false };
-  var bsBuilt = false;
   var undoLine = null;
   var undoTimer = null;
+  var groupHead = el("cart-group-head");
+  var sumSaveRow = el("sum-save-row");
+  var sumSave = el("sum-save");
+  var signinNudge = el("cart-signin");
 
   function listing() {
     return (window.ODORELITE_LISTING && ODORELITE_LISTING.products) || [];
@@ -69,7 +73,10 @@
           '<p class="cline-brand">' + esc(l.brand) + "</p>" +
           '<p class="cline-name"><a href="' + href + '">' + esc(l.name) + "</a></p>" +
           (meta ? '<p class="cline-meta">' + esc(meta) + "</p>" : "") +
-          '<p class="cline-unit">' + money(l.price) + " each</p>" +
+          '<p class="cline-unit">' + money(l.price) + " each" +
+            (l.compareAt ? ' <s class="cline-was">' + money(l.compareAt) + "</s>" : "") + "</p>" +
+          (l.compareAt && l.compareAt > l.price
+            ? '<p class="cline-save">You save ' + money((l.compareAt - l.price) * l.qty) + "</p>" : "") +
           '<div class="cline-actions">' +
             '<button type="button" class="cline-act" data-remove="' + l.id + '">Remove</button>' +
             '<button type="button" class="cline-act" data-move="' + l.id + '">Move to wishlist</button>' +
@@ -108,6 +115,16 @@
 
   /* ---------------- summary ---------------- */
 
+  function renderGroupHeader(lines) {
+    if (!lines.length) { groupHead.innerHTML = ""; return; }
+    var eta = OEUI.arrivalDate(lines[0].id);
+    groupHead.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>' +
+      "</svg>" +
+      "<div><h2>Shipping</h2><p>Arrives by " + esc(eta) + "</p></div>";
+  }
+
   function renderSummary(lines) {
     var subtotal = OEStore.cart.subtotal();
     var discount = appliedCode ? Math.round(subtotal * 0.10 * 100) / 100 : 0;
@@ -115,6 +132,13 @@
     var t = OEStore.totals(lines, shipping, discount);
 
     sumSubtotal.textContent = money(t.subtotal);
+    var totalSave = 0;
+    lines.forEach(function (l) {
+      if (l.compareAt && l.compareAt > l.price) totalSave += (l.compareAt - l.price) * l.qty;
+    });
+    sumSaveRow.hidden = totalSave <= 0;
+    if (totalSave > 0) sumSave.textContent = "-" + money(totalSave);
+    signinNudge.hidden = !!OEStore.auth.get();
     sumShipping.textContent = shipping ? money(shipping) : "Free";
     discRow.hidden = !discount;
     if (discount) sumDiscount.textContent = "-" + money(discount);
@@ -168,6 +192,24 @@
     fillRail(csRail, topDeals(ids, 8), "cs");
   }
 
+  function popularPicks(excludeIds, n) {
+    return listing()
+      .filter(function (p) { return p.avail && excludeIds.indexOf(p.id) === -1; })
+      .slice()
+      .sort(function (a, b) {
+        return OEUI.demoMeta(b).count - OEUI.demoMeta(a).count || a.id - b.id;
+      })
+      .slice(0, n);
+  }
+
+  function renderPopular(lines) {
+    var ids = lines.map(function (l) { return l.id; });
+    var sig = ids.slice().sort().join("|");
+    if (sig === lastBsSig) return;
+    lastBsSig = sig;
+    fillRail(bsRail, popularPicks(ids, 8), "bs");
+  }
+
   /* ---------------- main render ---------------- */
 
   function render(force) {
@@ -181,26 +223,25 @@
       csSec.hidden = true;
       emptyEl.hidden = false;
       bsSec.hidden = false;
-      if (!bsBuilt) {
-        bsBuilt = true;
-        fillRail(bsRail, topDeals([], 8), "bs");
-      }
+      renderPopular(lines);
       renderSummary(lines);
       return;
     }
 
     layoutEl.hidden = false;
     emptyEl.hidden = true;
-    bsSec.hidden = true;
+    bsSec.hidden = false; // popular rail stays visible below the cross-sell rail
     csSec.hidden = false;
 
     var sig = signature(lines);
     if (force || sig !== lastSig) {
       lastSig = sig;
       renderLines(lines);
+      renderGroupHeader(lines);
     }
     renderSummary(lines);
     renderCrossSell(lines);
+    renderPopular(lines);
   }
 
   /* ---------------- undo remove ---------------- */
