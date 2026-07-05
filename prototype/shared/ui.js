@@ -382,6 +382,46 @@
     );
   }
 
+  /* ---------------- catalog pagination (spec 2026-07-05 pagination) ---------------- */
+
+  function pager(opts) {
+    var page = opts.page, pages = opts.pages, href = opts.href;
+    if (!pages || pages <= 1) return "";
+    var nums = [];
+    for (var i = 1; i <= pages; i++) {
+      if (pages <= 7 || i === 1 || i === pages || (i >= page - 2 && i <= page + 2)) nums.push(i);
+    }
+    var parts = [];
+    if (page > 1) {
+      parts.push('<a class="pager-btn" href="' + esc(href(page - 1)) + '" data-page="' + (page - 1) + '" rel="prev">&lsaquo; Prev</a>');
+    }
+    var last = 0;
+    nums.forEach(function (n) {
+      if (n - last > 1) parts.push('<span class="pager-gap" aria-hidden="true">&hellip;</span>');
+      last = n;
+      if (n === page) {
+        parts.push('<span class="pager-num current" aria-current="page">' + n + "</span>");
+      } else {
+        parts.push('<a class="pager-num" href="' + esc(href(n)) + '" data-page="' + n + '" aria-label="Page ' + n + '">' + n + "</a>");
+      }
+    });
+    if (page < pages) {
+      parts.push('<a class="pager-btn" href="' + esc(href(page + 1)) + '" data-page="' + (page + 1) + '" rel="next">Next &rsaquo;</a>');
+    }
+    return '<nav class="pager" aria-label="Pages">' + parts.join("") + "</nav>";
+  }
+
+  function pagerHead(baseTitle, page, query) {
+    document.title = baseTitle + (page > 1 ? " - Page " + page : "") + " | OdorElite";
+    var link = document.querySelector('link[rel="canonical"]');
+    if (!link) {
+      link = document.createElement("link");
+      link.setAttribute("rel", "canonical");
+      document.head.appendChild(link);
+    }
+    link.setAttribute("href", location.origin + location.pathname + (query || ""));
+  }
+
   var RETURN_CHIP_KEY = {
     started: "return_started",
     in_transit: "return_in_transit",
@@ -597,6 +637,8 @@
     getProduct: function (id) { return cardRegistry[id] || null; },
     miniCart: miniCart,
     statusChip: statusChip,
+    pager: pager,
+    pagerHead: pagerHead,
     orderTimeline: orderTimeline,
     trackingCard: trackingCard,
     returnChip: returnChip,

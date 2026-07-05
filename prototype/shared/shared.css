@@ -532,3 +532,14 @@
 .demo-controls { border: 1px dashed var(--oe-gray-300); border-radius: 10px; padding: 14px 16px; margin-top: 24px; }
 .demo-controls h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--oe-gray-500); margin: 0 0 10px; }
 .demo-controls-row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ---------------- catalog pager ---------------- */
+.pager { display: flex; justify-content: center; align-items: center; gap: 6px; flex-wrap: wrap; margin: 28px 0 8px; }
+.pager-num, .pager-btn {
+  min-width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center;
+  padding: 0 12px; border: 1px solid var(--oe-gray-300); border-radius: 8px;
+  background: #fff; color: var(--oe-gray-700); font-size: 14px; font-weight: 600; text-decoration: none;
+}
+.pager-num:hover, .pager-btn:hover { border-color: var(--oe-gray-500); color: var(--oe-gray-900); }
+.pager-num.current { background: var(--oe-primary); border-color: var(--oe-primary); color: #fff; }
+.pager-gap { color: var(--oe-gray-500); padding: 0 2px; }
