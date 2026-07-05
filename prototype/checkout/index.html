@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | OdorElite</title>
+  <link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="container co-main">
+  <h1 class="co-title">Checkout</h1>
+  <div class="co-layout">
+    <div class="co-steps">
+
+      <!-- Step 1: Contact -->
+      <section class="co-step" id="step-1">
+        <h2 class="co-step-h">
+          <button type="button" class="co-step-head" id="head-1" aria-expanded="false" aria-controls="body-1">
+            <span class="co-step-num" aria-hidden="true">1</span>
+            <span class="co-step-title">Contact</span>
+            <span class="co-step-summary" id="sum-1"></span>
+            <span class="co-step-edit" id="edit-1" hidden>Edit</span>
+          </button>
+        </h2>
+        <div class="co-step-body" id="body-1" hidden>
+          <div class="field">
+            <label for="f-email">Email address</label>
+            <input id="f-email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com">
+            <span class="field-error" id="f-email-err" aria-live="polite"></span>
+          </div>
+          <p class="co-signin-link" id="signin-link">Have an account? <a href="../sign-in/?next=../checkout/">Sign in</a></p>
+          <label class="co-check">
+            <input id="f-news" type="checkbox">
+            <span>Email me about new arrivals and deals</span>
+          </label>
+          <button type="button" class="btn btn-gold co-continue" id="btn-1">Continue to address</button>
+        </div>
+      </section>
+
+      <!-- Step 2: Address -->
+      <section class="co-step" id="step-2">
+        <h2 class="co-step-h">
+          <button type="button" class="co-step-head" id="head-2" aria-expanded="false" aria-controls="body-2">
+            <span class="co-step-num" aria-hidden="true">2</span>
+            <span class="co-step-title">Shipping address</span>
+            <span class="co-step-summary" id="sum-2"></span>
+            <span class="co-step-edit" id="edit-2" hidden>Edit</span>
+          </button>
+        </h2>
+        <div class="co-step-body" id="body-2" hidden>
+          <div class="co-radio-group" id="addr-saved" role="radiogroup" aria-label="Saved addresses" hidden></div>
+          <div id="addr-form" hidden>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-first">First name</label>
+                <input id="f-first" type="text" autocomplete="given-name">
+                <span class="field-error" id="f-first-err" aria-live="polite"></span>
+              </div>
+              <div class="field">
+                <label for="f-last">Last name</label>
+                <input id="f-last" type="text" autocomplete="family-name">
+                <span class="field-error" id="f-last-err" aria-live="polite"></span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-line1">Street address</label>
+              <input id="f-line1" type="text" autocomplete="address-line1">
+              <span class="field-error" id="f-line1-err" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label for="f-line2">Apartment, suite, unit (optional)</label>
+              <input id="f-line2" type="text" autocomplete="address-line2">
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-city">City</label>
+                <input id="f-city" type="text" autocomplete="address-level2">
+                <span class="field-error" id="f-city-err" aria-live="polite"></span>
+              </div>
+              <div class="field">
+                <label for="f-state">State or province</label>
+                <input id="f-state" type="text" autocomplete="address-level1">
+                <span class="field-error" id="f-state-err" aria-live="polite"></span>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-country">Country</label>
+                <select id="f-country" autocomplete="country"></select>
+              </div>
+              <div class="field">
+                <label for="f-postal">Postal code</label>
+                <input id="f-postal" type="text" autocomplete="postal-code">
+                <span class="field-hint" id="f-postal-hint"></span>
+                <span class="field-error" id="f-postal-err" aria-live="polite"></span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-phone">Phone (optional, for delivery updates)</label>
+              <input id="f-phone" type="tel" autocomplete="tel" inputmode="tel">
+              <span class="field-error" id="f-phone-err" aria-live="polite"></span>
+            </div>
+            <label class="co-check" id="save-addr-wrap" hidden>
+              <input id="f-saveaddr" type="checkbox">
+              <span>Save this address to my account</span>
+            </label>
+          </div>
+          <button type="button" class="btn btn-gold co-continue" id="btn-2">Continue to shipping</button>
+        </div>
+      </section>
+
+      <!-- Step 3: Shipping -->
+      <section class="co-step" id="step-3">
+        <h2 class="co-step-h">
+          <button type="button" class="co-step-head" id="head-3" aria-expanded="false" aria-controls="body-3">
+            <span class="co-step-num" aria-hidden="true">3</span>
+            <span class="co-step-title">Shipping method</span>
+            <span class="co-step-summary" id="sum-3"></span>
+            <span class="co-step-edit" id="edit-3" hidden>Edit</span>
+          </button>
+        </h2>
+        <div class="co-step-body" id="body-3" hidden>
+          <div class="co-radio-group" role="radiogroup" aria-label="Shipping method">
+            <label class="co-radio">
+              <input type="radio" name="ship" value="standard" checked>
+              <span class="co-radio-main">
+                <span class="co-radio-title">Standard</span>
+                <span class="co-radio-sub">3-5 business days</span>
+              </span>
+              <span class="co-radio-price" id="ship-standard-price">$6.95</span>
+            </label>
+            <label class="co-radio">
+              <input type="radio" name="ship" value="express">
+              <span class="co-radio-main">
+                <span class="co-radio-title">Express</span>
+                <span class="co-radio-sub">2 business days</span>
+              </span>
+              <span class="co-radio-price">$14.95</span>
+            </label>
+            <label class="co-radio">
+              <input type="radio" name="ship" value="overnight">
+              <span class="co-radio-main">
+                <span class="co-radio-title">Overnight</span>
+                <span class="co-radio-sub">Next business day</span>
+              </span>
+              <span class="co-radio-price">$24.95</span>
+            </label>
+          </div>
+          <button type="button" class="btn btn-gold co-continue" id="btn-3">Continue to payment</button>
+        </div>
+      </section>
+
+      <!-- Step 4: Payment -->
+      <section class="co-step" id="step-4">
+        <h2 class="co-step-h">
+          <button type="button" class="co-step-head" id="head-4" aria-expanded="false" aria-controls="body-4">
+            <span class="co-step-num" aria-hidden="true">4</span>
+            <span class="co-step-title">Payment</span>
+            <span class="co-step-summary" id="sum-4"></span>
+            <span class="co-step-edit" id="edit-4" hidden>Edit</span>
+          </button>
+        </h2>
+        <div class="co-step-body" id="body-4" hidden>
+          <p class="co-demo-note">Demo checkout. Use any Luhn-valid number. 4000 0000 0000 0002 simulates a decline.</p>
+          <div class="co-radio-group" id="card-saved" role="radiogroup" aria-label="Saved cards" hidden></div>
+          <div id="card-form" hidden>
+            <div class="field">
+              <label for="c-number">Card number</label>
+              <div class="co-cardnum">
+                <input id="c-number" type="text" autocomplete="cc-number" inputmode="numeric" placeholder="1234 5678 9012 3456">
+                <span class="co-network" id="c-network" hidden></span>
+              </div>
+              <span class="field-error" id="c-number-err" aria-live="polite"></span>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="c-exp">Expiry (MM/YY)</label>
+                <input id="c-exp" type="text" autocomplete="cc-exp" inputmode="numeric" placeholder="MM/YY" maxlength="5">
+                <span class="field-error" id="c-exp-err" aria-live="polite"></span>
+              </div>
+              <div class="field">
+                <label for="c-cvc">CVC</label>
+                <input id="c-cvc" type="text" autocomplete="cc-csc" inputmode="numeric" maxlength="4" placeholder="123">
+                <span class="field-error" id="c-cvc-err" aria-live="polite"></span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="c-name">Name on card</label>
+              <input id="c-name" type="text" autocomplete="cc-name">
+              <span class="field-error" id="c-name-err" aria-live="polite"></span>
+            </div>
+            <label class="co-check" id="save-card-wrap" hidden>
+              <input id="c-save" type="checkbox">
+              <span>Save this card for faster checkout</span>
+            </label>
+          </div>
+          <p class="co-gateway-err" id="gateway-err" aria-live="assertive" hidden></p>
+          <button type="button" class="btn btn-gold co-pay" id="pay-btn">Pay <span id="pay-total"></span></button>
+          <p class="co-pay-status" id="pay-status" aria-live="polite" hidden><span class="co-spinner" aria-hidden="true"></span>Processing, do not refresh</p>
+        </div>
+      </section>
+
+    </div>
+
+    <aside class="co-aside">
+      <button type="button" class="co-aside-toggle" id="aside-toggle" aria-expanded="false" aria-controls="co-summary">
+        <span>Order summary</span>
+        <span class="co-aside-toggle-total" id="aside-toggle-total"></span>
+      </button>
+      <div class="co-summary card-panel collapsed" id="co-summary">
+        <h2 class="co-summary-title">Order summary</h2>
+        <div class="co-sum-lines" id="co-sum-lines"></div>
+        <div class="co-sum-totals" id="co-sum-totals" aria-live="polite"></div>
+        <p class="co-sum-note">Discount codes can be applied in the cart before checkout.</p>
+      </div>
+      <div class="co-trust">
+        <div class="co-trust-pills" aria-label="Accepted payment methods">
+          <span>Visa</span><span>Mastercard</span><span>Amex</span><span>PayPal</span>
+        </div>
+        <p class="co-trust-links">
+          <a href="../content/?page=terms">Terms</a>
+          <a href="../content/?page=privacy">Privacy</a>
+          <a href="mailto:demo@odorelite.example">Support</a>
+        </p>
+      </div>
+    </aside>
+  </div>
+</main>
+<script>window.OE_PAGE = { minimal: true };</script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/validators.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

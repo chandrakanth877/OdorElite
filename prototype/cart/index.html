@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Cart | OdorElite</title>
+<meta name="description" content="Review the fragrances in your cart, apply a discount code and head to checkout.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+  <!-- Breadcrumbs -->
+  <nav class="crumbs container" aria-label="Breadcrumb">
+    <a href="../home/">Home</a>
+    <span class="crumb-sep" aria-hidden="true">&#8250;</span>
+    <span aria-current="page">Cart</span>
+  </nav>
+
+  <!-- Page head -->
+  <header class="page-head container">
+    <h1 class="page-title">Your cart</h1>
+    <p class="page-sub" id="cart-count" aria-live="polite"><!-- js: live count --></p>
+  </header>
+
+  <!-- Two-column layout: line list + summary aside -->
+  <section class="cart-layout container" id="cart-layout" hidden>
+    <div class="cart-lines" id="cart-lines" aria-label="Cart items"><!-- js: line items --></div>
+
+    <aside class="cart-aside" aria-label="Order summary">
+      <div class="card-panel cart-summary">
+        <h2 class="sum-title">Order summary</h2>
+
+        <div class="sum-row"><span>Subtotal</span><span class="sum-val" id="sum-subtotal"></span></div>
+
+        <div class="ship-meter">
+          <p class="ship-copy" id="ship-copy" aria-live="polite"></p>
+          <div class="ship-bar" aria-hidden="true"><span class="ship-fill" id="ship-fill"></span></div>
+        </div>
+
+        <div class="sum-row"><span>Shipping</span><span class="sum-val" id="sum-shipping"></span></div>
+
+        <div class="sum-disc">
+          <form class="disc-form" id="disc-form" novalidate>
+            <label class="sr-only" for="disc-input">Discount code</label>
+            <input id="disc-input" type="text" placeholder="Discount code" autocomplete="off" spellcheck="false">
+            <button class="disc-apply" type="submit">Apply</button>
+          </form>
+          <p class="disc-error" id="disc-error" role="alert" hidden></p>
+          <div class="disc-chip" id="disc-chip" hidden>
+            <span id="disc-chip-label"></span>
+            <button type="button" id="disc-remove" aria-label="Remove discount code">&times;</button>
+          </div>
+        </div>
+
+        <div class="sum-row" id="disc-row" hidden><span>Discount</span><span class="sum-val sum-neg" id="sum-discount"></span></div>
+        <div class="sum-row"><span>Estimated tax</span><span class="sum-val" id="sum-tax"></span></div>
+        <div class="sum-row sum-total"><span>Total</span><span class="sum-val" id="sum-total"></span></div>
+
+        <a class="btn btn-gold sum-checkout" id="checkout-btn" href="../checkout/">Checkout</a>
+        <p class="sum-note">Free US shipping on orders over $50. Tax is an estimate until checkout.</p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- Cross-sell rail -->
+  <section class="section container" id="cs-sec" hidden aria-labelledby="cs-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Keep exploring</p>
+        <h2 class="section-title" id="cs-title">You may also like</h2>
+      </div>
+      <a class="see-all" href="../list/?disc=50">See all deals</a>
+    </div>
+    <div class="rail-wrap">
+      <button class="rail-arrow rail-prev" data-rail="cs-rail" data-dir="-1" aria-label="Scroll recommendations left">&#8249;</button>
+      <div class="rail" id="cs-rail"><!-- js: 8 cross-sell cards --></div>
+      <button class="rail-arrow rail-next" data-rail="cs-rail" data-dir="1" aria-label="Scroll recommendations right">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- Empty state -->
+  <section class="cart-empty container" id="cart-empty" hidden>
+    <span class="cart-empty-mark" aria-hidden="true"></span>
+    <h2>Your cart is empty</h2>
+    <p>Find a fragrance worth coming back to. Deals up to 80% off, always authentic.</p>
+    <a class="btn btn-gold" href="../list/">Browse all fragrances</a>
+    <p class="cart-empty-signin">Have an account? <a href="../sign-in/?next=../cart/">Sign in</a></p>
+  </section>
+
+  <!-- Empty-state rail: in-stock bestsellers -->
+  <section class="section container cart-rail-sec" id="bs-sec" hidden aria-labelledby="bs-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Bestsellers</p>
+        <h2 class="section-title" id="bs-title">Popular right now</h2>
+      </div>
+      <a class="see-all" href="../list/?disc=50">See all deals</a>
+    </div>
+    <div class="rail-wrap">
+      <button class="rail-arrow rail-prev" data-rail="bs-rail" data-dir="-1" aria-label="Scroll bestsellers left">&#8249;</button>
+      <div class="rail" id="bs-rail"><!-- js: 8 bestseller cards --></div>
+      <button class="rail-arrow rail-next" data-rail="bs-rail" data-dir="1" aria-label="Scroll bestsellers right">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- Remove undo bar -->
+  <div class="undo-bar" id="undo-bar" role="status" aria-live="polite" hidden>
+    <span id="undo-msg"></span>
+    <button type="button" class="undo-btn" id="undo-btn">Undo</button>
+  </div>
+</main>
+
+<script>window.OE_PAGE = { active: null };</script>
+<script src="../list/listing-data.js"></script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+/* ============================================================
+   OdorElite order status / tracking page. Tokens + chrome come
+   from home, shared components from shared.css; only page rules
+   live here.
+   ============================================================ */
+
+@import url("../home/styles.css");
+@import url("../shared/shared.css");
+
+.track-main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-bottom: 90px;
+}
+
+/* ---------- status header ---------- */
+
+.track-head { margin-top: 26px; }
+.track-eyebrow {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--oe-gray-500);
+}
+.track-head h1 {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--oe-primary);
+  margin-top: 4px;
+  font-family: var(--font-mono);
+}
+.track-head-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--oe-gray-600);
+}
+
+/* ---------- sections ---------- */
+
+.track-section { margin-top: 26px; }
+.track-section h2 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--oe-primary);
+  margin-bottom: 12px;
+}
+.track-section .track-card + .track-card { margin-top: 10px; }
+
+.track-timeline { overflow-x: auto; }
+
+/* ---------- ETA card (pre-shipment) ---------- */
+
+.eta-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fff;
+  border: 1px dashed var(--oe-gray-300);
+  border-radius: var(--r-card);
+  padding: 16px 18px;
+}
+.eta-card svg { width: 22px; height: 22px; color: var(--oe-gold-text); flex: none; }
+.eta-title { font-size: 14px; font-weight: 600; color: var(--oe-primary); }
+.eta-sub { font-size: 12.5px; color: var(--oe-gray-500); margin-top: 2px; }
+
+/* ---------- actions ---------- */
+
+.track-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.track-actions .btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  border-radius: var(--r-btn);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ---------- claim card wrapper ---------- */
+
+.track-claim { margin-top: 30px; }
+
+/* ---------- lookup form ---------- */
+
+.track-lookup { margin-top: 26px; }
+.track-lookup .card-panel { margin-top: 18px; }
+.track-lookup-form .btn {
+  width: 100%;
+  min-height: 46px;
+}
+.track-result {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--oe-gray-700);
+}
+.track-result[hidden] { margin-top: 0; }
+.track-result-msg {
+  background: var(--oe-gray-50);
+  border-radius: 8px;
+  padding: 12px 14px;
+  line-height: 1.5;
+}
+
+/* labeled demo affordance */
+.track-demo {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 13.5px;
+}
+.track-demo-badge {
+  display: inline-block;
+  border-radius: 999px;
+  border: 1px solid var(--oe-gold);
+  color: var(--oe-gold-text);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 9px;
+}
+.track-demo a { font-weight: 600; color: var(--oe-accent-text); }
+.track-demo a:hover { color: var(--oe-primary); }
+
+/* ---------- expired panel ---------- */
+
+.track-expired {
+  margin-top: 26px;
+  background: #fff;
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-card);
+  padding: 24px;
+  text-align: center;
+}
+.track-expired-mark {
+  display: block;
+  width: 12px; height: 12px;
+  background: var(--oe-gold);
+  transform: rotate(45deg);
+  margin: 4px auto 16px;
+}
+.track-expired h1 { font-size: 22px; font-weight: 600; color: var(--oe-primary); letter-spacing: -0.01em; }
+.track-expired p { font-size: 14px; color: var(--oe-gray-500); margin-top: 8px; }

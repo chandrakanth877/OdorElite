@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order confirmed | OdorElite</title>
+<meta name="description" content="Your OdorElite order is confirmed. Review your items, delivery details, and tracking link.">
+<link rel="icon" href="../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Archivo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- announce/header/footer/toast are injected by ../shared/chrome.js -->
+<main>
+
+  <!-- Neutral fallback: order missing or key mismatch -->
+  <section class="conf-fallback container" id="conf-fallback" hidden aria-label="Order confirmation unavailable">
+    <div class="card-panel conf-fallback-panel">
+      <span class="conf-fallback-mark" aria-hidden="true"></span>
+      <h1>We couldn't open that confirmation</h1>
+      <p>Check the link in your email. The full link opens this page with your order details already filled in.</p>
+      <div class="conf-fallback-actions">
+        <a class="btn btn-gold" href="../track/">Look up an order</a>
+        <a class="conf-fallback-help" href="mailto:demo@odorelite.example">Email support</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Processing state: shown ~2.5s, then flips in place to confirmed -->
+  <section class="conf-processing container" id="conf-processing" hidden aria-label="Finalizing your order">
+    <div class="conf-spinner" aria-hidden="true"></div>
+    <p class="conf-processing-copy" role="status" aria-live="polite">Payment received, finalizing your order&hellip;</p>
+  </section>
+
+  <!-- Confirmed state -->
+  <section class="conf-confirmed" id="conf-confirmed" hidden>
+
+    <header class="conf-hero container">
+      <span class="conf-check" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.6 4.6L19 7.5"/></svg>
+      </span>
+      <h1 class="conf-title">Thanks, your order is confirmed</h1>
+      <p class="conf-order-no">Order <b id="conf-order-no"></b></p>
+      <p class="conf-email" id="conf-email"></p>
+    </header>
+
+    <div class="conf-grid container">
+      <div class="conf-col-main">
+        <h2 class="conf-col-title">Order summary</h2>
+        <div id="conf-summary"><!-- js: OEUI.orderSummaryCard --></div>
+      </div>
+      <aside class="conf-col-side">
+        <div class="card-panel conf-cta-panel">
+          <h2 class="conf-col-title">What happens next</h2>
+          <p class="conf-next-copy">We are preparing your order now. You will get another email with tracking as soon as it ships.</p>
+          <div class="conf-cta" id="conf-cta"><!-- js: track CTA --></div>
+        </div>
+        <div class="conf-claim" id="conf-claim" hidden><!-- js: guest claim card --></div>
+        <div class="card-panel conf-support" id="conf-support">
+          <h2 class="conf-col-title">Need a hand?</h2>
+          <p class="conf-support-copy">Questions about this order? We reply within one business day.</p>
+          <p class="conf-support-links">
+            <a id="conf-support-mail" href="mailto:demo@odorelite.example">Email support</a>
+            <span aria-hidden="true">&middot;</span>
+            <a href="../content/?page=returns">Returns policy</a>
+          </p>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Cross-sell rail -->
+    <section class="section container conf-rail-sec" id="conf-rail-sec" hidden aria-labelledby="conf-rail-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Pairs well</p>
+          <h2 class="section-title" id="conf-rail-title">Complete your collection</h2>
+        </div>
+        <a class="see-all" href="../list/">Browse all</a>
+      </div>
+      <div class="rail-wrap">
+        <div class="rail" id="conf-rail"><!-- js: 8 product cards --></div>
+      </div>
+    </section>
+
+  </section>
+</main>
+
+<script>window.OE_PAGE = { active: null };</script>
+<script src="../list/listing-data.js"></script>
+<script src="../shared/store.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/chrome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

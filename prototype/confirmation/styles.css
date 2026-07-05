@@ -1,0 +1,192 @@
+/* ============================================================
+   OdorElite order confirmation page: imports all tokens + chrome
+   from the home page and shared component CSS. Only confirmation
+   specific rules live here. Spec section 8.9 (TRD 10).
+   ============================================================ */
+
+@import url("../home/styles.css");
+@import url("../shared/shared.css");
+
+/* ---------- neutral fallback panel ---------- */
+
+.conf-fallback { margin-top: 56px; }
+.conf-fallback-panel {
+  max-width: 520px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px 32px;
+}
+.conf-fallback-mark {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: var(--oe-gold);
+  transform: rotate(45deg);
+  margin-bottom: 18px;
+}
+.conf-fallback-panel h1 {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--oe-primary);
+}
+.conf-fallback-panel p {
+  font-size: 14px;
+  color: var(--oe-gray-600);
+  line-height: 1.6;
+  margin-top: 10px;
+}
+.conf-fallback-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+.conf-fallback-actions .btn { min-height: 44px; }
+.conf-fallback-help {
+  font-size: 13px;
+  color: var(--oe-gray-600);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.conf-fallback-help:hover { color: var(--oe-primary); }
+
+/* ---------- processing state ---------- */
+
+.conf-processing {
+  margin-top: 90px;
+  margin-bottom: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+}
+.conf-spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid var(--oe-gray-200, #e2e6ec);
+  border-top-color: var(--oe-gold);
+  animation: conf-spin 0.9s linear infinite;
+}
+@keyframes conf-spin { to { transform: rotate(360deg); } }
+.conf-processing-copy {
+  font-size: 15px;
+  color: var(--oe-gray-600);
+}
+@media (prefers-reduced-motion: reduce) {
+  .conf-spinner { animation: none; border-top-color: var(--oe-gray-200, #e2e6ec); }
+}
+
+/* ---------- confirmed hero ---------- */
+
+.conf-hero {
+  margin-top: 48px;
+  text-align: center;
+}
+.conf-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: rgba(46, 125, 91, 0.1);
+  color: var(--oe-success);
+  border: 2px solid var(--oe-success);
+}
+.conf-check svg { width: 30px; height: 30px; }
+.conf-title {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--oe-primary);
+  margin-top: 18px;
+}
+.conf-order-no {
+  font-size: 14px;
+  color: var(--oe-gray-600);
+  margin-top: 10px;
+}
+.conf-order-no b {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--oe-primary);
+}
+.conf-email {
+  font-size: 13.5px;
+  color: var(--oe-gray-500);
+  margin-top: 4px;
+}
+
+/* ---------- two-column body ---------- */
+
+.conf-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 24px;
+  align-items: start;
+  margin-top: 40px;
+}
+.conf-col-side {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.conf-col-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--oe-gray-500);
+  margin-bottom: 12px;
+}
+.conf-next-copy {
+  font-size: 13.5px;
+  color: var(--oe-gray-600);
+  line-height: 1.6;
+}
+.conf-cta { margin-top: 16px; }
+.conf-cta .btn {
+  width: 100%;
+  min-height: 44px;
+}
+.conf-cta-note {
+  font-size: 12.5px;
+  color: var(--oe-gray-500);
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* support strip */
+.conf-support-copy {
+  font-size: 13.5px;
+  color: var(--oe-gray-600);
+  line-height: 1.6;
+}
+.conf-support-links {
+  margin-top: 12px;
+  font-size: 13.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.conf-support-links a {
+  color: var(--oe-accent-text);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.conf-support-links a:hover { color: var(--oe-primary); }
+.conf-support-links span { color: var(--oe-gray-300); }
+
+/* cross-sell rail */
+.conf-rail-sec { margin-top: 52px; }
+
+@media (max-width: 860px) {
+  .conf-grid { grid-template-columns: 1fr; }
+  .conf-title { font-size: 26px; }
+  .conf-hero { margin-top: 34px; }
+}
