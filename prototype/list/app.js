@@ -79,9 +79,11 @@
     });
     var s = p.get("sort");
     if (SORTS.indexOf(s) !== -1) state.sort = s;
+    var pg = parseInt(p.get("page"), 10);
+    state.page = !isNaN(pg) && pg > 1 ? pg : 1;
   }
 
-  function writeURL() {
+  function buildParams() {
     var p = new URLSearchParams();
     var slug = Object.keys(CAT_SLUGS).filter(function (k) { return CAT_SLUGS[k] === state.cat; })[0];
     if (slug) p.set("category", slug);
@@ -95,8 +97,28 @@
     if (state.sizes.size) p.set("size", Array.from(state.sizes).join(","));
     if (state.stock) p.set("stock", "1");
     if (state.sort !== "featured") p.set("sort", state.sort);
+    return p;
+  }
+
+  function writeURL() {
+    var p = buildParams();
+    if (state.page > 1) p.set("page", state.page);
     var qs = p.toString();
     history.replaceState(null, "", qs ? "?" + qs : location.pathname);
+  }
+
+  function pageHref(n) {
+    var p = buildParams();
+    if (n > 1) p.set("page", n);
+    var qs = p.toString();
+    return qs ? "?" + qs : "./";
+  }
+
+  function pageQuery() {
+    var p = buildParams();
+    if (state.page > 1) p.set("page", state.page);
+    var qs = p.toString();
+    return qs ? "?" + qs : "";
   }
 
   /* ---------- filtering ---------- */
@@ -161,7 +183,7 @@
     el("plp-title").textContent = copy[0];
     el("plp-sub").textContent = copy[1];
     el("crumb-current").textContent = copy[0];
-    document.title = copy[0] + " | OdorElite";
+    // document.title is owned by OEUI.pagerHead (page-number aware), set in renderGrid
 
     // scope stats + featured bottle to the category only (not other filters)
     var scope = [];
@@ -328,28 +350,35 @@
 
   var currentResults = [];
 
+  function titleBase() {
+    return (HERO_COPY[state.cat] || HERO_COPY["All"])[0];
+  }
+
   function renderGrid() {
     currentResults = filtered(null).sort(SORT_FNS[state.sort]);
-    var shown = Math.min(state.page * PAGE_SIZE, currentResults.length);
+    var total = currentResults.length;
+    var pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if (state.page > pages) state.page = pages;
+    if (state.page < 1) state.page = 1;
+    var start = (state.page - 1) * PAGE_SIZE;
+    var end = Math.min(state.page * PAGE_SIZE, total);
 
-    var cards = currentResults.slice(0, shown).map(productCard);
-    // Walmart-style interleaved promo row after the 8th card
-    if (currentResults.length > 12 && shown >= 8 && state.disc < 50) {
+    var cards = currentResults.slice(start, end).map(productCard);
+    // Walmart-style interleaved promo row after the 8th card (page 1 only)
+    if (state.page === 1 && total > 12 && end >= 8 && state.disc < 50) {
       var tpl = el("grid-promo");
       if (tpl) cards.splice(8, 0, tpl.innerHTML);
     }
     el("grid").innerHTML = cards.join("");
-    el("result-count").innerHTML = currentResults.length
-      ? "Showing <strong>" + shown + "</strong> of <strong>" + currentResults.length.toLocaleString() + "</strong> fragrances"
+    el("result-count").innerHTML = total
+      ? "Showing <strong>" + (start + 1) + "-" + end + "</strong> of <strong>" + total.toLocaleString() + "</strong> fragrances"
       : "No results";
 
-    var remaining = currentResults.length - shown;
-    var lm = el("load-more");
-    lm.hidden = remaining <= 0;
-    if (remaining > 0) lm.textContent = "Load " + Math.min(PAGE_SIZE, remaining) + " more (" + remaining.toLocaleString() + " left)";
+    el("pager").innerHTML = OEUI.pager({ page: state.page, pages: pages, href: pageHref });
+    OEUI.pagerHead(titleBase(), state.page, pageQuery());
 
-    el("empty").hidden = currentResults.length !== 0;
-    el("grid").hidden = currentResults.length === 0;
+    el("empty").hidden = total !== 0;
+    el("grid").hidden = total === 0;
   }
 
   /* ---------- related searches ---------- */
@@ -472,9 +501,32 @@
     renderBrandList();
   });
 
-  el("load-more").addEventListener("click", function () {
-    state.page += 1;
+  function scrollToGrid() {
+    var top = el("grid").getBoundingClientRect().top + window.pageYOffset - 90;
+    window.scrollTo({ top: Math.max(0, top), behavior: reducedMotion ? "auto" : "smooth" });
+  }
+
+  el("pager").addEventListener("click", function (e) {
+    var a = e.target.closest("[data-page]");
+    if (!a) return;
+    e.preventDefault();
+    state.page = parseInt(a.dataset.page, 10);
     renderGrid();
+    history.pushState(null, "", pageHref(state.page));
+    scrollToGrid();
+  });
+
+  function resetState() {
+    state.cat = "All";
+    state.brands.clear(); state.fams.clear(); state.concs.clear(); state.sizes.clear();
+    state.min = null; state.max = null; state.disc = 0; state.rating = 0; state.stock = false;
+    state.sort = "featured"; state.page = 1;
+  }
+
+  window.addEventListener("popstate", function () {
+    resetState();
+    hydrateFromURL();
+    update(false);
   });
 
   /* ---------- mobile drawer ---------- */
@@ -536,6 +588,6 @@
   /* ---------- boot ---------- */
 
   hydrateFromURL();
-  update();
+  update(false); // keep the ?page= deep link; filter changes still reset to page 1
   renderPromos();
 })();
