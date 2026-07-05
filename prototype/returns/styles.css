@@ -1,0 +1,111 @@
+/* ============================================================
+   OdorElite returns wizard + return status. Tokens + chrome come
+   from home, shared components from shared.css; only page rules
+   live here.
+   ============================================================ */
+
+@import url("../home/styles.css");
+@import url("../shared/shared.css");
+
+.returns-main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding-bottom: 90px;
+}
+
+/* ---------- header ---------- */
+
+.ret-head { margin: 26px 0 18px; }
+.ret-eyebrow {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--oe-gray-500);
+}
+.ret-head h1 { margin: 4px 0 4px; }
+.ret-head-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.ret-sub { font-size: 14px; color: var(--oe-gray-600); margin: 4px 0 0; }
+
+/* ---------- wizard steps ---------- */
+
+.ret-step { margin-bottom: 14px; }
+.ret-step.locked { opacity: 0.6; }
+.ret-step-head { display: flex; align-items: center; gap: 10px; }
+.ret-step-num {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--oe-primary); color: #fff;
+  font-size: 13px; font-weight: 700; flex: none;
+}
+.ret-step.locked .ret-step-num { background: var(--oe-gray-300); color: var(--oe-gray-600); }
+.ret-step-head h2 { margin: 0; font-size: 17px; flex: 1; }
+.ret-step-edit {
+  background: none; border: 0; color: var(--oe-accent-text);
+  text-decoration: underline; cursor: pointer; font-size: 13.5px;
+}
+.ret-step-summary { color: var(--oe-gray-600); font-size: 14px; margin: 4px 0 0 36px; }
+.ret-step-body { margin: 12px 0 0 36px; }
+@media (max-width: 560px) {
+  .ret-step-body, .ret-step-summary { margin-left: 0; }
+}
+
+/* ---------- item rows ---------- */
+
+.ret-item {
+  display: grid; grid-template-columns: auto 56px 1fr auto; gap: 12px;
+  align-items: center; padding: 10px 0;
+  border-bottom: 1px solid var(--oe-gray-200);
+}
+.ret-item:last-of-type { border-bottom: 0; }
+.ret-item img { width: 56px; height: 56px; object-fit: contain; background: var(--oe-gray-50); border-radius: 8px; }
+.ret-item-name { font-weight: 600; font-size: 14px; margin: 0; }
+.ret-item-name label { cursor: pointer; }
+.ret-item-meta { font-size: 12.5px; color: var(--oe-gray-500); margin: 2px 0 0; }
+.ret-item.exhausted { opacity: 0.55; }
+.ret-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--oe-primary); }
+
+.ret-qty { display: inline-flex; align-items: center; gap: 8px; }
+.ret-qty button {
+  width: 28px; height: 28px; border: 1px solid var(--oe-gray-300);
+  border-radius: 6px; background: #fff; cursor: pointer; font-size: 15px;
+}
+.ret-qty button:disabled { opacity: 0.4; cursor: default; }
+
+/* ---------- reasons ---------- */
+
+.ret-reason { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; font-size: 14.5px; cursor: pointer; }
+.ret-reason input { margin-top: 3px; accent-color: var(--oe-primary); }
+
+/* ---------- method cards ---------- */
+
+.ret-method { display: grid; gap: 12px; }
+@media (min-width: 640px) { .ret-method { grid-template-columns: 1fr 1fr; } }
+.ret-method-card {
+  border: 1.5px solid var(--oe-gray-300); border-radius: 10px;
+  padding: 14px; text-align: left; background: #fff; cursor: pointer;
+}
+.ret-method-card[aria-checked="true"] { border-color: var(--oe-gold-dark); box-shadow: 0 0 0 1px var(--oe-gold-dark); }
+.ret-method-card h3 { margin: 0 0 4px; font-size: 15px; }
+.ret-method-card p { margin: 0; font-size: 13px; color: var(--oe-gray-600); }
+
+/* ---------- review ---------- */
+
+.ret-review { margin: 0; }
+.ret-review dt {
+  font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--oe-gray-500); margin-top: 12px;
+}
+.ret-review dd { margin: 2px 0 0; font-size: 14.5px; }
+.ret-continue { margin-top: 16px; }
+
+/* ---------- submitted / status ---------- */
+
+.ret-done { text-align: center; padding: 28px 18px; }
+.ret-done h1 { margin: 8px 0 8px; }
+.ret-done .btn { margin: 14px 6px 0; }
+.ret-block { margin-bottom: 14px; }
+.ret-block h1 { margin: 0 0 8px; }
+.ret-h2 { font-size: 15px; margin: 18px 0 6px; }
+.ret-h2:first-child { margin-top: 0; }
+.ret-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
